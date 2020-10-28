@@ -29,16 +29,16 @@ Sauce.prototype.toJSON = function () {
 
 module.exports = {
     kinds: [
-        { name: '간장', '단위': '스푼' },
-        { name: '고추장', '단위': '스푼' },
-        { name: '고춧가루', '단위': '스푼' },
-        { name: '설탕', '단위': '스푼' },
-        { name: '소금', '단위': '스푼' },
-        { name: '후추', '단위': '스푼' },
-        { name: '식초', '단위': '스푼' },
-        { name: '다진마늘', '단위': '스푼' },
-        { name: '청주', '단위': '스푼' },
-        { name: '참기름', '단위': '스푼' },
+        { name: '간장', unit: '스푼' },
+        { name: '고추장', unit: '스푼' },
+        { name: '고춧가루', unit: '스푼' },
+        { name: '설탕', unit: '스푼' },
+        { name: '소금', unit: '스푼' },
+        { name: '후추', unit: '스푼' },
+        { name: '식초', unit: '스푼' },
+        { name: '다진마늘', unit: '스푼' },
+        { name: '청주', unit: '스푼' },
+        { name: '참기름', unit: '스푼' },
     ],
     sauces: [
         new Sauce('sauce_715', 1.5, null, 1, 3, null, null, null, 2, null, null).toJSON()

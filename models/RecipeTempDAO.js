@@ -9,13 +9,14 @@ module.exports = class RecipeTempDAO {
     constructor() { }
 
     filterByAmount = (from, to, ref) => {
+        if (!from) return;
         for (let i = 0; i < ref.kinds.length; ++i) {
             let amount = from[ref.kinds[i].name];
             if (amount > 0) {
                 to.push({
                     name: ref.kinds[i].name,
                     amount: amount,
-                    '단위': ref.kinds[i].단위,
+                    unit: ref.kinds[i].unit,
                 })
             }
         }

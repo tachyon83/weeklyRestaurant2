@@ -11,7 +11,7 @@ Fish.prototype.toJSON = function () {
 
 module.exports = {
     kinds: [
-        { name: '멸치', '단위': '마리' }
+        { name: '멸치', unit: '마리' }
     ],
     fishes: [
     ]

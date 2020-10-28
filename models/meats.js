@@ -15,9 +15,9 @@ Meat.prototype.toJSON = function () {
 
 module.exports = {
     kinds: [
-        { name: '닭고기', '단위': '마리' },
-        { name: '소고기', '단위': 'kg' },
-        { name: '돼지고기', '단위': 'kg' },
+        { name: '닭고기', unit: '마리' },
+        { name: '소고기', unit: 'kg' },
+        { name: '돼지고기', unit: 'kg' },
     ],
     meats: [
         new Meat('meat_137', 1, 0, null).toJSON()
