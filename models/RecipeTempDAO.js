@@ -26,7 +26,7 @@ module.exports = class RecipeTempDAO {
         let err = null;
         let results = recipes.filter(recipe => recipe.recipeCategory == category);
         if (err) cb(err, null);
-        else cb(null, { [category]: results })
+        else cb(null, { result: results })
     }
 
     showDetailById = (id, cb) => {
