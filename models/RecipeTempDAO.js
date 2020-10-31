@@ -5,6 +5,12 @@ const fishes = require('./fishes')
 const miscs = require('./miscs')
 const sauces = require('./sauces')
 
+
+Q_meatTableId
+Q_meatTableId
+Q_meatTableId
+Q_meatTableId
+
 module.exports = class RecipeTempDAO {
     constructor() { }
 
@@ -71,5 +77,27 @@ module.exports = class RecipeTempDAO {
         }
         if (err) cb(err, null);
         else cb(null, result);
+    }
+
+    modify = (dto, cb) => {
+        let err = null;
+        let recipeToModify = recipes.filter(recipe => recipe.id == dto.id)[0]
+        let ingToModify_id = recipeToModify.ingredients_tableId
+        let ingToModify = ingredients.filter(e => e.id == ingToModify_id)[0]
+
+        for (let eMeat of meats.meats) {
+            if (eMeat.id == ingToModify.meat_tableId) {
+                for (let e of Object.keys(dto.meat)) eMeat[e] = dto.meat[e];
+                break;
+            }
+        }
+        meats.meats.filter(e => e.id == ingToModify.meat_tableId)[0]
+
+
+
+    }
+
+    delete = (id, cb) => {
+
     }
 }

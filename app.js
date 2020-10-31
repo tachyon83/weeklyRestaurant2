@@ -24,6 +24,7 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 })
 
+// '/recipe/:command' => by params => differentiated in recipeDao
 router.route('/recipe/list').get((req, res) => {
     recipeDao.showListByCategory(req.query.req, (err, results) => {
         if (err) res.status(500);
@@ -33,6 +34,18 @@ router.route('/recipe/list').get((req, res) => {
 })
 router.route('/recipe/detail').get((req, res) => {
     recipeDao.showDetailById(req.query.req, (err, result) => {
+        if (err) res.status(500);
+        res.json(result);
+    })
+})
+router.route('/recipe/modify').post((req, res) => {
+    recipeDao.modify(req.query.req, (err, result) => {
+        if (err) res.status(500);
+        res.json(result);
+    })
+})
+router.route('/recipe/delete').post((req, res) => {
+    recipeDao.delete(req.query.req, (err, result) => {
         if (err) res.status(500);
         res.json(result);
     })
