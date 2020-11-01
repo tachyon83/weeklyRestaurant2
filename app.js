@@ -3,6 +3,9 @@
 // const static = require('serve-static');
 const http = require('http');
 const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const passportConfig = require('./passportLocal');
 const bodyParser = require('body-parser')
 // important: this [cors] must come before Router
 const cors = require('cors');
@@ -11,6 +14,18 @@ const recipeDao = new (require('./models/RecipeTempDAO'))
 const app = express();
 // var socketio = require('socket.io')
 
+const sessionSetting = (session({
+    secret: 'secret secretary',
+    resave: false,
+    saveUninitialized: false,
+    host: 'localhost',
+    port: 3002,
+}))
+app.use(sessionSetting)
+app.use(passport.initialize());
+app.use(passport.session());
+passportConfig();
+
 // app.use('/', static(__dirname + '/html/'));
 // app.use('/', static(__dirname + '/public'));
 app.set('port', process.env.PORT || 3001);
@@ -18,6 +33,26 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
+app.post('/member/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) { res.json({ result: err }) }
+        if (!user) { res.json({ result: false }) }
+        req.session.save(() => {
+            res.json({ result: true })
+        })
+    })
+})
+
+// router.post('/member/login', passport.authenticate('local', {
+
+// //     failureRedirect: '/member/login',
+// //     failureFlash: true,
+// // }), (req, res) => {
+// //     req.session.save(function () {
+// //         // console.log(req.user)
+// //         res.json({ result: true })
+// //     })
+// })
 
 app.get('/', function (req, res) {
     // res.sendFile(path.join(__dirname + '/html/chat.html'));

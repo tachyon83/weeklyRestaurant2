@@ -6,10 +6,10 @@ const miscs = require('./miscs')
 const sauces = require('./sauces')
 
 
-Q_meatTableId
-Q_meatTableId
-Q_meatTableId
-Q_meatTableId
+// Q_meatTableId
+// Q_meatTableId
+// Q_meatTableId
+// Q_meatTableId
 
 module.exports = class RecipeTempDAO {
     constructor() { }
@@ -70,10 +70,10 @@ module.exports = class RecipeTempDAO {
     createNewRecipe = cb => {
         let err = null;
         let result = {
-            meat: meats.kinds,
-            fish: fishes.kinds,
-            misc: miscs.kinds,
-            sauce: sauces.kinds,
+            meatUnit: meats.kinds,
+            fishUnit: fishes.kinds,
+            miscUnit: miscs.kinds,
+            sauceUnit: sauces.kinds,
         }
         if (err) cb(err, null);
         else cb(null, result);
