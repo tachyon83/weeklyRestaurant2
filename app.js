@@ -64,12 +64,18 @@ router.post('/member/login', passport.authenticate('local', {
 
 // '/recipe/:command' => by params => differentiated in recipeDao
 router.route('/recipe/list').get((req, res) => {
-    recipeDao.findListByCategory(req.query.req, (err, results) => {
+    recipeDao.findListByCategory(req.query.req, (err, result) => {
         if (err) res.status(500);
         // res.end(JSON.stringify(results));
-        res.json(results);
+        res.json(result);
     })
 })
+// router.route('/recipe/detail').post((req, res) => {
+//     recipeDao.findDetailById(req.query.req, (err, result) => {
+//         if (err) res.status(500);
+//         res.json(result);
+//     })
+// })
 router.route('/recipe/detail').get((req, res) => {
     recipeDao.findDetailById(req.query.req, (err, result) => {
         if (err) res.status(500);
@@ -88,7 +94,7 @@ router.route('/recipe/add').post((req, res) => {
         res.json(result);
     })
 })
-router.route('/recipe/delete').post((req, res) => {
+router.route('/recipe/delete').get((req, res) => {
     recipeDao.deleteById(req.query.req, (err, result) => {
         if (err) res.status(500);
         res.json(result);

@@ -107,7 +107,7 @@ module.exports = class SauceDummyDao {
         cb(null, true)
     }
 
-    findDataById = (id, cb) => {
+    findDetailById = (id, cb) => {
         let err = null
         for (let e of this.table) {
             if (e.id == id) {

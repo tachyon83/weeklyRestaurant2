@@ -117,21 +117,21 @@ module.exports = class IngredientsDummyDao {
 
     ingAssemble_detail = async (contents, cb) => {
         let ret = {}
-        await this.meats.findDetailById(contents.meats.id, (err, result) => {
+        await this.meats.findDetailById(contents.meat_tableId, (err, result) => {
             if (err) throw new Error(err);
             ret.meats = result;
         })
-        await this.fishes.findDetailById(contents.fishes.id, (err, result) => {
+        await this.fishes.findDetailById(contents.fish_tableId, (err, result) => {
             if (err) throw new Error(err);
             ret.fishes = result;
         })
-        await this.miscs.findDetailById(contents.miscs.id, (err, result) => {
+        await this.miscs.findDetailById(contents.misc_tableId, (err, result) => {
             if (err) throw new Error(err);
-            ret.contents.miscs = result;
+            ret.miscs = result;
         })
-        await this.sauces.findDetailById(contents.sauces.id, (err, result) => {
+        await this.sauces.findDetailById(contents.sauce_tableId, (err, result) => {
             if (err) throw new Error(err);
-            ret.contents.sauces = result;
+            ret.sauces = result;
         })
         cb(ret);
     }
@@ -156,16 +156,16 @@ module.exports = class IngredientsDummyDao {
         cb(ret);
     }
     ingAssemble_delete = async (contents, cb) => {
-        await this.meats.deleteById(contents.meats.id, (err, res) => {
+        await this.meats.deleteById(contents.meat_tableId, (err, res) => {
             if (err) throw new Error(err)
         })
-        await this.fishes.deleteById(contents.fishes.id, (err, res) => {
+        await this.fishes.deleteById(contents.fish_tableId, (err, res) => {
             if (err) throw new Error(err)
         })
-        await this.miscs.deleteById(contents.miscs.id, (err, res) => {
+        await this.miscs.deleteById(contents.misc_tableId, (err, res) => {
             if (err) throw new Error(err)
         })
-        await this.sauces.deleteById(contents.sauces.id, (err, res) => {
+        await this.sauces.deleteById(contents.sauce_tableId, (err, res) => {
             if (err) throw new Error(err)
         })
         cb(null, true)
@@ -179,7 +179,9 @@ module.exports = class IngredientsDummyDao {
                 this.ingAssemble_detail(e.contents, (res) => {
                     let ret = {}
                     ret.id = id
+                    console.log(ret)
                     ret.contents = res;
+                    console.log(ret)
                     cb(null, ret)
                     // break;
                 })
@@ -216,7 +218,7 @@ module.exports = class IngredientsDummyDao {
         let error = null
         this.table = this.table.filter(e => {
             if (e.id == id) {
-                this.ingAssemble_delete(ingDto.contents, (err, res) => {
+                this.ingAssemble_delete(e.contents, (err, res) => {
                     if (err) throw new Error(err)
                     if (!res) throw new Error('4가지 삭제 중 에러발생')
                     return false;

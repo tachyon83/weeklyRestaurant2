@@ -127,9 +127,10 @@ module.exports = class RecipesDummyDao {
                 ret.contents = e.contents
                 this.ingredients.findDetailById(e.ingredients_tableId, (err, result) => {
                     ret.ingredients = result
+                    cb(null, ret)
                 })
-                cb(null, ret)
-                break;
+                // cb(null, ret)
+                // break;
             }
         }
     }
