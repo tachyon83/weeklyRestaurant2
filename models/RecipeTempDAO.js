@@ -1,44 +1,38 @@
-const recipes = require('./recipes');
-const ingredients = require('./ingredients')
-const meats = require('./meats')
-const fishes = require('./fishes')
-const miscs = require('./miscs')
-const sauces = require('./sauces')
-
-
-// Q_meatTableId
-// Q_meatTableId
-// Q_meatTableId
-// Q_meatTableId
-
 module.exports = class RecipeTempDAO {
-    constructor() { }
-
-    filterByAmount = (from, to, ref) => {
-        if (!from) return;
-        for (let i = 0; i < ref.kinds.length; ++i) {
-            let amount = from[ref.kinds[i].name];
-            if (amount > 0) {
-                to.push({
-                    name: ref.kinds[i].name,
-                    amount: amount,
-                    unit: ref.kinds[i].unit,
-                })
-            }
-        }
+    constructor() {
+        this.recipes = require('./RecipesDummyDao');
+        this.ingredients = require('./IngredientsDummyDao')
+        this.meats = new (require('./MeatDummyDao'))
+        this.fishes = new (require('./FishDummyDao'))
+        this.miscs = new (require('./MiscDummyDao'))
+        this.sauces = new (require('./SauceDummyDao'))
     }
 
-    showListByCategory = (category, cb) => {
+    // filterByAmount = (from, to, ref) => {
+    //     if (!from) return;
+    //     for (let i = 0; i < ref.kinds.length; ++i) {
+    //         let amount = from[ref.kinds[i].name];
+    //         if (amount > 0) {
+    //             to.push({
+    //                 name: ref.kinds[i].name,
+    //                 amount: amount,
+    //                 unit: ref.kinds[i].unit,
+    //             })
+    //         }
+    //     }
+    // }
+
+    findListByCategory = (category, cb) => {
         let err = null;
-        let results = recipes.filter(recipe => recipe.recipeCategory == category);
+        let results = this.recipes.filter(recipe => recipe.recipeCategory == category);
         if (err) cb(err, null);
         else cb(null, { result: results })
     }
 
-    showDetailById = (id, cb) => {
+    findDetailById = (id, cb) => {
         let err = null;
-        let recipe = recipes.filter(e => e.recipeId == id)[0];
-        let ingredient = ingredients.filter(e => e.id == recipe.ingredients_tableId)[0];
+        let recipe = this.recipes.filter(e => e.recipeId == id)[0];
+        let ingredient = this.ingredients.filter(e => e.id == recipe.ingredients_tableId)[0];
 
         let wholemeat = meats.meats.filter(e => e.id == ingredient.meat_tableId)[0]
         let meat = [];
@@ -97,7 +91,7 @@ module.exports = class RecipeTempDAO {
 
     }
 
-    delete = (id, cb) => {
+    deleteById = (id, cb) => {
 
     }
 }

@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const memberDao = require('./models/MemberTempDAO')
+const MemberDao = require('./models/MemberTempDAO')
+const memberDao = new MemberDao()
 
 module.exports = () => {
     passport.serializeUser((user, done) => {
@@ -19,6 +20,7 @@ module.exports = () => {
         passReqToCallback: true,
     }, (req, id, pw, done) => {
         memberDao.findById(id, (err, user) => {
+            console.log('inside passportLocal')
             if (err) return done(err);
             if (!user) return done(null, false, { message: "this ID does not exist" });
             if (user.pw == pw) return done(null, user);

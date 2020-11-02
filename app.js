@@ -14,61 +14,64 @@ const recipeDao = new (require('./models/RecipeTempDAO'))
 const app = express();
 // var socketio = require('socket.io')
 
-const sessionSetting = (session({
-    secret: 'secret secretary',
-    resave: false,
-    saveUninitialized: false,
-    host: 'localhost',
-    port: 3002,
-}))
-app.use(sessionSetting)
-app.use(passport.initialize());
-app.use(passport.session());
-passportConfig();
+// const sessionSetting = (session({
+//     secret: 'secret secretary',
+//     resave: false,
+//     saveUninitialized: false,
+//     host: 'localhost',
+//     port: 3002,
+// }))
+// app.use(sessionSetting)
+app.use(session({ secret: "secret key" }))
 
 // app.use('/', static(__dirname + '/html/'));
 // app.use('/', static(__dirname + '/public'));
 app.set('port', process.env.PORT || 3001);
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
+app.use(passport.initialize());
+app.use(passport.session());
+passportConfig();
 
-app.post('/member/login', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-        if (err) { res.json({ result: err }) }
-        if (!user) { res.json({ result: false }) }
-        req.session.save(() => {
-            res.json({ result: true })
-        })
+// app.post('/member/login', (req, res, next) => {
+//     console.log('came in')
+//     passport.authenticate('local', (err, user, info) => {
+//         if (err) { res.json({ result: err }) }
+//         if (!user) { res.json({ result: false }) }
+//         req.session.save(() => {
+//             console.log('success')
+//             res.json({ result: true })
+//         })
+//     })
+//     next()
+// })
+
+router.post('/member/login', passport.authenticate('local', {
+    failureRedirect: '/member/login',
+    // failureFlash: true,
+}), (req, res) => {
+    req.session.save(function () {
+        // console.log(req.user)
+        res.json({ result: true })
     })
 })
 
-// router.post('/member/login', passport.authenticate('local', {
-
-// //     failureRedirect: '/member/login',
-// //     failureFlash: true,
-// // }), (req, res) => {
-// //     req.session.save(function () {
-// //         // console.log(req.user)
-// //         res.json({ result: true })
-// //     })
+// app.get('/', function (req, res) {
+//     // res.sendFile(path.join(__dirname + '/html/chat.html'));
+//     res.sendFile(__dirname + '/public/index.html');
 // })
-
-app.get('/', function (req, res) {
-    // res.sendFile(path.join(__dirname + '/html/chat.html'));
-    res.sendFile(__dirname + '/public/index.html');
-})
 
 // '/recipe/:command' => by params => differentiated in recipeDao
 router.route('/recipe/list').get((req, res) => {
-    recipeDao.showListByCategory(req.query.req, (err, results) => {
+    recipeDao.findListByCategory(req.query.req, (err, results) => {
         if (err) res.status(500);
         // res.end(JSON.stringify(results));
         res.json(results);
     })
 })
 router.route('/recipe/detail').get((req, res) => {
-    recipeDao.showDetailById(req.query.req, (err, result) => {
+    recipeDao.findDetailById(req.query.req, (err, result) => {
         if (err) res.status(500);
         res.json(result);
     })
@@ -80,7 +83,7 @@ router.route('/recipe/modify').post((req, res) => {
     })
 })
 router.route('/recipe/delete').post((req, res) => {
-    recipeDao.delete(req.query.req, (err, result) => {
+    recipeDao.deleteById(req.query.req, (err, result) => {
         if (err) res.status(500);
         res.json(result);
     })
