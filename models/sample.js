@@ -1,3 +1,6 @@
+var abc = new (require('./sample3'))
+console.log(abc)
+
 var options = [
     { name: '닭고기', unit: '마리' },
     { name: '돼지고기', unit: 'kg' },

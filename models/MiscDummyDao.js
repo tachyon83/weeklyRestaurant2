@@ -131,8 +131,9 @@ module.exports = class MiscDummyDao {
             }
             // when it does not exist, throw err
         }
-
-        returnStorage() {
-            return this.storage;
-        }
     }
+
+    returnStorage() {
+        return this.storage;
+    }
+}

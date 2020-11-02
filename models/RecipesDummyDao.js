@@ -113,6 +113,11 @@ module.exports = class RecipesDummyDao {
         return this.idNum++
     }
 
+    findListByCategory = (category, cb) => {
+        let ret = this.table.filter(e => e.contents.category == category)
+        cb(null, ret);
+    }
+
     // takes ID, then returns recipeDto.
     findDetailById = (id, cb) => {
         for (let e of this.table) {
@@ -149,7 +154,7 @@ module.exports = class RecipesDummyDao {
                     this.table[i].contents = recipeDto.contents
                     this.ingredients.handleIngredientsFromFront(recipeDto.ingredients, (err, id) => {
                         if (err) error = err;
-                        break;
+                        // break;
                     })
                 }
             }
