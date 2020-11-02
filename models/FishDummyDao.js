@@ -60,6 +60,10 @@ module.exports = class FishDummyDao {
     // ex: {name:'오리고기',amount:300,unit:'g'}
     // the Dao front-controller will scoop out and send in the partial data
     handleContentsFromFront = (dto, cb) => {
+        if (!dto) {
+            cb(null, null)
+            return
+        }
         let error = null
         let newContents = [], newMaterial = []
         let kindsSet = this.setFormer()
@@ -73,7 +77,7 @@ module.exports = class FishDummyDao {
             newContents.push(this.rowFormer(curr))
         }
         for (let e of this.table) {
-            if (e.id == id) {
+            if (e.id == dto.id) {
                 e.contents = newContents
                 cb(error, null)
                 return

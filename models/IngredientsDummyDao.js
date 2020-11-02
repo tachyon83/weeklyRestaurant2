@@ -179,9 +179,7 @@ module.exports = class IngredientsDummyDao {
                 this.ingAssemble_detail(e.contents, (res) => {
                     let ret = {}
                     ret.id = id
-                    console.log(ret)
                     ret.contents = res;
-                    console.log(ret)
                     cb(null, ret)
                     // break;
                 })

@@ -83,13 +83,13 @@ router.route('/recipe/detail').get((req, res) => {
     })
 })
 router.route('/recipe/modify').post((req, res) => {
-    recipeDao.handleRecipeFromFront(req.query.req, (err, result) => {
+    recipeDao.handleRecipeFromFront(req.body, (err, result) => {
         if (err) res.status(500);
         res.json(result);
     })
 })
 router.route('/recipe/add').post((req, res) => {
-    recipeDao.handleRecipeFromFront(req.query.req, (err, result) => {
+    recipeDao.handleRecipeFromFront(req.body, (err, result) => {
         if (err) res.status(500);
         res.json(result);
     })
