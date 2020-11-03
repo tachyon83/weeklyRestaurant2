@@ -60,6 +60,17 @@ module.exports = class MeatDummyDao {
         return temp
     }
 
+    createNewRecipe = cb => {
+        let ret = []
+        for (let e of this.storage) {
+            let temp = {}
+            temp.name = e.name
+            temp.unit = e.unit
+            ret.push(temp)
+        }
+        cb(null, ret)
+    }
+
     // this is to create a data given from front-end
     // can be used for both CREATE and UPDATE
     // ex: {name:'오리고기',amount:300,unit:'g'}

@@ -171,9 +171,35 @@ module.exports = class IngredientsDummyDao {
         cb(null, true)
     }
 
+    createNewRecipe = async cb => {
+        let ret = {}
+        await this.meats.createNewRecipe((err, res) => {
+            if (err) throw new Error(err)
+            ret.meats = {}
+            ret.meats.contents = res
+        })
+        await this.fishes.createNewRecipe((err, res) => {
+            if (err) throw new Error(err)
+            ret.fishes = {}
+            ret.fishes.contents = res
+        })
+        await this.miscs.createNewRecipe((err, res) => {
+            if (err) throw new Error(err)
+            ret.miscs = {}
+            ret.miscs.contents = res
+        })
+        await this.sauces.createNewRecipe((err, res) => {
+            if (err) throw new Error(err)
+            ret.sauces = {}
+            ret.sauces.contents = res
+        })
+        cb(null, ret)
+    }
+
     // takes ID, then returns ingredientsDto
     findDetailById = (id, cb) => {
         for (let e of this.table) {
+            console.log('this id supposed to be the new ing id', id)
             if (e.id == id) {
                 // need to worry about async waterfall here
                 this.ingAssemble_detail(e.contents, (res) => {
@@ -192,24 +218,31 @@ module.exports = class IngredientsDummyDao {
     // returns false otherwise.
     handleIngredientsFromFront = (ingDto, cb) => {
         let error = null;
+        let backToRecipeDummy = null;
         if (!ingDto.id) {
             this.ingAssemble_handle(ingDto.contents, res => {
                 let ret = {}
-                ret.id = this.newIdAssigner()
+                ret.id = 'ing_' + this.newIdAssigner()
                 ret.contents = res
                 this.table.push(ret)
+                backToRecipeDummy = ret.id
+                if (!error) cb(error, backToRecipeDummy)
+                else cb(error, false)
             })
         } else {
             for (let i in this.table) {
                 if (this.table[i].id == ingDto.id) {
                     this.ingAssemble_handle(ingDto.contents, res => {
+                        backToRecipeDummy = true
+                        if (!error) cb(error, backToRecipeDummy)
+                        else cb(error, false)
                         // break;
                     })
                 }
             }
         }
-        if (!error) cb(error, true)
-        else cb(error, false)
+        // if (!error) cb(error, backToRecipeDummy)
+        // else cb(error, false)
     }
 
     deleteById = (id, cb) => {

@@ -91,6 +91,7 @@ router.route('/recipe/modify').post((req, res) => {
 router.route('/recipe/add').post((req, res) => {
     recipeDao.handleRecipeFromFront(req.body, (err, result) => {
         if (err) res.status(500);
+        console.log(result)
         res.json(result);
     })
 })
@@ -100,12 +101,12 @@ router.route('/recipe/delete').get((req, res) => {
         res.json(result);
     })
 })
-// router.route('/recipe/new').get((req, res) => {
-//     recipeDao.createNewRecipe((err, result) => {
-//         if (err) res.status(500);
-//         res.json(result);
-//     })
-// })
+router.route('/recipe/new').get((req, res) => {
+    recipeDao.createNewRecipe((err, result) => {
+        if (err) res.status(500);
+        res.json(result);
+    })
+})
 
 app.use('/', router);
 const server = http.createServer(app);
