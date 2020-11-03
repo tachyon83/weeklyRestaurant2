@@ -199,7 +199,6 @@ module.exports = class IngredientsDummyDao {
     // takes ID, then returns ingredientsDto
     findDetailById = (id, cb) => {
         for (let e of this.table) {
-            console.log('this id supposed to be the new ing id', id)
             if (e.id == id) {
                 // need to worry about async waterfall here
                 this.ingAssemble_detail(e.contents, (res) => {

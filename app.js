@@ -91,7 +91,6 @@ router.route('/recipe/modify').post((req, res) => {
 router.route('/recipe/add').post((req, res) => {
     recipeDao.handleRecipeFromFront(req.body, (err, result) => {
         if (err) res.status(500);
-        console.log(result)
         res.json(result);
     })
 })
