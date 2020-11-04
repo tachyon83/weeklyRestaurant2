@@ -76,30 +76,58 @@ router.route('/recipe/list').get((req, res) => {
 //         res.json(result);
 //     })
 // })
-router.route('/recipe/detail').get((req, res) => {
-    recipeDao.findDetailById(req.query.req, (err, result) => {
-        if (err) res.status(500);
-        res.json(result);
+// router.route('/recipe/detail').get((req, res) => {
+//     recipeDao.findDetailById(req.query.req, (err, result) => {
+//         if (err) res.status(500);
+//         res.json(result);
+//     })
+// })
+
+router.route('/recipe/:id')
+    .get((req, res) => {
+        recipeDao.findDetailById(req.params.id, (err, result) => {
+            if (err) res.status(500);
+            res.json(result);
+        })
     })
-})
-router.route('/recipe/modify').post((req, res) => {
-    recipeDao.handleRecipeFromFront(req.body, (err, result) => {
-        if (err) res.status(500);
-        res.json(result);
+    .post((req, res) => {
+        recipeDao.handleRecipeFromFront(req.body, (err, result) => {
+            if (err) res.status(500);
+            res.json(result);
+        })
     })
-})
-router.route('/recipe/add').post((req, res) => {
-    recipeDao.handleRecipeFromFront(req.body, (err, result) => {
-        if (err) res.status(500);
-        res.json(result);
+    .put((req, res) => {
+        recipeDao.handleRecipeFromFront(req.body, (err, result) => {
+            if (err) res.status(500);
+            res.json(result);
+        })
     })
-})
-router.route('/recipe/delete').get((req, res) => {
-    recipeDao.deleteById(req.query.req, (err, result) => {
-        if (err) res.status(500);
-        res.json(result);
+    .delete((req, res) => {
+        recipeDao.deleteById(req.params.id, (err, result) => {
+            if (err) res.status(500);
+            res.json(result);
+        })
     })
-})
+
+// router.route('/recipe/modify').put((req, res) => {
+//     recipeDao.handleRecipeFromFront(req.body, (err, result) => {
+//         if (err) res.status(500);
+//         res.json(result);
+//     })
+// })
+// router.route('/recipe/add').post((req, res) => {
+//     recipeDao.handleRecipeFromFront(req.body, (err, result) => {
+//         if (err) res.status(500);
+//         res.json(result);
+//     })
+// })
+// router.route('/recipe/delete').get((req, res) => {
+//     recipeDao.deleteById(req.query.req, (err, result) => {
+//         if (err) res.status(500);
+//         res.json(result);
+//     })
+// })
+
 router.route('/recipe/new').get((req, res) => {
     recipeDao.createNewRecipe((err, result) => {
         if (err) res.status(500);
