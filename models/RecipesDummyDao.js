@@ -185,4 +185,11 @@ module.exports = class RecipesDummyDao {
         this.idQueue.push(id)
         cb(error, true)
     }
+
+    checkStorage = cb => {
+        this.ingredients.checkStorage((err, result) => {
+            if (err) throw new Error(err);
+            cb(err, result)
+        })
+    }
 }

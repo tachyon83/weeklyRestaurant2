@@ -170,6 +170,26 @@ module.exports = class IngredientsDummyDao {
         })
         cb(null, true)
     }
+    ingAssemble_storage = async cb => {
+        let ret = {}
+        await this.meats.checkStorage((err, res) => {
+            if (err) throw new Error(err)
+            ret.meats = res
+        })
+        await this.fishes.checkStorage((err, res) => {
+            if (err) throw new Error(err)
+            ret.fishes = res
+        })
+        await this.miscs.checkStorage((err, res) => {
+            if (err) throw new Error(err)
+            ret.miscs = res
+        })
+        await this.sauces.checkStorage((err, res) => {
+            if (err) throw new Error(err)
+            ret.sauces = res
+        })
+        cb(null, ret)
+    }
 
     createNewRecipe = async cb => {
         let ret = {}
@@ -257,5 +277,11 @@ module.exports = class IngredientsDummyDao {
         })
         this.idQueue.push(id)
         cb(error, true)
+    }
+    checkStorage = cb => {
+        this.ingAssemble_storage((err, res) => {
+            if (err) throw new Error(err)
+            cb(err, res)
+        })
     }
 }

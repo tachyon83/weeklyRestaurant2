@@ -106,6 +106,12 @@ router.route('/recipe/new').get((req, res) => {
         res.json(result);
     })
 })
+router.route('/storage/check').get((req, res) => {
+    recipeDao.checkStorage((err, result) => {
+        if (err) res.status(500);
+        res.json(result);
+    })
+})
 
 app.use('/', router);
 const server = http.createServer(app);
