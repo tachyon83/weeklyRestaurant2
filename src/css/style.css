@@ -1,1 +1,259 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+body, html {
+  color: #2b2b2b;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.ir {
+  position: absolute;
+  /* position: absolute/fixed 에서만 clip 속성 작동 */
+  margin: -1px;
+  /* 부트스트랩에선 안씀 */
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  /* overflow: visible 이면 clip 속성 작동 안됨 */
+  clip: rect(0, 0, 0, 0);
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  /* H5BP에선 안씀 */
+}
+
+button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  cursor: pointer;
+  background: transparent;
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+a {
+  color: #2b2b2b;
+  text-decoration: none;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.layoutWrap {
+  width: 1080px;
+  margin: 0 auto;
+}
+
+nav {
+  margin-top: 40px;
+  font-size: 15px;
+}
+
+nav .layoutWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 40px;
+  padding: 0 40px;
+}
+
+nav ul::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+nav ul li {
+  float: left;
+  margin-right: 20px;
+  font-weight: 500;
+}
+
+nav .logo {
+  margin-right: 50px;
+}
+
+nav .logo img {
+  width: 100px;
+}
+
+nav .login {
+  margin-left: auto;
+}
+
+.Calendar {
+  margin-top: 50px;
+  border: 10px solid #000;
+  border-radius: 20px;
+  padding: 30px;
+  -webkit-box-shadow: inset 0px 0px 2px #333;
+          box-shadow: inset 0px 0px 2px #333;
+}
+
+.Calendar h2 {
+  font-size: 20px;
+  text-align: center;
+}
+
+.Calendar__outline {
+  margin-top: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border: 1px solid #ebebeb;
+}
+
+.Calendar__item {
+  width: 100%;
+  min-height: 500px;
+  border-left: 1px solid #ebebeb;
+}
+
+.Calendar__item:first-child {
+  border-left: 0;
+}
+
+.Calendar__item:first-child .Calendar__day {
+  color: #CF273D;
+}
+
+.Calendar__item:last-child .Calendar__day {
+  color: #3a56cc;
+}
+
+.Calendar__day {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 20px 20px;
+  background-color: #F8F8F8;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.Calendar__day span {
+  padding-bottom: 5px;
+}
+
+.Calendar__day b {
+  font-size: 40px;
+  font-weight: 900;
+  font-family: roboto;
+}
+
+.Calendar__menu {
+  padding: 15px;
+}
+
+.CalendarMenu {
+  border-top: 1px dashed #ebebeb;
+  padding: 20px 0;
+}
+
+.CalendarMenu:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.CalendarMenu__tag {
+  color: #666;
+  font-size: 13px;
+}
+
+.CalendarMenu__wrap {
+  margin-top: 15px;
+  position: relative;
+}
+
+.CalendarMenu__wrap:hover .CalendarMenu__hover {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.CalendarMenu__thumb {
+  width: 100%;
+  height: 80px;
+}
+
+.CalendarMenu__thumb img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.CalendarMenu__title {
+  margin-top: 10px;
+}
+
+.CalendarMenu__hover {
+  display: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.CalendarMenu__Button {
+  line-height: 0;
+  text-align: center;
+  font-size: 22px;
+  width: 50px;
+  height: 50px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.CalendarMenu__Button--add {
+  display: block;
+  margin: 20px auto;
+}
+
+.CalendarMenu__Button--more {
+  color: #3a56cc;
+}
+
+.CalendarMenu__Button--delete {
+  color: #CF273D;
+}
+/*# sourceMappingURL=style.css.map */
