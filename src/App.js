@@ -15,6 +15,7 @@ const AppStyled = styled.div`
 const App = () => {
   return (
     <AppStyled>
+      {`test`}
       <Home />
     </AppStyled>
   );
