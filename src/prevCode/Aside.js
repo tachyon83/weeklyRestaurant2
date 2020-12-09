@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import CusineList from "./asides/CusineList";
+import CusineList from "../asides/CusineList";
 
 const AsideStyled = styled.div`
   list-style: none;
