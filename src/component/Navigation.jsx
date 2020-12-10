@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+  Link, Router
+} from "react-router-dom";
 
 const Navigation = (props) => {
   return (
@@ -9,7 +12,7 @@ const Navigation = (props) => {
           <li>요리 목록</li>
           <li>요리 재고</li>
         </ul>
-        <a href="" className="login">로그인</a>
+        <Link to="/login" className="login">로그인</Link>
       </div>
     </nav>
   );
