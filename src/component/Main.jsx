@@ -3,14 +3,14 @@ import Calendar from './Calendar';
 import CookingDetail from './CookingDetail';
 import CookingList from './CookingList';
 
-const Container = (props) => {
+const Main = (props) => {
   return (
     <>
       <Calendar />
-      <CookingList />
-      <CookingDetail />
+      {/* <CookingList /> */}
+      {/* <CookingDetail /> */}
     </>
   )
 };
 
-export default Container;
+export default Main;

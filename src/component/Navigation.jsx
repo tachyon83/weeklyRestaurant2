@@ -1,7 +1,16 @@
-import React from "react";
-import { Link, Router } from "react-router-dom";
+import React, { useCallback } from "react";
+import { Link } from "react-router-dom";
 
 const Navigation = (props) => {
+  const islogin = props.islogin;
+
+  const handleLogout = useCallback(
+    () => {
+      props.onLogout(props.islogin)
+    },
+    [islogin],
+  )
+
   return (
     <nav>
       <div className="layoutWrap">
@@ -14,12 +23,14 @@ const Navigation = (props) => {
           </Link>
         </h1>
         <ul>
-          <li>요리 목록</li>
-          <li>요리 재고</li>
+          {/* <li>요리 목록</li> */}
+          {/* <li>요리 재고</li> */}
         </ul>
-        <Link to="/login" className="login">
-          로그인
-        </Link>
+        {
+          islogin
+          ? <button className="login" onClick={handleLogout} >로그아웃</button>
+          : <Link to="/login" className="login">로그인</Link>
+        }
       </div>
     </nav>
   );
