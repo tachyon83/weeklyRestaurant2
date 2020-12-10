@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 
 const CookingDetail = (props) => {
+    const showDetail = props.showDetail;
+    const handleCloseDetail = useCallback(
+        () => {
+            props.onCloseDetail(props.showDetail)
+        },
+        [showDetail],
+    )
     return(
         <article className="LayoutPopup">
             <div className="LayoutPopup__header">
-                <h2 className="LayoutPopup__title"><i class="fas fa-chevron-left"></i> 목록으로</h2>
-                <button className="LayoutPopup__close"><i class="fas fa-times"></i><i className="ir">닫기</i></button>
+                <h2 className="LayoutPopup__title"><i className="fas fa-chevron-left"></i> 목록으로</h2>
+                <button className="LayoutPopup__close" onClick={handleCloseDetail}><i className="fas fa-times"></i><i className="ir">닫기</i></button>
             </div>
             <div className="CookingDetail">
                 <div className="CookingDetail__top">

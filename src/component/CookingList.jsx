@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 
 const CookingList = (props) => {
+    const showList = props.showList;
+    const handleCloseList = useCallback(
+        () => {
+            props.onCloseList(props.showList)
+        },
+        [showList],
+    )
     return(
         <article className="LayoutPopup">
             <div className="LayoutPopup__header">
                 <h2 className="LayoutPopup__title">요리 목록</h2>
-                <button className="LayoutPopup__close"><i class="fas fa-times"></i><i className="ir">닫기</i></button>
+                <button className="LayoutPopup__close" onClick={handleCloseList}><i className="fas fa-times"></i><i className="ir">닫기</i></button>
             </div>
             <div className="CookingList">
                 <ul className="CookingList__tab">

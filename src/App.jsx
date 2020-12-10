@@ -6,6 +6,9 @@ import Navigation from './component/Navigation';
 
 const App = () => {
   const [islogin, setIslogin] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [showList, setShowList] = useState(false);
+  const [delteOnCalendar, setDelteOnCalendar] = useState(false);
 
   const handleLogin = useCallback(
     (props) => {
@@ -16,11 +19,46 @@ const App = () => {
 
   const handleLogout = useCallback(
     (props) => {
-      console.log(props)
       setIslogin(!props);
     },
     [islogin],
   );
+
+  const handleShowDetail = useCallback(
+    (props) => {
+      setShowDetail(!props);
+    },
+    [showDetail],
+  );
+
+  const handleShowList = useCallback(
+    (props) => {
+      setShowList(!props);
+    },
+    [showList],
+  );
+
+  const handleDeleteOnCalendar = useCallback(
+    (props) => {
+      setDelteOnCalendar(!props);
+    },
+    [delteOnCalendar],
+  );
+
+  const handleCloseDetail = useCallback(
+    (props) => {
+      setShowDetail(!props);
+    },
+    [showDetail],
+  );
+
+  const handleCloseList = useCallback(
+    (props) => {
+      setShowList(!props);
+    },
+    [showList],
+  );
+  
 
   return(
     <Router>
@@ -29,7 +67,16 @@ const App = () => {
         <div className="layoutWrap">
           <Switch>
             <Route exact path="/">
-              <Main islogin={islogin} />
+              <Main 
+                islogin={islogin} 
+                onShowDetail={handleShowDetail}
+                onShowList={handleShowList}
+                onDeleteOnCalendar={handleDeleteOnCalendar}
+                showDetail={showDetail}
+                showList={showList}
+                onCloseDetail={handleCloseDetail}
+                onCloseList={handleCloseList}
+              />
             </Route>
             <Route path="/login">
               {islogin

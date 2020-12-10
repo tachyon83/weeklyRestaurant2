@@ -1,6 +1,25 @@
-import React from "react";
+import React, {useCallback} from "react";
 
 const Calendar = (props) => {
+  const {showDetail, showList} = props;
+  const handleShowDetail = useCallback(
+    () => {
+      props.onShowDetail(props.showDetail)
+    },
+    [showDetail],
+  )
+  const handleShowList = useCallback(
+    () => {
+      props.onShowList(props.showList)
+    },
+    [showList],
+  )
+  const handleDeleteOnCalendar = useCallback(
+    () => {
+      props.onDeleteOnCalendar(props.onDeleteOnCalendar)
+    },
+    [],
+  )
   return(
   <div className="Calendar">
     <h2>12월 주간 식단표</h2>
@@ -24,23 +43,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">토스트</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
-                </button>
-              </div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -58,13 +67,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">닭도리탕</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -73,8 +82,8 @@ const Calendar = (props) => {
             <div className="CalendarMenu__tag">
               <span>저녁</span>
             </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add">
-              <i class="fas fa-plus"></i>
+            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
+              <i className="fas fa-plus"></i>
               <i className="ir">메뉴 추가</i>
             </button>
           </div>
@@ -99,23 +108,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">토스트</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
-                </button>
-              </div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -133,13 +132,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">닭도리탕</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -148,8 +147,8 @@ const Calendar = (props) => {
             <div className="CalendarMenu__tag">
               <span>저녁</span>
             </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add">
-              <i class="fas fa-plus"></i>
+            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
+              <i className="fas fa-plus"></i>
               <i className="ir">메뉴 추가</i>
             </button>
           </div>
@@ -174,23 +173,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">토스트</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
-                </button>
-              </div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -208,13 +197,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">닭도리탕</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -223,8 +212,8 @@ const Calendar = (props) => {
             <div className="CalendarMenu__tag">
               <span>저녁</span>
             </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add">
-              <i class="fas fa-plus"></i>
+            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
+              <i className="fa-plus"></i>
               <i className="ir">메뉴 추가</i>
             </button>
           </div>
@@ -249,33 +238,23 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">토스트</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
-                </button>
-              </div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -293,13 +272,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">닭도리탕</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -308,8 +287,8 @@ const Calendar = (props) => {
             <div className="CalendarMenu__tag">
               <span>저녁</span>
             </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add">
-              <i class="fas fa-plus"></i>
+            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
+              <i className="fas fa-plus"></i>
               <i className="ir">메뉴 추가</i>
             </button>
           </div>
@@ -334,33 +313,23 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">토스트</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
-                </button>
-              </div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -378,13 +347,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">닭도리탕</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -393,8 +362,8 @@ const Calendar = (props) => {
             <div className="CalendarMenu__tag">
               <span>저녁</span>
             </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add">
-              <i class="fas fa-plus"></i>
+            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
+              <i className="fas fa-plus"></i>
               <i className="ir">메뉴 추가</i>
             </button>
           </div>
@@ -419,23 +388,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">토스트</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
-                </button>
-              </div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -453,13 +412,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">닭도리탕</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -468,8 +427,8 @@ const Calendar = (props) => {
             <div className="CalendarMenu__tag">
               <span>저녁</span>
             </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add">
-              <i class="fas fa-plus"></i>
+            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
+              <i className="fas fa-plus"></i>
               <i className="ir">메뉴 추가</i>
             </button>
           </div>
@@ -494,23 +453,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">토스트</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
-                </button>
-              </div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -528,13 +477,13 @@ const Calendar = (props) => {
               </div>
               <div className="CalendarMenu__title">닭도리탕</div>
               <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more">
-                  <i class="fas fa-search"></i>
+                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
+                  <i className="fas fa-search"></i>
                   <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
-                  <i class="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 추가</i>
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
+                  <i className="far fa-trash-alt"></i>
+                  <i className="ir">메뉴 삭제</i>
                 </button>
               </div>
             </div>
@@ -543,8 +492,8 @@ const Calendar = (props) => {
             <div className="CalendarMenu__tag">
               <span>저녁</span>
             </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add">
-              <i class="fas fa-plus"></i>
+            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
+              <i className="fas fa-plus"></i>
               <i className="ir">메뉴 추가</i>
             </button>
           </div>
