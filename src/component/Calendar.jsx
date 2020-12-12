@@ -16,9 +16,9 @@ const Calendar = (props) => {
   }
 
   return(
-  <div className="Calendar">
+  <div className="LineBox">
     <h2>12월 주간 식단표</h2>
-    <ul className="Calendar__outline">
+    <ul className="Calendar">
       <li className="Calendar__item">
         <div className="Calendar__day">
           <span>일</span>

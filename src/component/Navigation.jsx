@@ -23,8 +23,8 @@ const Navigation = (props) => {
           </Link>
         </h1>
         <ul>
-          <li>요리 목록</li>
-          <li>요리 추가</li>
+          <li><Link to="/cookingList">요리 목록</Link></li>
+          <li><Link to="/cookingForm">요리 추가</Link></li>
           <li><Link to="/inventory">재고 현황</Link></li>
         </ul>
         {

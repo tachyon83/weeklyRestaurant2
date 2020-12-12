@@ -119,20 +119,6 @@ main .layoutWrap {
 }
 
 .Calendar {
-  margin-top: 50px;
-  padding: 30px;
-  border: 10px solid #000;
-  border-radius: 20px;
-  -webkit-box-shadow: inset 0px 0px 2px #333;
-          box-shadow: inset 0px 0px 2px #333;
-}
-
-.Calendar h2 {
-  font-size: 20px;
-  text-align: center;
-}
-
-.Calendar__outline {
   margin-top: 30px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -370,11 +356,27 @@ main .layoutWrap {
   font-weight: 700;
 }
 
+.LineBox {
+  margin-top: 50px;
+  padding: 30px;
+  border: 10px solid #000;
+  border-radius: 20px;
+  -webkit-box-shadow: inset 0px 0px 2px #333;
+          box-shadow: inset 0px 0px 2px #333;
+  min-height: 731px;
+}
+
+.LineBox h2 {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
 .CookingList__tab {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-top: 20px;
+  margin-top: 30px;
   border-bottom: 1px solid #000;
 }
 
@@ -452,12 +454,15 @@ main .layoutWrap {
   color: #3a56cc;
 }
 
+.CookingDetail {
+  margin-top: 30px;
+}
+
 .CookingDetail__top {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 20px;
-  margin-top: 20px;
 }
 
 .CookingDetail__thumb {
@@ -588,20 +593,6 @@ main .layoutWrap {
 }
 
 .Inventory {
-  margin-top: 50px;
-  padding: 30px;
-  border: 10px solid #000;
-  border-radius: 20px;
-  -webkit-box-shadow: inset 0px 0px 2px #333;
-          box-shadow: inset 0px 0px 2px #333;
-}
-
-.Inventory h2 {
-  font-size: 20px;
-  text-align: center;
-}
-
-.Inventory__wrap {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -633,5 +624,107 @@ main .layoutWrap {
   padding: 10px 20px 30px;
   height: 542px;
   overflow: auto;
+}
+
+.CookingForm {
+  margin-top: 30px;
+}
+
+.CookingForm__top {
+  padding-bottom: 30px;
+  border-bottom: 1px dashed #ebebeb;
+}
+
+.CookingForm__category {
+  margin-top: 30px;
+}
+
+.CookingForm__section01 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.CookingForm__section02 {
+  width: 100px;
+}
+
+.CookingForm__section03 {
+  width: 100px;
+}
+
+.CookingForm ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 30px;
+}
+
+.CookingForm ul li {
+  width: calc(50% - 15px);
+}
+
+.CookingForm dl {
+  margin-top: 10px;
+}
+
+.CookingForm dl:first-child {
+  margin-top: 0;
+}
+
+.CookingForm dl dt {
+  line-height: 36px;
+  color: #666;
+}
+
+.CookingForm dl dd {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+}
+
+.CookingForm input,
+.CookingForm select {
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+}
+
+.CookingForm__buttonWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.CookingForm__button {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.CookingForm__button--add {
+  background-color: #000;
+}
+
+.CookingForm__button--edit {
+  background-color: #3a56cc;
+}
+
+.CookingForm__button--remove {
+  background-color: #CF273D;
 }
 /*# sourceMappingURL=style.css.map */

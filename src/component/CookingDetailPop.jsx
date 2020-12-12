@@ -10,7 +10,7 @@ const CookingDetailPop = ({setIsDetailPopup}) => {
     return(
         <article className="LayoutPopup">
             <div className="LayoutPopup__header">
-                <h2 className="LayoutPopup__title"><i className="fas fa-chevron-left"></i> 목록으로</h2>
+                <h2 className="LayoutPopup__title">상세보기</h2>
                 <button className="LayoutPopup__close" onClick={handleCloseDetail}><i className="fas fa-times"></i><i className="ir">닫기</i></button>
             </div>
             <div className="CookingDetail">

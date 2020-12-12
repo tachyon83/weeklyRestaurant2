@@ -2,9 +2,9 @@ import React from "react";
 
 const Inventory = (props) => {
   return (
-    <div className="Inventory">
+    <div className="LineBox">
       <h2>재고 현황</h2>
-      <div className="Inventory__wrap">
+      <div className="Inventory">
         <dl>
             <dt className="Inventory__category">육류</dt>
             <dd className="Inventory__ingredient">
