@@ -3,7 +3,7 @@ import React from "react";
 const Inventory = (props) => {
   return (
     <div className="Inventory">
-      <h2>재고 상황</h2>
+      <h2>재고 현황</h2>
       <div className="Inventory__wrap">
         <dl>
             <dt className="Inventory__category">육류</dt>

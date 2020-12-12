@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 
-const CookingDetail = ({setIsDetailPopup}) => {
+const CookingDetailPop = ({setIsDetailPopup}) => {
     const handleCloseDetail = useCallback(
         () => {
             setIsDetailPopup(false)
@@ -74,4 +74,4 @@ const CookingDetail = ({setIsDetailPopup}) => {
     )
 };
 
-export default CookingDetail;
+export default CookingDetailPop;

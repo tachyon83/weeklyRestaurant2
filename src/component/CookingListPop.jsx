@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 
-const CookingList = ({setIsListPopup}) => {
+const CookingListPop = ({setIsListPopup}) => {
     const handleCloseList = useCallback(
         () => {
             setIsListPopup(false)
@@ -108,4 +108,4 @@ const CookingList = ({setIsListPopup}) => {
     )
 };
 
-export default CookingList;
+export default CookingListPop;

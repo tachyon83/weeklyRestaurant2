@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Calendar from './Calendar';
-import CookingDetail from './CookingDetail';
-import CookingList from './CookingList';
+import CookingDetailPop from './CookingDetailPop';
+import CookingListPop from './CookingListPop';
 
 const Main = (props) => {
   const { isDetailPopup, isListPopup, setIsDetailPopup, setIsListPopup } = props;
@@ -13,8 +13,8 @@ const Main = (props) => {
         setIsListPopup={setIsListPopup}
       />
 
-      {isDetailPopup && <CookingDetail setIsDetailPopup={setIsDetailPopup} />}
-      {isListPopup && <CookingList setIsListPopup={setIsListPopup} />}
+      {isDetailPopup && <CookingDetailPop setIsDetailPopup={setIsDetailPopup} />}
+      {isListPopup && <CookingListPop setIsListPopup={setIsListPopup} />}
     </>
   )
 };
