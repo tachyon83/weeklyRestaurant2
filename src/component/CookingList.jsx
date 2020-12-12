@@ -1,12 +1,11 @@
 import React, {useCallback} from 'react';
 
-const CookingList = (props) => {
-    const showList = props.showList;
+const CookingList = ({setIsListPopup}) => {
     const handleCloseList = useCallback(
         () => {
-            props.onCloseList(props.showList)
+            setIsListPopup(false)
         },
-        [showList],
+        [],
     )
     return(
         <article className="LayoutPopup">

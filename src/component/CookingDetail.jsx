@@ -1,12 +1,11 @@
 import React, {useCallback} from 'react';
 
-const CookingDetail = (props) => {
-    const showDetail = props.showDetail;
+const CookingDetail = ({setIsDetailPopup}) => {
     const handleCloseDetail = useCallback(
         () => {
-            props.onCloseDetail(props.showDetail)
+            setIsDetailPopup(false)
         },
-        [showDetail],
+        [],
     )
     return(
         <article className="LayoutPopup">

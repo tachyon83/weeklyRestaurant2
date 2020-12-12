@@ -1,12 +1,11 @@
 import React, { useCallback } from "react";
 
-const Login = (props) => {
-  const isLogin = props.isLogin;
+const Login = ({setIslogin}) => {
 
   const handleLogin = useCallback((event) => {
     event.preventDefault();
-    props.onLogin(props.isLogin);
-  }, [isLogin]);
+    setIslogin(true)
+  }, []);
 
   return (
     <form className="Login">

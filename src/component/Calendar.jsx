@@ -1,25 +1,20 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useState} from "react";
 
 const Calendar = (props) => {
-  const {showDetail, showList} = props;
-  const handleShowDetail = useCallback(
-    () => {
-      props.onShowDetail(props.showDetail)
-    },
-    [showDetail],
-  )
-  const handleShowList = useCallback(
-    () => {
-      props.onShowList(props.showList)
-    },
-    [showList],
-  )
-  const handleDeleteOnCalendar = useCallback(
-    () => {
-      props.onDeleteOnCalendar(props.onDeleteOnCalendar)
-    },
-    [],
-  )
+  const { setIsDetailPopup, setIsListPopup } = props;
+  
+  const handleShowDetail = () => {
+    setIsDetailPopup(true)
+  }
+
+  const handleDeleteOnCalendar = () => {
+
+  }
+
+  const handleShowList = () => {
+    setIsListPopup(true)
+  }
+
   return(
   <div className="Calendar">
     <h2>12월 주간 식단표</h2>

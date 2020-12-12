@@ -4,20 +4,17 @@ import CookingDetail from './CookingDetail';
 import CookingList from './CookingList';
 
 const Main = (props) => {
-  const {showList, showDetail} = props;
+  const { isDetailPopup, isListPopup, setIsDetailPopup, setIsListPopup } = props;
 
   return (
     <>
       <Calendar 
-        onShowDetail={props.onShowDetail}
-        onShowList={props.onShowList}
-        onDeleteOnCalendar={props.onDeleteOnCalendar}
-        showDetail={showDetail}
-        showList={showList}
+        setIsDetailPopup={setIsDetailPopup}
+        setIsListPopup={setIsListPopup}
       />
 
-      {showDetail && <CookingDetail showDetail={showDetail} onCloseDetail={props.onCloseDetail} />}
-      {showList && <CookingList showList={showList} onCloseList={props.onCloseList} />}
+      {isDetailPopup && <CookingDetail setIsDetailPopup={setIsDetailPopup} />}
+      {isListPopup && <CookingList setIsListPopup={setIsListPopup} />}
     </>
   )
 };

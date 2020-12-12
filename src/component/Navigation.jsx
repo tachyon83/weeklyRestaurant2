@@ -2,13 +2,13 @@ import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 
 const Navigation = (props) => {
-  const islogin = props.islogin;
+  const {islogin, setIslogin} = props
 
   const handleLogout = useCallback(
     () => {
-      props.onLogout(props.islogin)
+      setIslogin(false)
     },
-    [islogin],
+    [],
   )
 
   return (
