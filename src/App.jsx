@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import Main from './component/Main';
 import Login from './component/Login';
 import Navigation from './component/Navigation';
+import Inventory from './component/Inventory';
 
 const App = () => {
   const [islogin, setIslogin] = useState(false);
@@ -29,6 +30,9 @@ const App = () => {
                 ? <Redirect to="/"/>
                 : <Login setIslogin={setIslogin} />
               }
+            </Route>
+            <Route path="/inventory">
+              <Inventory />
             </Route>
           </Switch>
         </div>

@@ -24,7 +24,7 @@ const Navigation = (props) => {
         </h1>
         <ul>
           {/* <li>요리 목록</li> */}
-          {/* <li>요리 재고</li> */}
+          <li><Link to="/inventory">재고 상황</Link></li>
         </ul>
         {
           islogin
