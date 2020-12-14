@@ -8,7 +8,7 @@ const Navigation = (props) => {
     () => {
       setIslogin(false)
     },
-    [],
+    [setIslogin],
   )
 
   return (

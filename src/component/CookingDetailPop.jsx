@@ -5,7 +5,7 @@ const CookingDetailPop = ({setIsDetailPopup}) => {
         () => {
             setIsDetailPopup(false)
         },
-        [],
+        [setIsDetailPopup],
     )
     return(
         <article className="LayoutPopup">

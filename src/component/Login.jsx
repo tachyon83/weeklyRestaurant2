@@ -5,7 +5,7 @@ const Login = ({setIslogin}) => {
   const handleLogin = useCallback((event) => {
     event.preventDefault();
     setIslogin(true)
-  }, []);
+  }, [setIslogin]);
 
   return (
     <form className="Login">

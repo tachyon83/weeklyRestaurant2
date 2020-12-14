@@ -1,479 +1,96 @@
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
+import CalendarItem from './CalendarItem'
+
+const getWeek = (dowOffset) => {
+  dowOffset = typeof(dowOffset) == 'number' ? dowOffset : 0;
+  var newdate = new Date();
+  var newYear = new Date(newdate.getFullYear(),0,1);
+  var day = newYear.getDay() - dowOffset; 
+  day = (day >= 0 ? day : day + 7);
+  var daynum = Math.floor((newdate.getTime() - newYear.getTime() -
+    (newdate.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
+  var weeknum;
+  if(day < 4) {
+    weeknum = Math.floor((daynum+day-1)/7) + 1;
+    if(weeknum > 52) {
+      let nYear = new Date(newdate.getFullYear() + 1,0,1);
+      let nday = nYear.getDay() - dowOffset;
+      nday = nday >= 0 ? nday : nday + 7;
+      weeknum = nday < 4 ? 1 : 53;
+    }
+  }
+  else {
+    weeknum = Math.floor((daynum+day-1)/7);
+  }
+  return weeknum;
+};
+
+const date = new Date();
+const todayYear = date.getFullYear();
+const todayMonth = date.getMonth() + 1;
+const todayDate = date.getDate();
+const todayDay = date.getDay();
+const todayWeek = getWeek();
+console.log(todayYear, todayMonth, todayDate, todayDay, todayWeek)
+
+const calendarArr = [];
+
+const calendarCalc = () => {
+  for(let i = 0; i < 7; i++) {
+    if(todayDay > i) {
+      calendarArr.push(todayDate - todayDay + i)
+    } else {
+      calendarArr.push(todayDate + i - 1)
+    }
+  }
+}
+
+calendarCalc()
 
 const Calendar = (props) => {
   const { setIsDetailPopup, setIsListPopup } = props;
+
+  const [ calendarData, setCalendarData ] = useState({
+    week202050 : [
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+    ],
+    week202051 : [
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+    ],
+    week202052 : [
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+    ],
+  })
+
   
-  const handleShowDetail = () => {
-    setIsDetailPopup(true)
-  }
-
-  const handleDeleteOnCalendar = () => {
-
-  }
-
-  const handleShowList = () => {
-    setIsListPopup(true)
-  }
 
   return(
   <div className="LineBox">
     <h2>12월 주간 식단표</h2>
     <ul className="Calendar">
-      <li className="Calendar__item">
-        <div className="Calendar__day">
-          <span>일</span>
-          <b>13</b>
-        </div>
-        <div className="Calendar__menu">
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>아침</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://www.paris.co.kr/wp-content/uploads/200312-_670-1280x1280.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">토스트</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>점심</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://image.auction.co.kr/itemimage/1b/fb/ee/1bfbee3086.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">닭도리탕</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>저녁</span>
-            </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
-              <i className="fas fa-plus"></i>
-              <i className="ir">메뉴 추가</i>
-            </button>
-          </div>
-        </div>
-      </li>
-      <li className="Calendar__item">
-        <div className="Calendar__day">
-          <span>월</span>
-          <b>14</b>
-        </div>
-        <div className="Calendar__menu">
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>아침</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://www.paris.co.kr/wp-content/uploads/200312-_670-1280x1280.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">토스트</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>점심</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://image.auction.co.kr/itemimage/1b/fb/ee/1bfbee3086.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">닭도리탕</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>저녁</span>
-            </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
-              <i className="fas fa-plus"></i>
-              <i className="ir">메뉴 추가</i>
-            </button>
-          </div>
-        </div>
-      </li>
-      <li className="Calendar__item">
-        <div className="Calendar__day">
-          <span>화</span>
-          <b>15</b>
-        </div>
-        <div className="Calendar__menu">
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>아침</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://www.paris.co.kr/wp-content/uploads/200312-_670-1280x1280.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">토스트</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>점심</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://image.auction.co.kr/itemimage/1b/fb/ee/1bfbee3086.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">닭도리탕</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>저녁</span>
-            </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
-              <i className="fas fa-plus"></i>
-              <i className="ir">메뉴 추가</i>
-            </button>
-          </div>
-        </div>
-      </li>
-      <li className="Calendar__item">
-        <div className="Calendar__day">
-          <span>수</span>
-          <b>16</b>
-        </div>
-        <div className="Calendar__menu">
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>아침</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://www.paris.co.kr/wp-content/uploads/200312-_670-1280x1280.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">토스트</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>점심</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://image.auction.co.kr/itemimage/1b/fb/ee/1bfbee3086.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">닭도리탕</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>저녁</span>
-            </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
-              <i className="fas fa-plus"></i>
-              <i className="ir">메뉴 추가</i>
-            </button>
-          </div>
-        </div>
-      </li>
-      <li className="Calendar__item">
-        <div className="Calendar__day">
-          <span>목</span>
-          <b>17</b>
-        </div>
-        <div className="Calendar__menu">
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>아침</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://www.paris.co.kr/wp-content/uploads/200312-_670-1280x1280.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">토스트</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>점심</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://image.auction.co.kr/itemimage/1b/fb/ee/1bfbee3086.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">닭도리탕</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>저녁</span>
-            </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
-              <i className="fas fa-plus"></i>
-              <i className="ir">메뉴 추가</i>
-            </button>
-          </div>
-        </div>
-      </li>
-      <li className="Calendar__item">
-        <div className="Calendar__day">
-          <span>금</span>
-          <b>18</b>
-        </div>
-        <div className="Calendar__menu">
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>아침</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://www.paris.co.kr/wp-content/uploads/200312-_670-1280x1280.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">토스트</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>점심</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://image.auction.co.kr/itemimage/1b/fb/ee/1bfbee3086.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">닭도리탕</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>저녁</span>
-            </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
-              <i className="fas fa-plus"></i>
-              <i className="ir">메뉴 추가</i>
-            </button>
-          </div>
-        </div>
-      </li>
-      <li className="Calendar__item">
-        <div className="Calendar__day">
-          <span>토</span>
-          <b>19</b>
-        </div>
-        <div className="Calendar__menu">
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>아침</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://www.paris.co.kr/wp-content/uploads/200312-_670-1280x1280.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">토스트</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>점심</span>
-            </div>
-            <div className="CalendarMenu__wrap">
-              <div className="CalendarMenu__thumb">
-                <img
-                  src="https://image.auction.co.kr/itemimage/1b/fb/ee/1bfbee3086.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="CalendarMenu__title">닭도리탕</div>
-              <div className="CalendarMenu__hover">
-                <button className="CalendarMenu__button CalendarMenu__button--more" onClick={handleShowDetail}>
-                  <i className="fas fa-search"></i>
-                  <i className="ir">상세 보기</i>
-                </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
-                  <i className="far fa-trash-alt"></i>
-                  <i className="ir">메뉴 삭제</i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="Calendar__section CalendarMenu">
-            <div className="CalendarMenu__tag">
-              <span>저녁</span>
-            </div>
-            <button className="CalendarMenu__button CalendarMenu__button--add" onClick={handleShowList}>
-              <i className="fas fa-plus"></i>
-              <i className="ir">메뉴 추가</i>
-            </button>
-          </div>
-        </div>
-      </li>
+      {
+        calendarArr.map((item, i) =>{
+          return (<CalendarItem setIsDetailPopup={setIsDetailPopup} setIsListPopup={setIsListPopup} date={item} week={i} key={i}/>)
+        })
+      }
     </ul>
   </div>
   );
