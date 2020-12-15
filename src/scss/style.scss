@@ -104,11 +104,11 @@ nav .login{
 }
 
 main{
-    min-height: calc(100vh - 156px);
+    min-height: calc(100vh - 161px);
 
     .layoutWrap{
         overflow: auto;
-        padding-bottom: 30px;
+        padding-bottom: 25px;
     }
 }
 
@@ -579,16 +579,24 @@ footer{
         margin-top: 30px;
     }
 
+    [class*="section"]{
+        line-height: 36px;
+    }
+
     &__section01{
         flex: 1;
     }
 
     &__section02{
-        width: 100px;
+        width: 80px;
     }
     
     &__section03{
-        width: 100px;
+        width: 80px;
+    }
+    
+    &__section04{
+        min-width: 76px;
     }
     
     ul{
@@ -616,6 +624,15 @@ footer{
         dd{
             display: flex;
             gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ebebeb;
+            
+            &:first-of-type{
+                margin-top: 10px;
+                padding-top: 0;
+                border-top: none;
+            }
         }
     }
 
@@ -626,6 +643,7 @@ footer{
         line-height: 36px;
         border: 1px solid #ccc;
         padding: 0 10px;
+        vertical-align: top;
     }
 
     &__buttonWrap{
@@ -636,6 +654,27 @@ footer{
         text-align: center;
     }
 
+    &__more{
+        margin-top: 20px;
+    }
+
+    &__optionButton{
+        display: block;
+        width: 100%;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 10px;
+        color: #fff;
+        font-size: 14px;
+        background-color: #bbb;
+
+        &--add{
+            background-color: transparent;
+            border: 1px solid #000;
+            color: #2b2b2b;
+        }
+    }
+
     &__button{
         height: 40px;
         line-height: 40px;
@@ -644,7 +683,7 @@ footer{
         font-size: 16px;
         font-weight: 500;
 
-        &--add{
+        &--submit{
             background-color: #000;
         }
 
