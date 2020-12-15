@@ -31,7 +31,8 @@ const todayMonth = date.getMonth() + 1;
 const todayDate = date.getDate();
 const todayDay = date.getDay();
 const todayWeek = getWeek();
-console.log(todayYear, todayMonth, todayDate, todayDay, todayWeek)
+const todayYearAndDay = Number(`${todayYear}${todayWeek}`);
+console.log(todayYear, todayMonth, todayDate, todayDay, todayWeek, todayYearAndDay)
 
 const calendarArr = [];
 
@@ -51,17 +52,8 @@ const Calendar = (props) => {
   const { setIsDetailPopup, setIsListPopup } = props;
 
   const [ calendarData, setCalendarData ] = useState({
-    week202050 : [
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-    ],
-    week202051 : [
-      ['토스트','김치찌개','스테이크'],
+    202050 : [
+      ['토스트000','김치찌개','스테이크'],
       ['토스트','김치찌개','스테이크'],
       ['토스트','김치찌개','스테이크'],
       ['토스트','김치찌개','스테이크'],
@@ -69,8 +61,17 @@ const Calendar = (props) => {
       ['토스트','김치찌개','스테이크'],
       ['토스트','김치찌개','스테이크'],
     ],
-    week202052 : [
+    202051 : [
+      ['토스트111','김치찌개','스테이크'],
       ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+      ['토스트','김치찌개','스테이크'],
+    ],
+    202052 : [
+      ['토스트222','김치찌개','스테이크'],
       ['토스트','김치찌개','스테이크'],
       ['토스트','김치찌개','스테이크'],
       ['토스트','김치찌개','스테이크'],
@@ -84,11 +85,21 @@ const Calendar = (props) => {
 
   return(
   <div className="LineBox">
-    <h2>12월 주간 식단표</h2>
+    <h2>{todayMonth}월 주간 식단표</h2>
     <ul className="Calendar">
       {
         calendarArr.map((item, i) =>{
-          return (<CalendarItem setIsDetailPopup={setIsDetailPopup} setIsListPopup={setIsListPopup} date={item} week={i} key={i}/>)
+          return (
+          <CalendarItem 
+            setIsDetailPopup={setIsDetailPopup} 
+            setIsListPopup={setIsListPopup} 
+            date={item} 
+            week={i} 
+            key={i}
+            calendarData={calendarData[todayYearAndDay][i]}
+            setCalendarData={setCalendarData}
+          />
+          )
         })
       }
     </ul>
