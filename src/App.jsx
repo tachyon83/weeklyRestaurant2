@@ -45,6 +45,7 @@ const App = () => {
           </Switch>
         </div>
       </main>
+      <footer><div className="layoutWrap">Copyright &copy; 2020 - 2021</div></footer>
     </Router>
   )
 }

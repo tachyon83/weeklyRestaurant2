@@ -82,7 +82,7 @@ nav .layoutWrap {
       -ms-flex-align: center;
           align-items: center;
   height: 40px;
-  padding: 0 40px;
+  padding: 0 20px;
 }
 
 nav ul::after {
@@ -110,12 +110,22 @@ nav .login {
 }
 
 main {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 156px);
 }
 
 main .layoutWrap {
   overflow: auto;
-  padding-bottom: 70px;
+  padding-bottom: 30px;
+}
+
+footer {
+  height: 50px;
+  text-align: right;
+  color: #666;
+}
+
+footer .layoutWrap {
+  padding: 0 20px;
 }
 
 .Calendar {
