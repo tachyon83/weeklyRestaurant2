@@ -525,6 +525,8 @@ footer{
 .Ingredient{
     display: flex;
     margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #ebebeb;
     color: #666;
 
     &__title{
@@ -535,9 +537,18 @@ footer{
         margin-left: 5px;
     }
 
+    &__unit{
+        margin-left: 5px;
+    }
+
     &__count,
     &__unit{
         flex-shrink: 0;
+    }
+
+    &:first-child{
+        padding-top: 0;
+        border-top: 0;
     }
 }
 

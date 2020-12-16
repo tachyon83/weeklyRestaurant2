@@ -593,6 +593,8 @@ footer .layoutWrap {
   display: -ms-flexbox;
   display: flex;
   margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ebebeb;
   color: #666;
 }
 
@@ -604,9 +606,18 @@ footer .layoutWrap {
   margin-left: 5px;
 }
 
+.Ingredient__unit {
+  margin-left: 5px;
+}
+
 .Ingredient__count, .Ingredient__unit {
   -ms-flex-negative: 0;
       flex-shrink: 0;
+}
+
+.Ingredient:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .Inventory {
