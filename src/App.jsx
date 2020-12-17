@@ -6,6 +6,7 @@ import Navigation from './component/Navigation';
 import Inventory from './component/Inventory';
 import CookingForm from './component/CookingForm';
 import CookingList from './component/CookingList';
+import CookingDetail from './component/CookingDetail';
 
 const App = () => {
   const [islogin, setIslogin] = useState(false);
@@ -32,6 +33,9 @@ const App = () => {
                 ? <Redirect to="/"/>
                 : <Login setIslogin={setIslogin} />
               }
+            </Route>
+            <Route path="/cookingList/:cookingId">
+              <CookingDetail />
             </Route>
             <Route path="/cookingList">
               <CookingList />

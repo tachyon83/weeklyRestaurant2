@@ -12,7 +12,6 @@ const CookingList = () => {
   }, [])
 
   const handleList = useCallback((event) => {
-    console.log(event)
     if(event) {
       let children = event.target.parentElement.children;
       for(let i = 0; i < children.length; i++) {
