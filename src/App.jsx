@@ -14,7 +14,7 @@ const App = () => {
   const [isListPopup, setIsListPopup] = useState(false);
 
   return(
-    <Router>
+    <Router basename={'/weeklyRestaurant'}>
       <Navigation islogin={islogin} setIslogin={setIslogin} />
       <main>
         <div className="layoutWrap">

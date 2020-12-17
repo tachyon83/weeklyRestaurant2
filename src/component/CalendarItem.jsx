@@ -3,7 +3,6 @@ import React, {useCallback} from "react";
 const CalendarItem = (props) => {
     const { setIsDetailPopup, setIsListPopup, date, week, calendarData, setCalendarData } = props;
 
-    console.log(calendarData)
     const handleShowDetail = useCallback(() => {
         setIsDetailPopup(true)
     }, [setIsDetailPopup])

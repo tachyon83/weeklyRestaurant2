@@ -338,12 +338,13 @@ footer .layoutWrap {
 
 .LayoutPopup {
   width: 760px;
+  min-height: 677px;
   padding: 30px;
   background: #fff;
   -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
           box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
   position: absolute;
-  top: 120px;
+  top: 144px;
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
@@ -441,6 +442,7 @@ footer .layoutWrap {
   -o-object-fit: cover;
      object-fit: cover;
   vertical-align: top;
+  cursor: pointer;
 }
 
 .DishItem__desc {
@@ -469,6 +471,11 @@ footer .layoutWrap {
 
 .DishItem__button--add {
   color: #3a56cc;
+}
+
+.LayoutPopup .CookingDetail .CookingDetail__category + dd {
+  max-height: 122px;
+  overflow: auto;
 }
 
 .CookingDetail {
@@ -596,6 +603,7 @@ footer .layoutWrap {
   padding-top: 10px;
   border-top: 1px dashed #ebebeb;
   color: #666;
+  line-height: 20px;
 }
 
 .Ingredient__title {

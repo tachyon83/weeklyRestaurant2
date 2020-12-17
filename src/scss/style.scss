@@ -313,11 +313,12 @@ footer{
 
 .LayoutPopup{
     width: 760px;
+    min-height: 677px;
     padding: 30px;
     background: #fff;
     box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
     position: absolute;
-    top: 120px;
+    top: 144px;
     left: 50%;
     transform: translateX(-50%);
 
@@ -400,6 +401,7 @@ footer{
             height: 80px;
             object-fit: cover;
             vertical-align: top;
+            cursor: pointer;
         }
     }
 
@@ -423,6 +425,11 @@ footer{
             color: #3a56cc;
         }
     }
+}
+
+.LayoutPopup .CookingDetail .CookingDetail__category + dd{
+    max-height: 122px;
+    overflow: auto;
 }
 
 .CookingDetail{
@@ -528,6 +535,7 @@ footer{
     padding-top: 10px;
     border-top: 1px dashed #ebebeb;
     color: #666;
+    line-height: 20px;
 
     &__title{
         margin-right: auto;
