@@ -82,7 +82,7 @@ nav .layoutWrap {
       -ms-flex-align: center;
           align-items: center;
   height: 40px;
-  padding: 0 40px;
+  padding: 0 20px;
 }
 
 nav ul::after {
@@ -110,29 +110,25 @@ nav .login {
 }
 
 main {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 161px);
 }
 
 main .layoutWrap {
   overflow: auto;
-  padding-bottom: 70px;
+  padding-bottom: 25px;
+}
+
+footer {
+  height: 50px;
+  text-align: right;
+  color: #666;
+}
+
+footer .layoutWrap {
+  padding: 0 20px;
 }
 
 .Calendar {
-  margin-top: 50px;
-  padding: 30px;
-  border: 10px solid #000;
-  border-radius: 20px;
-  -webkit-box-shadow: inset 0px 0px 2px #333;
-          box-shadow: inset 0px 0px 2px #333;
-}
-
-.Calendar h2 {
-  font-size: 20px;
-  text-align: center;
-}
-
-.Calendar__outline {
   margin-top: 30px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -342,12 +338,13 @@ main .layoutWrap {
 
 .LayoutPopup {
   width: 760px;
+  min-height: 677px;
   padding: 30px;
   background: #fff;
   -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
           box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
   position: absolute;
-  top: 120px;
+  top: 144px;
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
@@ -370,11 +367,27 @@ main .layoutWrap {
   font-weight: 700;
 }
 
+.LineBox {
+  margin-top: 50px;
+  padding: 30px;
+  border: 10px solid #000;
+  border-radius: 20px;
+  -webkit-box-shadow: inset 0px 0px 2px #333;
+          box-shadow: inset 0px 0px 2px #333;
+  min-height: 731px;
+}
+
+.LineBox h2 {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
 .CookingList__tab {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-top: 20px;
+  margin-top: 30px;
   border-bottom: 1px solid #000;
 }
 
@@ -385,6 +398,7 @@ main .layoutWrap {
   padding: 0 15px;
   text-align: center;
   font-size: 15px;
+  cursor: pointer;
 }
 
 .CookingList__tabItem--active {
@@ -393,7 +407,7 @@ main .layoutWrap {
 }
 
 .CookingList__dishList {
-  height: 508px;
+  max-height: 508px;
   overflow: auto;
   margin-top: 20px;
   row-gap: 20px;
@@ -411,6 +425,9 @@ main .layoutWrap {
   display: -ms-flexbox;
   display: flex;
   width: calc(50% - 10px);
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   border: 1px solid #ebebeb;
   padding: 15px;
 }
@@ -425,6 +442,7 @@ main .layoutWrap {
   -o-object-fit: cover;
      object-fit: cover;
   vertical-align: top;
+  cursor: pointer;
 }
 
 .DishItem__desc {
@@ -435,6 +453,9 @@ main .layoutWrap {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   height: 100%;
   padding-left: 10px;
 }
@@ -452,12 +473,20 @@ main .layoutWrap {
   color: #3a56cc;
 }
 
+.LayoutPopup .CookingDetail .CookingDetail__category + dd {
+  max-height: 122px;
+  overflow: auto;
+}
+
+.CookingDetail {
+  margin-top: 30px;
+}
+
 .CookingDetail__top {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 20px;
-  margin-top: 20px;
 }
 
 .CookingDetail__thumb {
@@ -550,7 +579,7 @@ main .layoutWrap {
           column-gap: 20px;
   row-gap: 20px;
   margin-top: 20px;
-  height: 363px;
+  min-height: 363px;
 }
 
 .CookingDetail__ingredient dl {
@@ -571,9 +600,206 @@ main .layoutWrap {
   display: -ms-flexbox;
   display: flex;
   margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ebebeb;
+  color: #666;
+  line-height: 20px;
 }
 
 .Ingredient__title {
   margin-right: auto;
+}
+
+.Ingredient__count {
+  margin-left: 5px;
+}
+
+.Ingredient__unit {
+  margin-left: 5px;
+}
+
+.Ingredient__count, .Ingredient__unit {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.Ingredient:first-child, .Ingredient:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.Inventory {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 30px;
+  border: 1px solid #ebebeb;
+}
+
+.Inventory dl {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border-left: 1px solid #ebebeb;
+}
+
+.Inventory dl:first-of-type {
+  border-left: 0;
+}
+
+.Inventory__category {
+  padding: 20px;
+  background-color: #F8F8F8;
+  border-bottom: 1px solid #ebebeb;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.Inventory__ingredient {
+  padding: 10px 20px 30px;
+  height: 542px;
+  overflow: auto;
+}
+
+.CookingForm {
+  margin-top: 30px;
+}
+
+.CookingForm__top {
+  padding-bottom: 30px;
+  border-bottom: 1px dashed #ebebeb;
+}
+
+.CookingForm__category {
+  margin-top: 30px;
+}
+
+.CookingForm [class*="section"] {
+  line-height: 36px;
+}
+
+.CookingForm__section01 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.CookingForm__section02 {
+  width: 80px;
+}
+
+.CookingForm__section03 {
+  width: 80px;
+}
+
+.CookingForm__section04 {
+  min-width: 76px;
+}
+
+.CookingForm ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 30px;
+}
+
+.CookingForm ul li {
+  width: calc(50% - 15px);
+}
+
+.CookingForm dl {
+  margin-top: 10px;
+}
+
+.CookingForm dl:first-child {
+  margin-top: 0;
+}
+
+.CookingForm dl dt {
+  line-height: 36px;
+  color: #666;
+}
+
+.CookingForm dl dd {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed #ebebeb;
+}
+
+.CookingForm dl dd:first-of-type {
+  margin-top: 10px;
+  padding-top: 0;
+  border-top: none;
+}
+
+.CookingForm input,
+.CookingForm select {
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  vertical-align: top;
+}
+
+.CookingForm__buttonWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.CookingForm__more {
+  margin-top: 20px;
+}
+
+.CookingForm__optionButton {
+  display: block;
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 10px;
+  color: #fff;
+  font-size: 14px;
+  background-color: #bbb;
+}
+
+.CookingForm__optionButton--add {
+  background-color: transparent;
+  border: 1px solid #000;
+  color: #2b2b2b;
+}
+
+.CookingForm__button {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.CookingForm__button--submit {
+  background-color: #000;
+}
+
+.CookingForm__button--edit {
+  background-color: #3a56cc;
+}
+
+.CookingForm__button--remove {
+  background-color: #CF273D;
 }
 /*# sourceMappingURL=style.css.map */

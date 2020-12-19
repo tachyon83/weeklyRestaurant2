@@ -1,12 +1,17 @@
 import React, { useCallback } from "react";
+import axios from 'axios';
+const host = require("../host");
 
-const Login = (props) => {
-  const isLogin = props.isLogin;
+const Login = ({setIslogin}) => {
 
   const handleLogin = useCallback((event) => {
     event.preventDefault();
-    props.onLogin(props.isLogin);
-  }, [isLogin]);
+    setIslogin(true)
+    // axios.post(`${host.server}/member/login`).then((result) => {
+    //   console.log(result)
+    //   setIslogin(true)
+    // }).catch( error => { console.log('failed', error) })
+  }, [setIslogin]);
 
   return (
     <form className="Login">

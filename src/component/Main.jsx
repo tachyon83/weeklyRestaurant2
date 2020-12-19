@@ -1,23 +1,21 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Calendar from './Calendar';
-import CookingDetail from './CookingDetail';
-import CookingList from './CookingList';
+import CookingDetailPop from './CookingDetailPop';
+import CookingListPop from './CookingListPop';
 
 const Main = (props) => {
-  const {showList, showDetail} = props;
+  const { isDetailPopup, isListPopup, setIsDetailPopup, setIsListPopup } = props;
+  const [ popupCookingId, setPopupCookingId ] = useState();
 
   return (
     <>
       <Calendar 
-        onShowDetail={props.onShowDetail}
-        onShowList={props.onShowList}
-        onDeleteOnCalendar={props.onDeleteOnCalendar}
-        showDetail={showDetail}
-        showList={showList}
+        setIsDetailPopup={setIsDetailPopup}
+        setIsListPopup={setIsListPopup}
       />
 
-      {showDetail && <CookingDetail showDetail={showDetail} onCloseDetail={props.onCloseDetail} />}
-      {showList && <CookingList showList={showList} onCloseList={props.onCloseList} />}
+      {isDetailPopup && <CookingDetailPop setIsDetailPopup={setIsDetailPopup} popupCookingId={popupCookingId} />}
+      {isListPopup && <CookingListPop setIsListPopup={setIsListPopup} setIsDetailPopup={setIsDetailPopup} setPopupCookingId={setPopupCookingId} />}
     </>
   )
 };

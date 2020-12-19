@@ -2,13 +2,13 @@ import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 
 const Navigation = (props) => {
-  const islogin = props.islogin;
+  const {islogin, setIslogin} = props
 
   const handleLogout = useCallback(
     () => {
-      props.onLogout(props.islogin)
+      setIslogin(false)
     },
-    [islogin],
+    [setIslogin],
   )
 
   return (
@@ -23,8 +23,9 @@ const Navigation = (props) => {
           </Link>
         </h1>
         <ul>
-          {/* <li>요리 목록</li> */}
-          {/* <li>요리 재고</li> */}
+          <li><Link to="/cookingList">요리 목록</Link></li>
+          <li><Link to="/cookingForm">요리 추가</Link></li>
+          <li><Link to="/inventory">재고 현황</Link></li>
         </ul>
         {
           islogin
