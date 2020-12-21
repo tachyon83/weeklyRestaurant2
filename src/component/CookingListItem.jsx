@@ -11,11 +11,11 @@ const CookingListItem = (props) => {
 
     const handleCloseList = useCallback(
         () => {
-            setIsListPopup(false)
-            setIsDetailPopup(true)
-            setPopupCookingId(id)
+            setIsListPopup(prevState => false);
+            setIsDetailPopup(prevState => true);
+            setPopupCookingId(prevState => id);
         },
-        [setIsListPopup],
+        [],
     )
 
     return(
@@ -34,11 +34,6 @@ const CookingListItem = (props) => {
                         </Link>
                     )
                 }
-                {/* <Link to={`/cookingList/${id}`}>
-                    <img
-                        src={img}
-                    />
-                </Link> */}
             </div>
             <div className="DishItem__desc">
                 <div className="DishItem__title">{name}</div>

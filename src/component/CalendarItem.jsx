@@ -5,15 +5,15 @@ const CalendarItem = (props) => {
 
     const handleShowDetail = useCallback(() => {
         setIsDetailPopup(true)
-    }, [setIsDetailPopup])
+    })
 
-    // const handleDeleteOnCalendar = useCallback(() => {
-    //     console.log('test')
-    // }, [])
+    const handleDeleteOnCalendar = useCallback(() => {
+        setIsDetailPopup(false)
+    })
 
     const handleShowList = useCallback(() => {
         setIsListPopup(true)
-    }, [setIsListPopup])
+    })
 
     const weekCalc = (week) => {
         switch (week) {
@@ -51,7 +51,7 @@ const CalendarItem = (props) => {
                 <i className="fas fa-search"></i>
                 <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
                 <i className="far fa-trash-alt"></i>
                 <i className="ir">메뉴 삭제</i>
                 </button>
@@ -75,7 +75,7 @@ const CalendarItem = (props) => {
                 <i className="fas fa-search"></i>
                 <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
                 <i className="far fa-trash-alt"></i>
                 <i className="ir">메뉴 삭제</i>
                 </button>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import CalendarItem from './CalendarItem'
 
 const getWeek = (dowOffset) => {
@@ -48,8 +48,12 @@ const calendarCalc = () => {
 
 calendarCalc()
 
+console.log(calendarArr)
+
 const Calendar = (props) => {
   const { setIsDetailPopup, setIsListPopup } = props;
+  const [ calendarDateArr, setCalendarDataArr ] = useState(calendarArr)
+  let calendarDateArrChange = [];
 
   const [ calendarData, setCalendarData ] = useState({
     202050 : [
@@ -81,14 +85,36 @@ const Calendar = (props) => {
     ],
   })
 
-  
+  const prevCalendar = useCallback(()=>{
+    calendarArr.map((item, i)=>{
+      calendarDateArrChange[i] = item - 7;
+    })
+    setCalendarDataArr(calendarDateArrChange)
+  })
+
+  const nextCalendar = useCallback(()=>{
+    calendarArr.map((item, i)=>{
+      calendarDateArrChange[i] = item + 7;
+    })
+    setCalendarDataArr(calendarDateArrChange)
+    console.log(calendarDateArr, calendarDateArrChange)
+  })
 
   return(
   <div className="LineBox">
-    <h2>{todayMonth}월 주간 식단표</h2>
+    <div className="CalendarTitle">
+      <button onClick={prevCalendar}>
+        <i className="fas fa-chevron-left"></i>
+      </button>
+      <h2>{todayMonth}월 주간 식단표</h2>
+      <button onClick={nextCalendar}>
+        <i className="fas fa-chevron-right"></i>
+      </button>
+    </div>
+    
     <ul className="Calendar">
       {
-        calendarArr.map((item, i) =>{
+        calendarDateArr.map((item, i) =>{
           return (
           <CalendarItem 
             setIsDetailPopup={setIsDetailPopup} 

@@ -10,22 +10,16 @@ import CookingDetail from './component/CookingDetail';
 
 const App = () => {
   const [islogin, setIslogin] = useState(false);
-  const [isDetailPopup, setIsDetailPopup] = useState(false);
-  const [isListPopup, setIsListPopup] = useState(false);
 
   return(
-    <Router basename={'/weeklyRestaurant'}>
+    <Router basename={'/'}>
       <Navigation islogin={islogin} setIslogin={setIslogin} />
       <main>
         <div className="layoutWrap">
           <Switch>
             <Route exact path="/">
               <Main 
-                islogin={islogin} 
-                isDetailPopup={isDetailPopup}
-                isListPopup={isListPopup}
-                setIsDetailPopup={setIsDetailPopup}
-                setIsListPopup={setIsListPopup}
+                islogin={islogin}
               />
             </Route>
             <Route path="/login">

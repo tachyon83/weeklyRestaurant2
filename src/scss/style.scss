@@ -122,6 +122,16 @@ footer{
     }
 }
 
+.CalendarTitle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button{
+        font-size: 20px;
+    }
+}
+
 .Calendar{
     margin-top: 30px;
     display: flex;
