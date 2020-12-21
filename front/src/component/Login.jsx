@@ -28,7 +28,7 @@ const Login = ({setIslogin}) => {
     event.preventDefault();
     // setIslogin(true)
     console.log(loginValue)
-    // axios.post(`${host.server}/member/login`, loginValue, {withCredentials:true}).then((result) => {
+    // axios.post(`${host.server}/member/login`, loginValue).then((result) => {
     //   console.log(result)
     //   setIslogin(true)
     // }).catch( error => { console.log('failed', error) })

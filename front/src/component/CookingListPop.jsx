@@ -19,7 +19,7 @@ const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId}) =
           event.target.classList.add('CookingList__tabItem--active')
         } 
     
-        axios.get(`${host.server}/recipe/list?req=${event ? event.target.attributes.nation.value : `KOR`}`, {withCredentials:true}).then((result) => {
+        axios.get(`${host.server}/recipe/list?req=${event ? event.target.attributes.nation.value : `KOR`}`).then((result) => {
           setCookingList(result.data)
         }).catch( error => { console.log('failed', error) });
       }, []);

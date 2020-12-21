@@ -21,7 +21,7 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
     }, [])
 
     const handleDetail = useCallback(() => {
-        axios.get(`${host.server}/recipe/${popupCookingId}`, {withCredentials:true}).then((result) => {
+        axios.get(`${host.server}/recipe/${popupCookingId}`).then((result) => {
             setCookingDetail(result.data);
         }).catch(error => { console.log('failed', error) });
     }, []);

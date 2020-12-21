@@ -7,7 +7,7 @@ const Inventory = () => {
   const [ingredient, setIngredient] = useState(null);
 
   useEffect(()=>{
-    axios.get(`${host.server}/storage/check`, {withCredentials:true}).then((result) => {
+    axios.get(`${host.server}/storage/check`).then((result) => {
       setIngredient(result.data);
     }).catch( error => { console.log('failed', error) });
   }, [])

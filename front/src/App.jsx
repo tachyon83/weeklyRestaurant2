@@ -17,6 +17,7 @@ const App = () => {
       <main>
         <div className="layoutWrap">
           <Switch>
+            <Redirect from="/weeklyRestaurant" to="/" />
             <Route exact path="/">
               <Main 
                 islogin={islogin}
