@@ -16,7 +16,7 @@ const CookingDetail = () => {
     }, [])
 
     const handleDetail = useCallback(() => {
-    axios.get(`${host.server}/recipe/${cookingId}`).then((result) => {
+    axios.get(`${host.server}/recipe/${cookingId}`, {withCredentials:true}).then((result) => {
         console.log(result)
         setCookingDetail(result.data);
     }).catch( error => { console.log('failed', error) });
