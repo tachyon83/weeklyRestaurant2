@@ -670,12 +670,103 @@ footer .layoutWrap {
   text-align: center;
   font-size: 16px;
   font-weight: 500;
+  position: relative;
 }
 
 .Inventory__ingredient {
   padding: 10px 20px 30px;
   height: 542px;
   overflow: auto;
+}
+
+.Inventory__addButton {
+  color: #3a56cc;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.InventoryPopup {
+  z-index: 10;
+  width: 380px;
+  padding: 30px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.InventoryPopup__title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.InventoryPopup__close {
+  margin-left: auto;
+  line-height: 1;
+  font-size: 18px;
+}
+
+.InventoryPopup__wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.InventoryPopup__name {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.InventoryPopup__amount, .InventoryPopup__unit {
+  width: 76px;
+}
+
+.InventoryPopup input {
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  vertical-align: top;
+}
+
+.InventoryPopup__buttonArea {
+  margin-top: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+}
+
+.InventoryPopup__button {
+  display: inline-block;
+  padding: 0 10px;
+  height: 36px;
+  line-height: 36px;
+  color: #fff;
+}
+
+.InventoryPopup__button--add {
+  background-color: #3a56cc;
 }
 
 .CookingForm {

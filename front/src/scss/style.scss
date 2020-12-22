@@ -592,12 +592,89 @@ footer{
         text-align: center;
         font-size: 16px;
         font-weight: 500;
+        position: relative;
     }
 
     &__ingredient{
         padding: 10px 20px 30px; 
         height: 542px;
         overflow: auto;
+    }
+
+    &__addButton{
+        color: #3a56cc;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.InventoryPopup{
+    z-index: 10;
+    width: 380px;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    &__title{
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    &__close{
+        margin-left: auto;
+        line-height: 1;
+        font-size: 18px;
+    }
+
+    &__wrap{
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    &__name{
+        flex: 1;
+    }
+
+    &__amount,
+    &__unit{
+        width: 76px;
+    }
+
+    input{
+        width: 100%;
+        height: 36px;
+        line-height: 36px;
+        border: 1px solid #ccc;
+        padding: 0 10px;
+        vertical-align: top;
+    }
+
+    &__buttonArea{
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    &__button{
+        display: inline-block;
+        padding: 0 10px;
+        height: 36px;
+        line-height: 36px;
+        color: #fff;
+
+        &--add{
+            background-color: #3a56cc;
+        }
     }
 }
 

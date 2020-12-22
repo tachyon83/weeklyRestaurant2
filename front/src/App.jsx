@@ -4,7 +4,6 @@ import Main from './component/Main';
 import Login from './component/Login';
 import Navigation from './component/Navigation';
 import Inventory from './component/Inventory';
-import InventoryEdit from './component/InventoryEdit';
 import CookingForm from './component/CookingForm';
 import CookingList from './component/CookingList';
 import CookingDetail from './component/CookingDetail';
@@ -41,9 +40,6 @@ const App = () => {
             </Route>
             <Route path="/inventory">
               <Inventory />
-            </Route>
-            <Route path="/inventoryEdit">
-              <InventoryEdit />
             </Route>
           </Switch>
         </div>
