@@ -1,66 +1,31 @@
-// const url = require('url');
-// const path = require('path');
-// const static = require('serve-static');
 const http = require('http');
 const express = require('express');
 const session = require('express-session');
+// const cookieParser = require('cookie-parser')
 const passport = require('passport');
-const passportConfig = require('./passportLocal');
-const bodyParser = require('body-parser')
+const webSettings = require('./configs/webSettings')
 // important: this [cors] must come before Router
 const cors = require('cors');
 const router = express.Router();
 const recipeDao = new (require('./models/RecipesDummyDao'))
+
 const app = express();
-// var socketio = require('socket.io')
-
-// const sessionSetting = (session({
-//     secret: 'secret secretary',
-//     resave: false,
-//     saveUninitialized: false,
-//     host: 'localhost',
-//     port: 3002,
-// }))
-// app.use(sessionSetting)
-app.use(session({ secret: "secret key" }))
-
-// app.use('/', static(__dirname + '/html/'));
-// app.use('/', static(__dirname + '/public'));
-app.set('port', process.env.PORT || 3001);
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+app.use(express.json())
+app.use(session(webSettings.sessionSettings))
+app.use(cors(webSettings.corsSettings))
+// app.use(cookieParser())
 app.use(passport.initialize());
 app.use(passport.session());
-passportConfig();
 
-// app.post('/member/login', (req, res, next) => {
-//     console.log('came in')
-//     passport.authenticate('local', (err, user, info) => {
-//         if (err) { res.json({ result: err }) }
-//         if (!user) { res.json({ result: false }) }
-//         req.session.save(() => {
-//             console.log('success')
-//             res.json({ result: true })
-//         })
-//     })
-//     next()
-// })
+app.set('port', process.env.PORT || 3002);
 
-router.post('/member/login', passport.authenticate('local', {
-    failureRedirect: '/member/login',
-    // failureFlash: true,
-}), (req, res) => {
-    req.session.save(function () {
-        // console.log(req.user)
-        res.json({ result: true })
-    })
-})
+const sessionCheck = (req, res, next) => {
+    console.log(req.session.id)
+    next()
+}
+app.use(sessionCheck)
 
-// app.get('/', function (req, res) {
-//     // res.sendFile(path.join(__dirname + '/html/chat.html'));
-//     res.sendFile(__dirname + '/public/index.html');
-// })
+app.use('/member', require('./routes/member'))
 
 // '/recipe/:command' => by params => differentiated in recipeDao
 router.route('/recipe/list').get((req, res) => {
@@ -140,6 +105,24 @@ router.route('/storage/check').get((req, res) => {
         res.json(result);
     })
 })
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+    let err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    res.status(err.status || 500);
+    console.log('reached the end...404 or 500')
+    // res.render('error');
+});
 
 app.use('/', router);
 const server = http.createServer(app);
