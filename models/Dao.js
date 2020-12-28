@@ -27,7 +27,7 @@ class Dao {
                 conn.query(sql, (err, rows, fields) => {
                     conn.release();
                     if (err) {
-                        console.log('err in query', err)
+                        // console.log('err in query', err)
                         return reject(err)
                     }
                     // console.log('db process result', rows)
@@ -37,7 +37,7 @@ class Dao {
             })
 
             // below is not possible
-            // seems that getConnection() does not behave like promise?
+            // seems that getConnection() does not behave like promise
             // const conn = await dbPool.getConnection().catch(err => {
             //     if (conn) conn.release()
             //     return reject(err)
@@ -62,6 +62,28 @@ class Dao {
     }
     getMemberByUsername = username => {
         return this.sqlHandler(sqls.sql_getMemberByUsername, username, 1)
+    }
+    getRecipeByIds = (id, memberId) => {
+        let info = [
+            id, memberId
+        ]
+        return this.sqlHandler(sqls.sql_getRecipeByIds, info, 1)
+    }
+    getIngredientById = id => {
+        return this.sqlHandler(sqls.sql_getIngredientById, id, 1)
+    }
+
+    getMaterialById = (tableName, id) => {
+        let info = [
+            tableName, id
+        ]
+        return this.sqlHandler(sqls.sql_getMaterialById, info, 1)
+    }
+    getUnit = unitTableName => {
+        return this.sqlHandler(sqls.sql_getUnit, unitTableName, 1)
+    }
+    getColumnNames = unitTableName => {
+        return this.sqlHandler(sqls.sql_getColumnNames, unitTableName)
     }
 
 }

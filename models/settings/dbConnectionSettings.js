@@ -9,7 +9,16 @@ module.exports = {
     password: process.env.CLEARDB_PASSWORD || '1234',
     database: process.env.CLEARDB_DATABASE || 'fooddb',
     table_member: 'member',
-
+    table_recipe: 'recipe',
+    table_ingredient: 'ingredient',
+    table_meat: 'meat',
+    table_fish: 'fish',
+    table_misc: 'misc',
+    table_sauce: 'sauce',
+    table_meat_unit: 'meat_unit',
+    table_fish_unit: 'fish_unit',
+    table_misc_unit: 'misc_unit',
+    table_sauce_unit: 'sauce_unit',
 
     connectionLimit: 100,
 }

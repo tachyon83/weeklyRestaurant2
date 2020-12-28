@@ -29,37 +29,246 @@ let sql_createTable_member =
         primary key(id)
     );`
 
-let sql_createTable_semester =
-    `create table if not exists
-    ${dbSetting.table_semester}(
+let sql_createTable_recipe =
+    `create table if not exists 
+    ${dbSetting.table_recipe}(
         id int not null auto_increment,
-        userid int not null,
-        year int not null,
-        season int not null,
+        name varchar(20) not null unique,
+        style varchar(5),
+        img varchar(400),
+        memberId int not null,
         primary key(id),
-        foreign key(userid)
-        references ${dbSetting.table_user}(id)
-        on update cascade
+        foreign key(memberId) 
+        references ${dbSetting.table_member}(id) 
+        on update cascade 
         on delete cascade
     );`
 
-let sql_createTable_course =
-    `create table if not exists
-    ${dbSetting.table_course}(
-        id int not null auto_increment,
-        semesterid int not null,
-        name varchar(30) not null,
-        units decimal(5,2),
-        grade varchar(5),
-        include tinyint(1),
-        primary key(id),
-        foreign key(semesterid)
-        references ${dbSetting.table_semester}(id)
-        on update cascade
+let sql_createTable_ingredient =
+    `create table if not exists 
+    ${dbSetting.table_ingredient}(
+        recipeId int not null,
+        meatId int,
+        fishId int,
+        miscId int,
+        sauceId int,
+        primary key(recipeId),
+        foreign key(meatId) 
+        references ${dbSetting.table_meat}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(fishId) 
+        references ${dbSetting.table_fish}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(miscId) 
+        references ${dbSetting.table_misc}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(sauceId) 
+        references ${dbSetting.table_sauce}(id) 
+        on update cascade 
         on delete cascade
     );`
 
-let sqls2 = sql_createTable_member
+let sql_createTable_meat =
+    `create table if not exists 
+    ${dbSetting.table_meat}(
+        id int not null auto_increment,
+        name varchar(20),
+        닭고기 decimal(5,2),
+        소고기 decimal(5,2),
+        돼지고기 decimal(5,2),
+        순대 decimal(5,2),
+        primary key(id)
+    );`
+
+let sql_createTable_fish =
+    `create table if not exists 
+    ${dbSetting.table_fish}(
+        id int not null auto_increment,
+        name varchar(20),
+        멸치 decimal(5,2),
+        새우 decimal(5,2),
+        조개 decimal(5,2),
+        오징어 decimal(5,2),
+        primary key(id)
+    );`
+
+let sql_createTable_misc =
+    `create table if not exists 
+    ${dbSetting.table_misc}(
+        id int not null auto_increment,
+        name varchar(20),
+        감자 decimal(5,2),
+        양파 decimal(5,2),
+        당근 decimal(5,2),
+        버섯 decimal(5,2),
+        대파 decimal(5,2),
+        마늘 decimal(5,2),
+        면 decimal(5,2),
+        국수 decimal(5,2),
+        청양고추 decimal(5,2),
+        고추 decimal(5,2),
+        애호박 decimal(5,2),
+        참깨 decimal(5,2),
+        김 decimal(5,2),
+        밥 decimal(5,2),
+        콩나물 decimal(5,2),
+        두부 decimal(5,2),
+        달걀 decimal(5,2),
+        양배추 decimal(5,2),
+        오이 decimal(5,2),
+        죽순 decimal(5,2),
+        파프리카 decimal(5,2),
+        청경채 decimal(5,2),
+        빵가루 decimal(5,2),
+        우유 decimal(5,2),
+        primary key(id)
+    );`
+
+let sql_createTable_sauce =
+    `create table if not exists 
+    ${dbSetting.table_sauce}(
+        id int not null auto_increment,
+        name varchar(20),
+        간장 decimal(5,2),
+        고추장 decimal(5,2),
+        고춧가루 decimal(5,2),
+        설탕 decimal(5,2),
+        소금 decimal(5,2),
+        후추 decimal(5,2),
+        식초 decimal(5,2),
+        다진마늘 decimal(5,2),
+        청주 decimal(5,2),
+        참기름 decimal(5,2),
+        새우젓 decimal(5,2),
+        춘장 decimal(5,2),
+        primary key(id)
+    );`
+
+let sql_createTable_meat_unit =
+    `create table if not exists 
+    ${dbSetting.table_meat_unit}(
+        닭고기 varchar(5),
+        소고기 varchar(5),
+        돼지고기 varchar(5),
+        순대 varchar(5)
+    );`
+
+let sql_createTable_fish_unit =
+    `create table if not exists 
+    ${dbSetting.table_fish_unit}(
+        멸치 varchar(5),
+        새우 varchar(5),
+        조개 varchar(5),
+        오징어 varchar(5)
+    );`
+
+let sql_createTable_misc_unit =
+    `create table if not exists 
+    ${dbSetting.table_misc_unit}(
+        감자 varchar(5),
+        양파 varchar(5),
+        당근 varchar(5),
+        버섯 varchar(5),
+        대파 varchar(5),
+        마늘 varchar(5),
+        면 varchar(5),
+        국수 varchar(5),
+        청양고추 varchar(5),
+        고추 varchar(5),
+        애호박 varchar(5),
+        참깨 varchar(5),
+        김 varchar(5),
+        밥 varchar(5),
+        콩나물 varchar(5),
+        두부 varchar(5),
+        달걀 varchar(5),
+        양배추 varchar(5),
+        오이 varchar(5),
+        죽순 varchar(5),
+        파프리카 varchar(5),
+        청경채 varchar(5),
+        빵가루 varchar(5),
+        우유 varchar(5)
+    );`
+
+let sql_createTable_sauce_unit =
+    `create table if not exists 
+    ${dbSetting.table_sauce_unit}(
+        간장 varchar(5),
+        고추장 varchar(5),
+        고춧가루 varchar(5),
+        설탕 varchar(5),
+        소금 varchar(5),
+        후추 varchar(5),
+        식초 varchar(5),
+        다진마늘 varchar(5),
+        청주 varchar(5),
+        참기름 varchar(5),
+        새우젓 varchar(5),
+        춘장 varchar(5)
+    );`
+
+let sql_insert_meat_unit =
+    `insert into ${dbSetting.table_meat_unit} 
+    values ('마리','kg','kg','컵');`
+
+let sql_insert_fish_unit =
+    `insert into ${dbSetting.table_fish_unit} 
+    values ('마리','마리','g','마리');`
+
+let sql_insert_misc_unit =
+    `insert into ${dbSetting.table_misc_unit} 
+    values('개','개','개','개','단','개','인분','인분','개','개','개',
+    'g','g','g','g','g','개','개','개','뿌리','개','개','g','ml');`
+
+let sql_insert_sauce_unit =
+    `insert into ${dbSetting.table_sauce_unit} 
+    values('스푼','스푼','스푼','스푼','스푼','스푼','스푼','스푼',
+    '스푼','스푼','스푼','컵');`
+
+
+
+// dummy data insertion
+
+let sql_insert_meat1 =
+    `insert into ${dbSetting.table_meat}(닭고기) 
+    values (1);`
+
+let sql_insert_meat2 =
+    `insert into ${dbSetting.table_meat}(닭고기) 
+    values(1.5);`
+
+let sql_insert_misc1 =
+    `insert into ${dbSetting.table_misc}(감자,양파,당근,버섯,대파,마늘,면,국수,청양고추) 
+    values (2, 0.5, 0.3, 0.5, 1, 0, 0, 0, 2);`
+
+let sql_insert_sauce1 =
+    `insert into ${dbSetting.table_sauce}(간장,고추장,고춧가루,설탕,소금,후추,식초,다진마늘) 
+    values (1.5, 0, 1, 3, 0, 0, 0, 2);`
+
+let sql_insert_recipe1 =
+    `insert into ${dbSetting.table_recipe}(name,style,img,memberId) 
+    values ('닭볶음탕','kor','https',1);`
+
+let sql_insert_ingredient1 =
+    `insert into ${dbSetting.table_ingredient}(recipeId,meatId,miscId,sauceId) 
+    values(1,1,1,1);`
+
+let sqls2 = sql_createTable_member + sql_createTable_meat
+    + sql_createTable_fish + sql_createTable_misc
+    + sql_createTable_sauce + sql_createTable_meat_unit
+    + sql_createTable_fish_unit + sql_createTable_misc_unit
+    + sql_createTable_sauce_unit + sql_insert_meat_unit
+    + sql_insert_fish_unit + sql_insert_misc_unit
+    + sql_insert_sauce_unit + sql_createTable_recipe
+    + sql_createTable_ingredient + sql_insert_meat1
+    + sql_insert_meat2 + sql_insert_misc1
+    + sql_insert_sauce1 + sql_insert_recipe1
+    + sql_insert_ingredient1
+
 
 let sql_register =
     `insert into ${dbSetting.table_member}
@@ -67,9 +276,60 @@ let sql_register =
     values(?,?,?);`
 
 let sql_getMemberByUsername =
-    `select username,password 
+    `select id,username,password 
     from ${dbSetting.table_member} 
     where username=?;`
+
+let sql_getUnit =
+    `select * from ??;`
+// let sql_getFishUnit =
+//     `select * from ${dbSetting.table_fish_unit};`
+// let sql_getMiscUnit =
+//     `select * from ${dbSetting.table_misc_unit};`
+// let sql_getSauceUnit =
+//     `select * from ${dbSetting.table_sauce_unit};`
+
+let sql_getMaterialById =
+    `select * from ?? where id=?;`
+// let sql_getMeatById =
+//     `select * from ${dbSetting.table_meat} where id=?;`
+// let sql_getFishById =
+//     `select * from ${dbSetting.table_fish} where id=?;`
+// let sql_getMiscById =
+//     `select * from ${dbSetting.table_misc} where id=?;`
+// let sql_getSauceById =
+//     `select * from ${dbSetting.table_sauce} where id=?;`
+
+let sql_getColumnNames =
+    `select column_name from information_schema.columns 
+    where table_name=?;`
+
+// let sql_getMeatColumnNames =
+//     `select column_name from information_schema.columns 
+//     where table_name='${dbSetting.table_meat_unit}';`
+
+// let sql_getFishColumnNames =
+//     `select column_name from information_schema.columns 
+//     where table_name='${dbSetting.table_fish_unit}';`
+
+// let sql_getMiscColumnNames =
+//     `select column_name from information_schema.columns 
+//     where table_name='${dbSetting.table_misc_unit}';`
+
+// let sql_getSauceColumnNames =
+//     `select column_name from information_schema.columns 
+//     where table_name='${dbSetting.table_sauce_unit}';`
+
+let sql_getIngredientById =
+    `select meatId,fishId,miscId,sauceId 
+    from ${dbSetting.table_ingredient} 
+    where recipeId=?;`
+
+let sql_getRecipeByIds =
+    `select id,name,style,img from ${dbSetting.table_recipe} 
+    where id=? and memberId=?;`
+
+
 
 module.exports = {
     initialSetup: sqls1,
@@ -78,5 +338,22 @@ module.exports = {
 
     sql_register,
     sql_getMemberByUsername,
+    // sql_getMeatById,
+    // sql_getMeatColumnNames,
+    // sql_getMeatUnit,
+    // sql_getFishById,
+    // sql_getFishColumnNames,
+    // sql_getFishUnit,
+    // sql_getMiscById,
+    // sql_getMiscColumnNames,
+    // sql_getMiscUnit,
+    // sql_getSauceById,
+    // sql_getSauceColumnNames,
+    // sql_getSauceUnit,
+    sql_getUnit,
+    sql_getMaterialById,
+    sql_getColumnNames,
+    sql_getIngredientById,
+    sql_getRecipeByIds,
 
 }

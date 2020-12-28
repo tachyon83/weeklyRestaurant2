@@ -1,6 +1,7 @@
 const resCode = require('../configs/responseCode')
 const resHandler = require('../utils/responseHandler')
 const errHandler = require('../utils/errorHandler')
+const auth = require('../utils/auth')
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
@@ -11,6 +12,7 @@ const saltRounds = 10
 passportConfig()
 
 
+// need to worry about the fact that anyone can check if a certain ID exists.
 router.get('/check/:username', (req, res) => {
     dao.getMemberByUsername(req.params.username)
         .then(member => {
@@ -48,11 +50,14 @@ router.post('/', (req, res) => {
             return Promise.resolve(req.body)
         })
         .then(dao.register)
-        .then(result => resHandler(req, res, true, resCode.success, null))
+        .then(result => {
+            if (result) return resHandler(req, res, true, resCode.success, null)
+            return resHandler(req, res, false, resCode.error, null)
+        })
         .catch(err => errHandler(req, res, err, 'routes>member', '/', 'dao.register'))
 })
 
-router.get('/logout', (req, res) => {
+router.get('/logout', auth, (req, res) => {
     req.session.destroy(err => {
         if (err) return errHandler(req, res, err, 'routes>member', '/logout', 'sesion.destroy')
         return resHandler(req, res, true, resCode.success, null)

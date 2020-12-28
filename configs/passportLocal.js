@@ -8,6 +8,9 @@ const dao = require('../models/Dao')
 const bcrypt = require('bcrypt')
 
 module.exports = () => {
+
+    // key='user' in passport
+
     passport.serializeUser((member, done) => {
         done(null, member.username);
     })

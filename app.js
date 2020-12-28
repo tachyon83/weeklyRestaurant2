@@ -3,6 +3,8 @@ const express = require('express');
 const session = require('express-session');
 // const cookieParser = require('cookie-parser')
 const passport = require('passport');
+const morgan = require('morgan')
+const auth = require('./utils/auth')
 const webSettings = require('./configs/webSettings')
 // important: this [cors] must come before Router
 const cors = require('cors');
@@ -26,6 +28,7 @@ const sessionCheck = (req, res, next) => {
 app.use(sessionCheck)
 
 app.use('/member', require('./routes/member'))
+app.use('/recipe', auth, require('./routes/recipe'))
 
 // '/recipe/:command' => by params => differentiated in recipeDao
 router.route('/recipe/list').get((req, res) => {
