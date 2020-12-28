@@ -14,53 +14,50 @@ router.get('/:id', (req, res) => {
         const materialInfo = await dao.getMaterialById(tableName, id)
             // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'materialHandler', 'dao.getMaterialById'))
             .catch(err => { throw (err) })
-        // const units = await dao.getUnit(unitTableName)
-        //     // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'materialHandler', 'dao.getUnit'))
-        //     .catch(err => { throw (err) })
-        // const colNames = await dao.getColumnNames(unitTableName)
-        //     // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'materialHandler', 'dao.getColumnNames'))
-        //     .catch(err => { throw (err) })
+        const units = await dao.getUnit(unitTableName)
+            //     // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'materialHandler', 'dao.getUnit'))
+            .catch(err => { throw (err) })
+        const colNames = await dao.getColumnNames(unitTableName)
+            //     // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'materialHandler', 'dao.getColumnNames'))
+            .catch(err => { throw (err) })
 
-        return Promise.all(c.ingredientTableNames.map(async name => {
-            if (!materialInfo) return null
-            console.log('materialInfo', materialInfo)
-            const units = await dao.getUnit(unitTableName)
-                // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'materialHandler', 'dao.getUnit'))
-                .catch(err => { throw (err) })
-            const colNames = await dao.getColumnNames(unitTableName)
-                // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'materialHandler', 'dao.getColumnNames'))
-                .catch(err => { throw (err) })
-
-            let result = {
-                id: materialInfo.id,
-                name: materialInfo.name,
-            }
-            colNames.map(colName => {
+        let result = {}
+        if (materialInfo) {
+            result.id = materialInfo.id
+            result.name = materialInfo.name
+            colNames.map(cname => {
+                const colName = cname.COLUMN_NAME
                 if (materialInfo[colName]) {
                     result[colName] = {
                         amount: materialInfo[colName],
-                        units: units[colName],
+                        units: units[colName]
                     }
-                    console.log(result)
                 }
             })
-            return result
-        }))
+        }
+        return Promise.resolve(result)
     }
 
     const ingredientsIdFinder = async result => {
         let ingIds = await dao.getIngredientById(result.id)
             .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'ingredientsHandler'))
 
-        const materials = c.ingredientTableNames.map(async (name, i) => await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i]))
+        // Promise.all(c.ingredientTableNames.map(async (name, i) => await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])))
+        // .then(ingInfos=>{
+
+        // })
+        // const materials = await c.ingredientTableNames.map(async (name, i) => await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i]))
         // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'ingredientsHandler', 'materialHandler'))
         // return Promise.all(c.ingredientTableNames.map(async (name, i) =>
         //     await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
         // ))
-        c.ingredientTableNames.map((name, i) => {
-            result[name] = materials[i]
+        return Promise.all(c.ingredientTableNames.map(async (name, i) => {
+            // console.log(name)
+            result[name] = await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
+            // console.log(result)
+        })).then(() => {
+            return Promise.resolve(result)
         })
-        return Promise.resolve(result)
     }
 
     // const resultHandler = result => {
