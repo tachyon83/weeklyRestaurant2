@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import CalendarItem from './CalendarItem'
 
 const getWeek = (dowOffset) => {
@@ -26,13 +26,15 @@ const getWeek = (dowOffset) => {
 };
 
 const date = new Date();
-const todayYear = date.getFullYear();
-const todayMonth = date.getMonth() + 1;
-const todayDate = date.getDate();
-const todayDay = date.getDay();
-const todayWeek = getWeek();
+const todayYear = date.getFullYear(); // 년
+const todayMonth = date.getMonth() + 1; // 월
+const todayDate = date.getDate(); // 날짜
+const todayDay = date.getDay(); // 요일
+const todayWeek = getWeek(); // 몇주차
+
+const lastDay = new Date(todayYear, todayMonth, 0).getDate();
 const todayYearAndDay = Number(`${todayYear}${todayWeek}`);
-console.log(todayYear, todayMonth, todayDate, todayDay, todayWeek, todayYearAndDay)
+console.log(date, todayYear, todayMonth, todayDate, todayDay, todayWeek, todayYearAndDay, lastDay)
 
 const calendarArr = [];
 
@@ -41,7 +43,11 @@ const calendarCalc = () => {
     if(todayDay > i) {
       calendarArr.push(todayDate - todayDay + i)
     } else {
-      calendarArr.push(todayDate + i - 1)
+      if(todayDate - todayDay + i > lastDay){
+        calendarArr.push(i);
+      } else {
+        calendarArr.push(todayDate - todayDay + i);
+      }
     }
   }
 }
@@ -50,6 +56,8 @@ calendarCalc()
 
 const Calendar = (props) => {
   const { setIsDetailPopup, setIsListPopup } = props;
+  const [ calendarDateArr, setCalendarDataArr ] = useState(calendarArr)
+  let calendarDateArrChange = [];
 
   const [ calendarData, setCalendarData ] = useState({
     202050 : [
@@ -81,14 +89,36 @@ const Calendar = (props) => {
     ],
   })
 
-  
+  const prevCalendar = useCallback(()=>{
+    calendarArr.map((item, i)=>{
+      calendarDateArrChange[i] = item - 7;
+    })
+    setCalendarDataArr(calendarDateArrChange)
+  })
+
+  const nextCalendar = useCallback(()=>{
+    calendarArr.map((item, i)=>{
+      calendarDateArrChange[i] = item + 7;
+    })
+    setCalendarDataArr(calendarDateArrChange)
+    console.log(calendarDateArr, calendarDateArrChange)
+  })
 
   return(
   <div className="LineBox">
-    <h2>{todayMonth}월 주간 식단표</h2>
+    <div className="CalendarTitle">
+      <button onClick={prevCalendar}>
+        <i className="fas fa-chevron-left"></i>
+      </button>
+      <h2>{todayMonth}월 주간 식단표</h2>
+      <button onClick={nextCalendar}>
+        <i className="fas fa-chevron-right"></i>
+      </button>
+    </div>
+    
     <ul className="Calendar">
       {
-        calendarArr.map((item, i) =>{
+        calendarDateArr.map((item, i) =>{
           return (
           <CalendarItem 
             setIsDetailPopup={setIsDetailPopup} 
@@ -96,7 +126,7 @@ const Calendar = (props) => {
             date={item} 
             week={i} 
             key={i}
-            calendarData={calendarData[todayYearAndDay][i]}
+            // calendarData={calendarData[todayYearAndDay][i]}
             setCalendarData={setCalendarData}
           />
           )

@@ -1,36 +1,26 @@
 import React, {useCallback} from "react";
 
+const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
+
 const CalendarItem = (props) => {
     const { setIsDetailPopup, setIsListPopup, date, week, calendarData, setCalendarData } = props;
 
     const handleShowDetail = useCallback(() => {
         setIsDetailPopup(true)
-    }, [setIsDetailPopup])
+    })
 
-    // const handleDeleteOnCalendar = useCallback(() => {
-    //     console.log('test')
-    // }, [])
+    const handleDeleteOnCalendar = useCallback(() => {
+        setIsDetailPopup(false)
+    })
 
     const handleShowList = useCallback(() => {
         setIsListPopup(true)
-    }, [setIsListPopup])
-
-    const weekCalc = (week) => {
-        switch (week) {
-            case 0 : return '일'
-            case 1 : return '월'
-            case 2 : return '화'
-            case 3 : return '수'
-            case 4 : return '목'
-            case 5 : return '금'
-            case 6 : return '토'
-        }
-    }
+    })
     
   return (
     <li className="Calendar__item">
         <div className="Calendar__day">
-        <span>{weekCalc(week)}</span>
+        <span>{weekArr[week]}</span>
         <b>{date}</b>
         </div>
         <div className="Calendar__menu">
@@ -51,7 +41,7 @@ const CalendarItem = (props) => {
                 <i className="fas fa-search"></i>
                 <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
                 <i className="far fa-trash-alt"></i>
                 <i className="ir">메뉴 삭제</i>
                 </button>
@@ -75,7 +65,7 @@ const CalendarItem = (props) => {
                 <i className="fas fa-search"></i>
                 <i className="ir">상세 보기</i>
                 </button>
-                <button className="CalendarMenu__button CalendarMenu__button--delete">
+                <button className="CalendarMenu__button CalendarMenu__button--delete" onClick={handleDeleteOnCalendar}>
                 <i className="far fa-trash-alt"></i>
                 <i className="ir">메뉴 삭제</i>
                 </button>

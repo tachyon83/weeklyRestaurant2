@@ -4,15 +4,17 @@ import InventoryItem from './InventoryItem'
 const host = require("../host");
 
 
-const CookingDetailPop = ({ setIsDetailPopup, popupCookingId }) => {
+const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
     const handleCloseDetail = useCallback(
         () => {
             setIsDetailPopup(false)
         },
-        [setIsDetailPopup],
+        [],
     )
 
     const [cookingDetail, setCookingDetail] = useState()
+
+    console.log(cookingDetail, popupCookingId)
 
     useEffect(() => {
         handleDetail()
