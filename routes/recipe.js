@@ -25,47 +25,32 @@ router.get('/:id', (req, res) => {
         if (materialInfo) {
             result.id = materialInfo.id
             result.name = materialInfo.name
-            colNames.map(cname => {
+            result.contents = (colNames.filter(cname => {
                 const colName = cname.COLUMN_NAME
-                if (materialInfo[colName]) {
-                    result[colName] = {
+                if (materialInfo[colName] > 0) return true
+            }).map(cname => {
+                const colName = cname.COLUMN_NAME
+                return {
+                    [colName]: {
                         amount: materialInfo[colName],
                         units: units[colName]
                     }
                 }
-            })
+            }))
         }
-        return Promise.resolve(result)
+        return Promise.resolve({ [tableName]: result })
     }
 
     const ingredientsIdFinder = async result => {
         let ingIds = await dao.getIngredientById(result.id)
             .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'ingredientsHandler'))
 
-        // Promise.all(c.ingredientTableNames.map(async (name, i) => await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])))
-        // .then(ingInfos=>{
-
-        // })
-        // const materials = await c.ingredientTableNames.map(async (name, i) => await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i]))
-        // .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id', 'ingredientsHandler', 'materialHandler'))
-        // return Promise.all(c.ingredientTableNames.map(async (name, i) =>
-        //     await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
-        // ))
-        return Promise.all(c.ingredientTableNames.map(async (name, i) => {
-            // console.log(name)
-            result[name] = await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
-            // console.log(result)
-        })).then(() => {
-            return Promise.resolve(result)
-        })
+        return Promise.all(c.ingredientTableNames.map(async (name, i) => await materialHandler(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])))
+            .then(ingInfo => {
+                result.contents = ingInfo
+                return Promise.resolve(result)
+            })
     }
-
-    // const resultHandler = result => {
-    //     c.ingredientTableNames.map((name, i) => {
-    //         result[name] = material[i]
-    //     })
-    //     return Promise.resolve(result)
-    // }
 
     dao.getMemberByUsername(req.session.passport.user)
         .then(member => {
@@ -77,9 +62,8 @@ router.get('/:id', (req, res) => {
             return Promise.resolve(result)
         })
         .then(ingredientsIdFinder)
-        // .then(resultHandler)
         .then(result => {
-            console.log('final', result)
+            // console.log('final', result)
             resHandler(req, res, true, resCode.success, result)
         })
         .catch(err => errHandler(req, res, err, 'routes>recipe', '/recipe/:id'))
