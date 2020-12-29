@@ -26,13 +26,15 @@ const getWeek = (dowOffset) => {
 };
 
 const date = new Date();
-const todayYear = date.getFullYear();
-const todayMonth = date.getMonth() + 1;
-const todayDate = date.getDate();
-const todayDay = date.getDay();
-const todayWeek = getWeek();
+const todayYear = date.getFullYear(); // 년
+const todayMonth = date.getMonth() + 1; // 월
+const todayDate = date.getDate(); // 날짜
+const todayDay = date.getDay(); // 요일
+const todayWeek = getWeek(); // 몇주차
+
+const lastDay = new Date(todayYear, todayMonth, 0).getDate();
 const todayYearAndDay = Number(`${todayYear}${todayWeek}`);
-console.log(todayYear, todayMonth, todayDate, todayDay, todayWeek, todayYearAndDay)
+console.log(date, todayYear, todayMonth, todayDate, todayDay, todayWeek, todayYearAndDay, lastDay)
 
 const calendarArr = [];
 
@@ -41,14 +43,16 @@ const calendarCalc = () => {
     if(todayDay > i) {
       calendarArr.push(todayDate - todayDay + i)
     } else {
-      calendarArr.push(todayDate + i - 1)
+      if(todayDate - todayDay + i > lastDay){
+        calendarArr.push(i);
+      } else {
+        calendarArr.push(todayDate - todayDay + i);
+      }
     }
   }
 }
 
 calendarCalc()
-
-console.log(calendarArr)
 
 const Calendar = (props) => {
   const { setIsDetailPopup, setIsListPopup } = props;
@@ -122,7 +126,7 @@ const Calendar = (props) => {
             date={item} 
             week={i} 
             key={i}
-            calendarData={calendarData[todayYearAndDay][i]}
+            // calendarData={calendarData[todayYearAndDay][i]}
             setCalendarData={setCalendarData}
           />
           )

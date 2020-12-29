@@ -1,5 +1,7 @@
 import React, {useCallback} from "react";
 
+const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
+
 const CalendarItem = (props) => {
     const { setIsDetailPopup, setIsListPopup, date, week, calendarData, setCalendarData } = props;
 
@@ -14,23 +16,11 @@ const CalendarItem = (props) => {
     const handleShowList = useCallback(() => {
         setIsListPopup(true)
     })
-
-    const weekCalc = (week) => {
-        switch (week) {
-            case 0 : return '일'
-            case 1 : return '월'
-            case 2 : return '화'
-            case 3 : return '수'
-            case 4 : return '목'
-            case 5 : return '금'
-            case 6 : return '토'
-        }
-    }
     
   return (
     <li className="Calendar__item">
         <div className="Calendar__day">
-        <span>{weekCalc(week)}</span>
+        <span>{weekArr[week]}</span>
         <b>{date}</b>
         </div>
         <div className="Calendar__menu">
