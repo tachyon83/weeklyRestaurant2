@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 
 const weekArr = ["일", "월", "화", "수", "목", "금", "토"];
+const emptyImage = ["fa-utensils", "fa-cheese", "fa-hamburger", "fa-fish", "fa-ice-cream", "fa-apple-alt", "fa-carrot", "fa-hotdog", "fa-egg", "fa-cookie-bite"];
 
 const CalendarItem = (props) => {
   const { setIsDetailPopup, setIsListPopup, date, week, setDay } = props;
@@ -17,6 +18,10 @@ const CalendarItem = (props) => {
     setIsListPopup(true);
   });
 
+  const randomImageNumber = useCallback(() => {
+      return Math.floor(Math.random() * 10);
+  })
+
   return (
     <li
       className={setDay == [week] ? "Calendar__item active" : "Calendar__item"}
@@ -31,16 +36,7 @@ const CalendarItem = (props) => {
             <span>아침</span>
           </div>
           <div className="CalendarMenu__empty">
-            {/* <i class="fas fa-utensils"></i> */}
-            {/* <i class="fas fa-cheese"></i> */}
-            {/* <i class="fas fa-hamburger"></i> */}
-            {/* <i class="fas fa-fish"></i> */}
-            {/* <i class="fas fa-ice-cream"></i> */}
-            {/* <i class="fas fa-apple-alt"></i> */}
-            {/* <i class="fas fa-carrot"></i> */}
-            {/* <i class="fas fa-hotdog"></i> */}
-            {/* <i class="fas fa-egg"></i> */}
-            <i class="fas fa-cookie-bite"></i>
+            <i class={`fas ${emptyImage[randomImageNumber()]}`}></i>
           </div>
         </div>
         <div className="Calendar__section CalendarMenu">
