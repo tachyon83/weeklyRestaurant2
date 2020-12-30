@@ -14,12 +14,11 @@ const Inventory = () => {
     }).catch( error => { console.log('failed', error) });
   }, [])
 
-  const onPopupShow = useCallback((title)=>{
+  const onPopupShow = useCallback((e)=>{
     setInventoryPopupShow({
       value : true,
-      title : title,
+      title : e.currentTarget.dataset.category,
     })
-    console.log(inventoryPopupShow)
   })
 
   return (
@@ -28,11 +27,11 @@ const Inventory = () => {
         <div className="LineBox">
           <h2>재고 현황</h2>
           <div className="Inventory">
-            {inventoryPopupShow.value && <InventoryPopup title={inventoryPopupShow.title} />}
+            {inventoryPopupShow.value && <InventoryPopup title={inventoryPopupShow.title} setInventoryPopupShow={setInventoryPopupShow} />}
             <dl>
                 <dt className="Inventory__category">
                   육류
-                  <button className="Inventory__addButton" onClick={onPopupShow}><i className="far fa-plus-square"></i></button>
+                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="육류"><i className="far fa-plus-square"></i></button>
                 </dt>
                 <dd className="Inventory__ingredient">
                     {
@@ -47,7 +46,7 @@ const Inventory = () => {
             <dl>
                 <dt className="Inventory__category">
                   어류
-                  <button className="Inventory__addButton"><i class="far fa-plus-square"></i></button>
+                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="어류"><i className="far fa-plus-square"></i></button>
                 </dt>
                 <dd className="Inventory__ingredient">
                     {
@@ -62,7 +61,7 @@ const Inventory = () => {
             <dl>
                 <dt className="Inventory__category">
                   부재료
-                  <button className="Inventory__addButton"><i class="far fa-plus-square"></i></button>
+                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="부재료"><i className="far fa-plus-square"></i></button>
                 </dt>
                 <dd className="Inventory__ingredient">
                     {
@@ -77,7 +76,7 @@ const Inventory = () => {
             <dl>
                 <dt className="Inventory__category">
                   양념(소스)
-                  <button className="Inventory__addButton"><i class="far fa-plus-square"></i></button>
+                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="양념(소스)"><i className="far fa-plus-square"></i></button>
                 </dt>
                 <dd className="Inventory__ingredient">
                     {

@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 
 const InventoryPopup = (props) => {
-    console.log(props.title)
+    const {title, setInventoryPopupShow} = props;
+    
+    const closeInventoryPopup = useCallback(
+        () => {
+            setInventoryPopupShow({
+                title : title,
+                value : false
+            })
+        }
+    )
+
     return (
         <div className="InventoryPopup">
             <div className="InventoryPopup__title">
-                재고 추가
-                <button className="InventoryPopup__close"><i className="fas fa-times"></i><i className="ir">닫기</i></button>
+                {title} 재고 추가
+                <button className="InventoryPopup__close" onClick={closeInventoryPopup}><i className="fas fa-times"></i><i className="ir">닫기</i></button>
             </div>
             <div className="InventoryPopup__wrap">
                 <div className="InventoryPopup__name">

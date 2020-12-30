@@ -27,6 +27,7 @@ button{
     width: auto;
     overflow: visible;
     cursor: pointer;
+    outline: none; //접근성시 open
 
     background: transparent;
 
@@ -207,6 +208,14 @@ footer{
     &__tag{
         color: #666;
         font-size: 13px;
+    }
+
+    &__empty{
+        height: 104px;
+        line-height: 104px;
+        text-align: center;
+        color: #eee;
+        font-size: 50px;
     }
 
     &__wrap{
@@ -427,6 +436,7 @@ footer{
             object-fit: cover;
             vertical-align: top;
             cursor: pointer;
+            border-radius: 5px;
         }
     }
 
@@ -473,6 +483,7 @@ footer{
             width: 100%;
             height: 180px;
             object-fit: cover;
+            border-radius: 5px;
         }
     }
 
@@ -618,6 +629,9 @@ footer{
 
     &__addButton{
         color: #3a56cc;
+        line-height: 0;
+        padding: 0;
+        margin: 0;
         position: absolute;
         right: 20px;
         top: 50%;

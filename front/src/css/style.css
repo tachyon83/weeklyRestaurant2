@@ -32,6 +32,7 @@ button {
   width: auto;
   overflow: visible;
   cursor: pointer;
+  outline: none;
   background: transparent;
   /* inherit font & color from ancestor */
   color: inherit;
@@ -225,6 +226,14 @@ footer .layoutWrap {
 .CalendarMenu__tag {
   color: #666;
   font-size: 13px;
+}
+
+.CalendarMenu__empty {
+  height: 104px;
+  line-height: 104px;
+  text-align: center;
+  color: #eee;
+  font-size: 50px;
 }
 
 .CalendarMenu__wrap {
@@ -472,6 +481,7 @@ footer .layoutWrap {
      object-fit: cover;
   vertical-align: top;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .DishItem__desc {
@@ -529,6 +539,7 @@ footer .layoutWrap {
   height: 180px;
   -o-object-fit: cover;
      object-fit: cover;
+  border-radius: 5px;
 }
 
 .CookingDetail__desc {
@@ -694,6 +705,9 @@ footer .layoutWrap {
 
 .Inventory__addButton {
   color: #3a56cc;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
   position: absolute;
   right: 20px;
   top: 50%;
