@@ -1,10 +1,11 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import CalendarItem from './CalendarItem'
 
 const getWeek = (dowOffset) => {
   dowOffset = typeof(dowOffset) == 'number' ? dowOffset : 0;
   var newdate = new Date();
   var newYear = new Date(newdate.getFullYear(),0,1);
+  console.log(newYear)
   var day = newYear.getDay() - dowOffset; 
   day = (day >= 0 ? day : day + 7);
   var daynum = Math.floor((newdate.getTime() - newYear.getTime() -
@@ -31,33 +32,31 @@ const todayMonth = date.getMonth() + 1; // 월
 const todayDate = date.getDate(); // 날짜
 const todayDay = date.getDay(); // 요일
 const todayWeek = getWeek(); // 몇주차
-
-const lastDay = new Date(todayYear, todayMonth, 0).getDate();
+const lastDate = new Date(todayYear, todayMonth, 0).getDate();
 const todayYearAndDay = Number(`${todayYear}${todayWeek}`);
-console.log(date, todayYear, todayMonth, todayDate, todayDay, todayWeek, todayYearAndDay, lastDay)
-
-const calendarArr = [];
-
-const calendarCalc = () => {
-  for(let i = 0; i < 7; i++) {
-    if(todayDay > i) {
-      calendarArr.push(todayDate - todayDay + i)
-    } else {
-      if(todayDate - todayDay + i > lastDay){
-        calendarArr.push(i);
-      } else {
-        calendarArr.push(todayDate - todayDay + i);
-      }
-    }
+const getLastDay = function(year, month){
+  return new Date(year, month, 0).getDay();
+}
+const getLastDate = function(year, month){
+  return new Date(year, month, 0).getDate();
+}
+const getPrevLastDate = function(year, month){
+  if(month == 1) {
+    return new Date(year - 1, 12, 0).getDate();
+  } else {
+    return new Date(year, month - 1, 0).getDate();
   }
 }
 
-calendarCalc()
-
 const Calendar = (props) => {
   const { setIsDetailPopup, setIsListPopup } = props;
-  const [ calendarDateArr, setCalendarDataArr ] = useState(calendarArr)
-  let calendarDateArrChange = [];
+  const [ calendarDateInfo, setCalendarDateInfo ] = useState({
+    setYear : todayYear,
+    setMonth : todayMonth,
+    setDay : todayDay,
+    setDate : todayDate
+  });
+  const [ calendarDateArr, setCalendarDataArr ] = useState([]);
 
   const [ calendarData, setCalendarData ] = useState({
     202050 : [
@@ -89,19 +88,82 @@ const Calendar = (props) => {
     ],
   })
 
+  const calendarCalc = useCallback((year, month, day, date) => {
+    let calendarArr = [];
+    for(let i = 0; i < 7; i++) {
+      if(day > i) {
+        if(date - day + i <= 0){
+          calendarArr.unshift(getPrevLastDate(year, month) - i);
+        } else{
+          calendarArr.push(date - day + i);
+        }
+      } else {
+        if(date - day + i > lastDate){
+          calendarArr.push(i - getLastDay(year, month));
+        } else {
+          calendarArr.push(date - day + i);
+        }
+      }
+    }
+    setCalendarDataArr(calendarArr)
+  });
+
+  useEffect(() => {
+    calendarCalc(calendarDateInfo.setYear, calendarDateInfo.setMonth, calendarDateInfo.setDay, calendarDateInfo.setDate);
+  }, [calendarDateInfo])
+
   const prevCalendar = useCallback(()=>{
-    calendarArr.map((item, i)=>{
-      calendarDateArrChange[i] = item - 7;
-    })
-    setCalendarDataArr(calendarDateArrChange)
+    // 1월에서 이전달로 갈시
+    if(calendarDateInfo.setDate < 8 && calendarDateInfo.setMonth == 1) {
+      setCalendarDateInfo({
+        ...calendarDateInfo, 
+        setYear : calendarDateInfo.setYear -1,
+        setMonth : 12,
+        setDate : 31 + ( calendarDateInfo.setDate - 7 )
+      })
+    } else if (calendarDateInfo.setDate < 8){
+      setCalendarDateInfo({
+        ...calendarDateInfo, 
+        setMonth : calendarDateInfo.setMonth - 1,
+        setDate : getPrevLastDate(calendarDateInfo.setYear, calendarDateInfo.setMonth) + ( calendarDateInfo.setDate - 7 )
+      })
+    } else {
+      setCalendarDateInfo({
+        ...calendarDateInfo, 
+        setDate : calendarDateInfo.setDate - 7
+      })
+    }
   })
 
   const nextCalendar = useCallback(()=>{
-    calendarArr.map((item, i)=>{
-      calendarDateArrChange[i] = item + 7;
-    })
-    setCalendarDataArr(calendarDateArrChange)
-    console.log(calendarDateArr, calendarDateArrChange)
+    if(calendarDateInfo.setDate > 24 && calendarDateInfo.setMonth == 12) {
+      setCalendarDateInfo({
+        ...calendarDateInfo, 
+        setYear : calendarDateInfo.setYear + 1,
+        setMonth : 1,
+        setDate : 1 + ( calendarDateInfo.setDate - 25 )
+      })
+    } else if (calendarDateInfo.setDate > 24){
+      setCalendarDateInfo({
+        ...calendarDateInfo, 
+        setMonth : calendarDateInfo.setMonth + 1,
+        setDate : 7 - getLastDate(calendarDateInfo.setYear, calendarDateInfo.setMonth) + calendarDateInfo.setDate
+      })
+    } else {
+      setCalendarDateInfo({
+        ...calendarDateInfo, 
+        setDate : calendarDateInfo.setDate + 7
+      })
+    }
+  })
+
+  const todayCalendar = useCallback(()=>{
+    setCalendarDateInfo({
+      setYear : todayYear,
+      setMonth : todayMonth,
+      setDay : todayDay,
+      setDate : todayDate
+    });
   })
 
   return(
@@ -110,7 +172,7 @@ const Calendar = (props) => {
       <button onClick={prevCalendar}>
         <i className="fas fa-chevron-left"></i>
       </button>
-      <h2>{todayMonth}월 주간 식단표</h2>
+      <h2>{calendarDateInfo.setMonth}월 주간 식단표 <button className="Calendar__todayBtn" onClick={todayCalendar}>today</button></h2>
       <button onClick={nextCalendar}>
         <i className="fas fa-chevron-right"></i>
       </button>
@@ -126,7 +188,7 @@ const Calendar = (props) => {
             date={item} 
             week={i} 
             key={i}
-            // calendarData={calendarData[todayYearAndDay][i]}
+            setDay={calendarDateInfo.setDay}
             setCalendarData={setCalendarData}
           />
           )

@@ -3,7 +3,7 @@ import React, {useCallback} from "react";
 const weekArr = ['일', '월', '화', '수', '목', '금', '토'];
 
 const CalendarItem = (props) => {
-    const { setIsDetailPopup, setIsListPopup, date, week, calendarData, setCalendarData } = props;
+    const { setIsDetailPopup, setIsListPopup, date, week, setDay } = props;
 
     const handleShowDetail = useCallback(() => {
         setIsDetailPopup(true)
@@ -18,7 +18,7 @@ const CalendarItem = (props) => {
     })
     
   return (
-    <li className="Calendar__item">
+    <li className={setDay == [week] ? "Calendar__item active" : "Calendar__item"}>
         <div className="Calendar__day">
         <span>{weekArr[week]}</span>
         <b>{date}</b>

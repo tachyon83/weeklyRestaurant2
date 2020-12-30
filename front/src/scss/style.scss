@@ -113,7 +113,6 @@ main{
 }
 
 footer{
-    height: 50px;
     text-align: right;
     color: #666;
 
@@ -138,6 +137,15 @@ footer{
     justify-content: space-between;
     border: 1px solid #ebebeb;
 
+    &__todayBtn.Calendar__todayBtn{
+        border-radius: 5px;
+        padding: 2px 7px 3px;
+        background-color: #000;
+        font-size: 10px;
+        color: #fff;
+        vertical-align: top;
+    }
+
     &__item{
         width: 100%;
         min-height: 500px;
@@ -154,6 +162,12 @@ footer{
         &:last-child{
             .Calendar__day{
                 color: #3a56cc;
+            }
+        }
+
+        &.active{
+            .Calendar__day b{
+                text-decoration: underline;
             }
         }
     }
@@ -214,6 +228,7 @@ footer{
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 5px;
         }
     }
 
