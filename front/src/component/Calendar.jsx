@@ -49,7 +49,7 @@ const getPrevLastDate = function(year, month){
 }
 
 const Calendar = (props) => {
-  const { setIsDetailPopup, setIsListPopup } = props;
+  const { setIsDetailPopup, setIsListPopup, islogin, setPopupCookingId } = props;
   const [ calendarDateInfo, setCalendarDateInfo ] = useState({
     setYear : todayYear,
     setMonth : todayMonth,
@@ -59,33 +59,41 @@ const Calendar = (props) => {
   const [ calendarDateArr, setCalendarDataArr ] = useState([]);
 
   const [ calendarData, setCalendarData ] = useState({
-    202050 : [
-      ['토스트000','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-    ],
-    202051 : [
-      ['토스트111','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-    ],
-    202052 : [
-      ['토스트222','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-      ['토스트','김치찌개','스테이크'],
-    ],
+    result: true,
+		code: 0,
+		data:[
+			[
+        null,
+				{id:1134,name:"닭볶음탕",style:"KOR",img:"https://cloudfront.haemukja.com/vh.php?url=https://d1hk7gw6lgygff.cloudfront.net/uploads/direction/image_file/26152/pad_thumb_ch15.jpg"},
+        {id:4238,name:"햄버그스테이크",style:"WES",img:"http://image.gsshop.com/image/55/31/55314791_L1.jpg"},
+			],[
+        null,
+				{id:3105,name:"마파두부",style:"CHN",img:"https://cloudfront.haemukja.com/vh.php?url=https://d1hk7gw6lgygff.cloudfront.net/uploads/direction/image_file/1168/pad_thumb_m.png&convert=jpgmin&rt=600"},
+        null,
+      ],[
+				{id:321,name:"돈까스",style:"WES",img:"http://cdn.011st.com/11dims/resize/600x600/quality/75/11src/pd/20/1/4/9/3/1/8/yVdYI/2827149318_B.jpg"},
+        null,
+        null,
+      ],[
+        null,
+        {id:1376,name:"소고기콩나물비빔밥",style:"KOR",img:"https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile25.uf.tistory.com%2Fimage%2F143948354FB8FDF6296B73"},
+        null,
+      ],[
+        null,
+        {id:806,name:"순대국밥",style:"KOR",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSyOmrqbHnyUqJfVUMxY6l_my0eyw_twRPGEw&usqp=CAU"},
+        null,
+
+      ],[
+        null,
+        {id:2965,name:"닭칼국수",style:"KOR",img:"https://imagescdn.gettyimagesbank.com/500/201708/a10968180.jpg"},
+        {id:486,name:"유산슬밥",style:"CHN",img:"https://www.sk5.co.kr/img_src/s600/a897/a8970355.jpg"},
+      ],[
+        
+        null,
+        {id:2317,name:"멸치국수",style:"KOR",img:"https://cdn.pixabay.com/photo/2015/04/06/16/32/if-709614__340.jpg"},
+        {id:504,name:"짜장면",style:"CHN",img:"https://recipe1.ezmember.co.kr/cache/recipe/2016/07/02/40c4f639ca973d9acccecdf7cbe0cbc41.jpg"},
+      ]
+		]
   })
 
   const calendarCalc = useCallback((year, month, day, date) => {
@@ -189,7 +197,10 @@ const Calendar = (props) => {
             week={i} 
             key={i}
             setDay={calendarDateInfo.setDay}
+            calendarData={calendarData.data[i]}
             setCalendarData={setCalendarData}
+            islogin={islogin}
+            setPopupCookingId={setPopupCookingId}
           />
           )
         })

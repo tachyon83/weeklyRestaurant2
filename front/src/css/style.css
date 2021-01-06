@@ -229,8 +229,8 @@ footer .layoutWrap {
 }
 
 .CalendarMenu__empty {
-  height: 104px;
-  line-height: 104px;
+  height: 119px;
+  line-height: 119px;
   text-align: center;
   color: #efefef;
   font-size: 46px;
@@ -262,6 +262,7 @@ footer .layoutWrap {
 
 .CalendarMenu__title {
   margin-top: 10px;
+  letter-spacing: -0.5px;
 }
 
 .CalendarMenu__hover {
@@ -295,7 +296,7 @@ footer .layoutWrap {
 
 .CalendarMenu__button--add {
   display: block;
-  margin: 20px auto;
+  margin: 34px auto 35px;
 }
 
 .CalendarMenu__button--more {
@@ -406,7 +407,7 @@ footer .layoutWrap {
 }
 
 .LineBox {
-  margin-top: 50px;
+  margin-top: 45px;
   padding: 30px;
   border: 10px solid #000;
   border-radius: 20px;

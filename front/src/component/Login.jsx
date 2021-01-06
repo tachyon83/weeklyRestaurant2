@@ -26,7 +26,7 @@ const Login = ({setIslogin}) => {
 
   const handleLogin = useCallback((event) => {
     event.preventDefault();
-    // setIslogin(true)
+    setIslogin(true)
     console.log(loginValue)
     // axios.post(`${host.server}/member/login`, loginValue).then((result) => {
     //   console.log(result)
