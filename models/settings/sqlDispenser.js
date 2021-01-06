@@ -38,6 +38,7 @@ let sql_createTable_recipe =
         img varchar(400),
         memberId int not null,
         primary key(id),
+        unique key(name,memberId),
         foreign key(memberId) 
         references ${dbSetting.table_member}(id) 
         on update cascade 
@@ -280,45 +281,20 @@ let sql_getMemberByUsername =
     from ${dbSetting.table_member} 
     where username=?;`
 
+let sql_getMemberByUserId =
+    `select id,username,password 
+    from ${dbSetting.table_member} 
+    where id=?;`
+
 let sql_getUnit =
     `select * from ??;`
-// let sql_getFishUnit =
-//     `select * from ${dbSetting.table_fish_unit};`
-// let sql_getMiscUnit =
-//     `select * from ${dbSetting.table_misc_unit};`
-// let sql_getSauceUnit =
-//     `select * from ${dbSetting.table_sauce_unit};`
 
 let sql_getMaterialById =
     `select * from ?? where id=?;`
-// let sql_getMeatById =
-//     `select * from ${dbSetting.table_meat} where id=?;`
-// let sql_getFishById =
-//     `select * from ${dbSetting.table_fish} where id=?;`
-// let sql_getMiscById =
-//     `select * from ${dbSetting.table_misc} where id=?;`
-// let sql_getSauceById =
-//     `select * from ${dbSetting.table_sauce} where id=?;`
 
 let sql_getColumnNames =
     `select column_name from information_schema.columns 
     where table_name=?;`
-
-// let sql_getMeatColumnNames =
-//     `select column_name from information_schema.columns 
-//     where table_name='${dbSetting.table_meat_unit}';`
-
-// let sql_getFishColumnNames =
-//     `select column_name from information_schema.columns 
-//     where table_name='${dbSetting.table_fish_unit}';`
-
-// let sql_getMiscColumnNames =
-//     `select column_name from information_schema.columns 
-//     where table_name='${dbSetting.table_misc_unit}';`
-
-// let sql_getSauceColumnNames =
-//     `select column_name from information_schema.columns 
-//     where table_name='${dbSetting.table_sauce_unit}';`
 
 let sql_getIngredientById =
     `select meatId,fishId,miscId,sauceId 
@@ -329,6 +305,16 @@ let sql_getRecipeByIds =
     `select id,name,style,img from ${dbSetting.table_recipe} 
     where id=? and memberId=?;`
 
+let sql_getRecipeByName =
+    `select id,name,style,img from 
+    ${dbSetting.table_recipe} where name=? and memberid=?;`
+
+let sql_addNewMaterial =
+    `alter table ?? add column ?? varchar(5);`
+
+let sql_insertUnit =
+    `update ?? set ??=?;`
+
 
 
 module.exports = {
@@ -338,22 +324,14 @@ module.exports = {
 
     sql_register,
     sql_getMemberByUsername,
-    // sql_getMeatById,
-    // sql_getMeatColumnNames,
-    // sql_getMeatUnit,
-    // sql_getFishById,
-    // sql_getFishColumnNames,
-    // sql_getFishUnit,
-    // sql_getMiscById,
-    // sql_getMiscColumnNames,
-    // sql_getMiscUnit,
-    // sql_getSauceById,
-    // sql_getSauceColumnNames,
-    // sql_getSauceUnit,
+    sql_getMemberByUserId,
     sql_getUnit,
     sql_getMaterialById,
     sql_getColumnNames,
     sql_getIngredientById,
     sql_getRecipeByIds,
+    sql_getRecipeByName,
+    sql_addNewMaterial,
+    sql_insertUnit,
 
 }

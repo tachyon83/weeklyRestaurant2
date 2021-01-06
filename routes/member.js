@@ -16,25 +16,25 @@ passportConfig()
 router.get('/check/:username', (req, res) => {
     dao.getMemberByUsername(req.params.username)
         .then(member => {
-            if (member) return resHandler(req, res, false, resCode.exist, null)
-            return resHandler(req, res, true, resCode.success, null)
+            if (member) res.json(resHandler(false, resCode.duplicate, null))
+            res.json(resHandler(true, resCode.success, null))
         })
-        .catch(err => errHandler(req, res, err, 'routes>member', '/check/:username', 'getMemberByusername'))
+        .catch(err => res.json(errHandler(err)))
 })
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, member, info) => {
-        if (err) return errHandler(req, res, err, 'routes>member', '/login', 'passport.authenticate')
+        if (err) res.json(errHandler(err))
         if (member) {
             // when using custom callback, need to use req.logIn()
             req.logIn(member, (err) => {
-                if (err) return errHandler(req, res, err, 'routes>member', '/login', 'passport.authenticate', 'req.login')
-                console.log('login successful')
-                return resHandler(req, res, true, resCode.success, null)
+                if (err) res.json(errHandler(err))
+                console.log('[MEMBER]: login successful')
+                res.json(resHandler(true, resCode.success, null))
             })
         } else {
-            console.log('login failed')
-            return resHandler(req, res, false, resCode.wrong, null)
+            console.log('[MEMBER]: login failed')
+            res.json(resHandler(false, resCode.wrong, null))
         }
     })(req, res, next)
 })
@@ -51,16 +51,16 @@ router.post('/', (req, res) => {
         })
         .then(dao.register)
         .then(result => {
-            if (result) return resHandler(req, res, true, resCode.success, null)
-            return resHandler(req, res, false, resCode.error, null)
+            if (result) res.json(resHandler(true, resCode.success, null))
+            res.json(resHandler(false, resCode.error, null))
         })
-        .catch(err => errHandler(req, res, err, 'routes>member', '/', 'dao.register'))
+        .catch(err => res.json(errHandler(err)))
 })
 
 router.get('/logout', auth, (req, res) => {
     req.session.destroy(err => {
-        if (err) return errHandler(req, res, err, 'routes>member', '/logout', 'sesion.destroy')
-        return resHandler(req, res, true, resCode.success, null)
+        if (err) res.json(errHandler(err))
+        res.json(resHandler(true, resCode.success, null))
     })
 })
 

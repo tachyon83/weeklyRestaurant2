@@ -1,7 +1,7 @@
 module.exports = {
     success: 0,
-    exist: 1,
+    duplicate: 1,
     wrong: 2,
     error: 3,
-    notAuthenticated: 4,
+    notAuth: 4,
 }

@@ -1,7 +1,7 @@
-module.exports = (req, res, result, code, data) => {
-    res.json({
+module.exports = (result, code, data) => {
+    return {
         result,
         code,
         data,
-    })
+    }
 }

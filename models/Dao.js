@@ -3,6 +3,8 @@ const db = require('./dbPoolCreator')
 const sqls = require('./settings/sqlDispenser')
 
 class Dao {
+    // everytime dao is accessed,
+    // dbPool is obtained in sqlHandler, not here.
     // constructor() {
     //     this.dbPool = await db.getPool()
     //     console.log('dbPool is created')
@@ -11,10 +13,37 @@ class Dao {
     // arrow function is needed to have an access to this.dbpool
     // because in class, written in 'strict mode'
 
-    sqlHandler = async (sql, q, opt = null) => {
-        if (q === false) return Promise.resolve(false)
+    customSqlHandler = async (sql, opt = null) => {
         const dbPool = await db.getPool()
-        // console.log('dbPool', dbPool)
+
+        return new Promise(async (resolve, reject) => {
+            dbPool.getConnection((err, conn) => {
+                if (err) {
+                    console.log('err in getconn', err)
+                    if (conn) conn.release();
+                    return reject(err)
+                }
+                conn.query(sql, (err, rows, fields) => {
+                    conn.release();
+                    if (err) {
+                        // console.log('err in query', err)
+                        return reject(err)
+                    }
+                    // console.log('db process result', rows)
+                    console.log('[DAO]: Query processed. resolving rows...')
+                    if (opt) resolve(rows[0])
+                    else resolve(rows)
+                })
+            })
+        })
+    }
+
+    sqlHandler = async (sql, q, opt = null) => {
+        if (q === false) {
+            console.log('[DAO]: FALSE q, resolving false')
+            return Promise.resolve(false)
+        }
+        const dbPool = await db.getPool()
 
         return new Promise(async (resolve, reject) => {
             if (q) sql = mysql.format(sql, q)
@@ -31,12 +60,13 @@ class Dao {
                         return reject(err)
                     }
                     // console.log('db process result', rows)
+                    console.log('[DAO]: Query processed. resolving rows...')
                     if (opt) resolve(rows[0])
                     else resolve(rows)
                 })
             })
 
-            // below is not possible
+            // below is NOT possible
             // seems that getConnection() does not behave like promise
             // const conn = await dbPool.getConnection().catch(err => {
             //     if (conn) conn.release()
@@ -63,6 +93,9 @@ class Dao {
     getMemberByUsername = username => {
         return this.sqlHandler(sqls.sql_getMemberByUsername, username, 1)
     }
+    getMemberByUserId = id => {
+        return this.sqlHandler(sqls.sql_getMemberByUserId, id, 1)
+    }
     getRecipeByIds = (id, memberId) => {
         let info = [
             id, memberId
@@ -84,6 +117,27 @@ class Dao {
     }
     getColumnNames = unitTableName => {
         return this.sqlHandler(sqls.sql_getColumnNames, unitTableName)
+    }
+
+    getRecipeByName = (name, memberId) => {
+        let info = [
+            name, memberId
+        ]
+        return this.sqlHandler(sqls.sql_getRecipeByName, info, 1)
+    }
+
+    addNewMaterial = (tableName, columnName) => {
+        let info = [
+            tableName, columnName
+        ]
+        return this.sqlHandler(sqls.sql_addNewMaterial, info)
+    }
+
+    insertUnit = (tableName, columnName, unit) => {
+        let info = [
+            tableName, columnName, unit
+        ]
+        return this.sqlHandler(sqls.sql_insertUnit, info)
     }
 
 }

@@ -12,10 +12,13 @@ module.exports = () => {
     // key='user' in passport
 
     passport.serializeUser((member, done) => {
-        done(null, member.username);
+        // done(null, member.username);
+        done(null, member.id);
     })
-    passport.deserializeUser((username, done) => {
-        dao.getMemberByUsername(username).then(member => {
+    // passport.deserializeUser((username, done) => {
+    passport.deserializeUser((id, done) => {
+        // dao.getMemberByUsername(username).then(member => {
+        dao.getMemberByUserId(id).then(member => {
             if (member) return done(null, member)
             return done(null, null)
         }).catch(err => done(err, null))
@@ -27,7 +30,11 @@ module.exports = () => {
         passReqToCallback: true,
     }, (req, username, password, done) => {
         dao.getMemberByUsername(username).then(member => {
-            if (member && bcrypt.compareSync(password, member.password)) return done(null, member)
+            if (member && bcrypt.compareSync(password, member.password)) {
+                console.log('[PASSPORT]: Authenticated.')
+                return done(null, member)
+            }
+            console.log('[PASSPORT]: Not Authenticated.')
             return done(null, false)
         }).catch(err => done(err))
     }))
