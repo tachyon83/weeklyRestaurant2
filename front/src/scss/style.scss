@@ -27,6 +27,7 @@ button{
     width: auto;
     overflow: visible;
     cursor: pointer;
+    outline: none; //접근성시 open
 
     background: transparent;
 
@@ -113,7 +114,6 @@ main{
 }
 
 footer{
-    height: 50px;
     text-align: right;
     color: #666;
 
@@ -138,6 +138,15 @@ footer{
     justify-content: space-between;
     border: 1px solid #ebebeb;
 
+    &__todayBtn.Calendar__todayBtn{
+        border-radius: 5px;
+        padding: 2px 7px 3px;
+        background-color: #000;
+        font-size: 10px;
+        color: #fff;
+        vertical-align: top;
+    }
+
     &__item{
         width: 100%;
         min-height: 500px;
@@ -154,6 +163,12 @@ footer{
         &:last-child{
             .Calendar__day{
                 color: #3a56cc;
+            }
+        }
+
+        &.active{
+            .Calendar__day b{
+                text-decoration: underline;
             }
         }
     }
@@ -195,6 +210,14 @@ footer{
         font-size: 13px;
     }
 
+    &__empty{
+        height: 119px;
+        line-height: 119px;
+        text-align: center;
+        color: #efefef;
+        font-size: 46px;
+    }
+
     &__wrap{
         margin-top: 15px;
         position: relative;
@@ -214,11 +237,13 @@ footer{
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 5px;
         }
     }
 
     &__title{
         margin-top: 10px;
+        letter-spacing: -0.5px;
     }
 
     &__hover{
@@ -246,7 +271,7 @@ footer{
 
         &--add{
             display: block;
-            margin: 20px auto;
+            margin: 34px auto 35px;
         }
 
         &--more{
@@ -349,7 +374,7 @@ footer{
 }
 
 .LineBox{
-    margin-top: 50px;
+    margin-top: 45px;
     padding: 30px;
     border: 10px solid #000;
     border-radius: 20px;
@@ -412,6 +437,7 @@ footer{
             object-fit: cover;
             vertical-align: top;
             cursor: pointer;
+            border-radius: 5px;
         }
     }
 
@@ -458,6 +484,7 @@ footer{
             width: 100%;
             height: 180px;
             object-fit: cover;
+            border-radius: 5px;
         }
     }
 
@@ -603,6 +630,9 @@ footer{
 
     &__addButton{
         color: #3a56cc;
+        line-height: 0;
+        padding: 0;
+        margin: 0;
         position: absolute;
         right: 20px;
         top: 50%;

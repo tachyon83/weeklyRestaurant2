@@ -8,9 +8,7 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
     const handleCloseDetail = useCallback(
         () => {
             setIsDetailPopup(false)
-        },
-        [],
-    )
+        })
 
     const [cookingDetail, setCookingDetail] = useState()
 

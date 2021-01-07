@@ -32,6 +32,7 @@ button {
   width: auto;
   overflow: visible;
   cursor: pointer;
+  outline: none;
   background: transparent;
   /* inherit font & color from ancestor */
   color: inherit;
@@ -119,7 +120,6 @@ main .layoutWrap {
 }
 
 footer {
-  height: 50px;
   text-align: right;
   color: #666;
 }
@@ -155,6 +155,15 @@ footer .layoutWrap {
   border: 1px solid #ebebeb;
 }
 
+.Calendar__todayBtn.Calendar__todayBtn {
+  border-radius: 5px;
+  padding: 2px 7px 3px;
+  background-color: #000;
+  font-size: 10px;
+  color: #fff;
+  vertical-align: top;
+}
+
 .Calendar__item {
   width: 100%;
   min-height: 500px;
@@ -171,6 +180,10 @@ footer .layoutWrap {
 
 .Calendar__item:last-child .Calendar__day {
   color: #3a56cc;
+}
+
+.Calendar__item.active .Calendar__day b {
+  text-decoration: underline;
 }
 
 .Calendar__day {
@@ -215,6 +228,14 @@ footer .layoutWrap {
   font-size: 13px;
 }
 
+.CalendarMenu__empty {
+  height: 119px;
+  line-height: 119px;
+  text-align: center;
+  color: #efefef;
+  font-size: 46px;
+}
+
 .CalendarMenu__wrap {
   margin-top: 15px;
   position: relative;
@@ -236,10 +257,12 @@ footer .layoutWrap {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  border-radius: 5px;
 }
 
 .CalendarMenu__title {
   margin-top: 10px;
+  letter-spacing: -0.5px;
 }
 
 .CalendarMenu__hover {
@@ -273,7 +296,7 @@ footer .layoutWrap {
 
 .CalendarMenu__button--add {
   display: block;
-  margin: 20px auto;
+  margin: 34px auto 35px;
 }
 
 .CalendarMenu__button--more {
@@ -384,7 +407,7 @@ footer .layoutWrap {
 }
 
 .LineBox {
-  margin-top: 50px;
+  margin-top: 45px;
   padding: 30px;
   border: 10px solid #000;
   border-radius: 20px;
@@ -459,6 +482,7 @@ footer .layoutWrap {
      object-fit: cover;
   vertical-align: top;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .DishItem__desc {
@@ -516,6 +540,7 @@ footer .layoutWrap {
   height: 180px;
   -o-object-fit: cover;
      object-fit: cover;
+  border-radius: 5px;
 }
 
 .CookingDetail__desc {
@@ -681,6 +706,9 @@ footer .layoutWrap {
 
 .Inventory__addButton {
   color: #3a56cc;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
   position: absolute;
   right: 20px;
   top: 50%;
