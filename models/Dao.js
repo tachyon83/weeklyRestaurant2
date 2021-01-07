@@ -1,5 +1,6 @@
 const mysql = require('mysql');
-const db = require('./dbPoolCreator')
+const db = require('./dbPoolCreator');
+const { sql_getIngredientIdUponInsertion } = require('./settings/sqlDispenser');
 const sqls = require('./settings/sqlDispenser')
 
 class Dao {
@@ -13,43 +14,22 @@ class Dao {
     // arrow function is needed to have an access to this.dbpool
     // because in class, written in 'strict mode'
 
-    customSqlHandler = async (sql, opt = null) => {
-        const dbPool = await db.getPool()
-
-        return new Promise(async (resolve, reject) => {
-            dbPool.getConnection((err, conn) => {
-                if (err) {
-                    console.log('err in getconn', err)
-                    if (conn) conn.release();
-                    return reject(err)
-                }
-                conn.query(sql, (err, rows, fields) => {
-                    conn.release();
-                    if (err) {
-                        // console.log('err in query', err)
-                        return reject(err)
-                    }
-                    // console.log('db process result', rows)
-                    console.log('[DAO]: Query processed. resolving rows...')
-                    if (opt) resolve(rows[0])
-                    else resolve(rows)
-                })
-            })
-        })
-    }
-
     sqlHandler = async (sql, q, opt = null) => {
         if (q === false) {
             console.log('[DAO]: FALSE q, resolving false')
+            console.log()
             return Promise.resolve(false)
         }
         const dbPool = await db.getPool()
 
         return new Promise(async (resolve, reject) => {
             if (q) sql = mysql.format(sql, q)
+            console.log('[DAO]: SQL=', sql)
+            console.log()
             dbPool.getConnection((err, conn) => {
                 if (err) {
                     console.log('err in getconn', err)
+                    console.log()
                     if (conn) conn.release();
                     return reject(err)
                 }
@@ -61,7 +41,10 @@ class Dao {
                     }
                     // console.log('db process result', rows)
                     console.log('[DAO]: Query processed. resolving rows...')
-                    if (opt) resolve(rows[0])
+                    console.log()
+                    if (opt) {
+                        resolve(rows[0])
+                    }
                     else resolve(rows)
                 })
             })
@@ -126,6 +109,13 @@ class Dao {
         return this.sqlHandler(sqls.sql_getRecipeByName, info, 1)
     }
 
+    addNewMaterialUnit = (tableName, columnName) => {
+        let info = [
+            tableName, columnName
+        ]
+        return this.sqlHandler(sqls.sql_addNewMaterialUnit, info)
+    }
+
     addNewMaterial = (tableName, columnName) => {
         let info = [
             tableName, columnName
@@ -139,6 +129,25 @@ class Dao {
         ]
         return this.sqlHandler(sqls.sql_insertUnit, info)
     }
+
+    findIdByMaterials = (tableName, condition) => {
+        let info = [
+            tableName, condition
+        ]
+        return this.sqlHandler(sqls.sql_findIdByMaterials, info, 1)
+    }
+
+    getIngredientIdUponInsertion = q => {
+        return this.sqlHandler(sqls.sql_getIngredientIdUponInsertion, q)
+    }
+
+    addNewRecipe = (name, style, img, memberId, ingId) => {
+        let info = [
+            name, style, img, memberId, ingId
+        ]
+        return this.sqlHandler(sqls.sql_addNewRecipe, info)
+    }
+
 
 }
 

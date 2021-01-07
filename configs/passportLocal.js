@@ -17,6 +17,8 @@ module.exports = () => {
     })
     // passport.deserializeUser((username, done) => {
     passport.deserializeUser((id, done) => {
+        console.log('[PASSPORT]: Deserializing...')
+        console.log()
         // dao.getMemberByUsername(username).then(member => {
         dao.getMemberByUserId(id).then(member => {
             if (member) return done(null, member)
@@ -32,9 +34,11 @@ module.exports = () => {
         dao.getMemberByUsername(username).then(member => {
             if (member && bcrypt.compareSync(password, member.password)) {
                 console.log('[PASSPORT]: Authenticated.')
+                console.log()
                 return done(null, member)
             }
             console.log('[PASSPORT]: Not Authenticated.')
+            console.log()
             return done(null, false)
         }).catch(err => done(err))
     }))

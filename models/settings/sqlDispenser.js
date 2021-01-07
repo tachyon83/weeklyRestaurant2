@@ -29,31 +29,15 @@ let sql_createTable_member =
         primary key(id)
     );`
 
-let sql_createTable_recipe =
-    `create table if not exists 
-    ${dbSetting.table_recipe}(
-        id int not null auto_increment,
-        name varchar(20) not null unique,
-        style varchar(5),
-        img varchar(400),
-        memberId int not null,
-        primary key(id),
-        unique key(name,memberId),
-        foreign key(memberId) 
-        references ${dbSetting.table_member}(id) 
-        on update cascade 
-        on delete cascade
-    );`
-
 let sql_createTable_ingredient =
     `create table if not exists 
     ${dbSetting.table_ingredient}(
-        recipeId int not null,
+        id int not null auto_increment,
         meatId int,
         fishId int,
         miscId int,
         sauceId int,
-        primary key(recipeId),
+        primary key(id),
         foreign key(meatId) 
         references ${dbSetting.table_meat}(id) 
         on update cascade 
@@ -68,6 +52,27 @@ let sql_createTable_ingredient =
         on delete cascade,
         foreign key(sauceId) 
         references ${dbSetting.table_sauce}(id) 
+        on update cascade 
+        on delete cascade
+    );`
+
+let sql_createTable_recipe =
+    `create table if not exists 
+    ${dbSetting.table_recipe}(
+        id int not null auto_increment,
+        name varchar(20) not null unique,
+        style varchar(5),
+        img varchar(400),
+        memberId int not null,
+        ingredientId int not null,
+        primary key(id),
+        unique key(name,memberId),
+        foreign key(ingredientId) 
+        references ${dbSetting.table_ingredient}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(memberId) 
+        references ${dbSetting.table_member}(id) 
         on update cascade 
         on delete cascade
     );`
@@ -250,13 +255,19 @@ let sql_insert_sauce1 =
     `insert into ${dbSetting.table_sauce}(간장,고추장,고춧가루,설탕,소금,후추,식초,다진마늘) 
     values (1.5, 0, 1, 3, 0, 0, 0, 2);`
 
-let sql_insert_recipe1 =
-    `insert into ${dbSetting.table_recipe}(name,style,img,memberId) 
-    values ('닭볶음탕','kor','https',1);`
-
 let sql_insert_ingredient1 =
-    `insert into ${dbSetting.table_ingredient}(recipeId,meatId,miscId,sauceId) 
-    values(1,1,1,1);`
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(1,null,1,1);`
+
+// let sql_insert_member1=
+//     `insert into ${dbSetting.table_member}
+//     (username,password,servings) 
+//     values('test','1234',200)`
+
+// let sql_insert_recipe1 =
+//     `insert into ${dbSetting.table_recipe}(name,style,img,memberId,ingredientId) 
+//     values ('닭볶음탕','kor','https',1,1);`
+
 
 let sqls2 = sql_createTable_member + sql_createTable_meat
     + sql_createTable_fish + sql_createTable_misc
@@ -264,11 +275,11 @@ let sqls2 = sql_createTable_member + sql_createTable_meat
     + sql_createTable_fish_unit + sql_createTable_misc_unit
     + sql_createTable_sauce_unit + sql_insert_meat_unit
     + sql_insert_fish_unit + sql_insert_misc_unit
-    + sql_insert_sauce_unit + sql_createTable_recipe
-    + sql_createTable_ingredient + sql_insert_meat1
+    + sql_insert_sauce_unit + sql_createTable_ingredient
+    + sql_createTable_recipe + sql_insert_meat1
     + sql_insert_meat2 + sql_insert_misc1
-    + sql_insert_sauce1 + sql_insert_recipe1
-    + sql_insert_ingredient1
+    + sql_insert_sauce1 + sql_insert_ingredient1
+// + sql_insert_recipe1
 
 
 let sql_register =
@@ -299,21 +310,43 @@ let sql_getColumnNames =
 let sql_getIngredientById =
     `select meatId,fishId,miscId,sauceId 
     from ${dbSetting.table_ingredient} 
-    where recipeId=?;`
+    where id=?;`
 
 let sql_getRecipeByIds =
-    `select id,name,style,img from ${dbSetting.table_recipe} 
+    `select id,name,style,img,ingredientId from ${dbSetting.table_recipe} 
     where id=? and memberId=?;`
 
 let sql_getRecipeByName =
     `select id,name,style,img from 
     ${dbSetting.table_recipe} where name=? and memberid=?;`
 
-let sql_addNewMaterial =
+let sql_addNewMaterialUnit =
     `alter table ?? add column ?? varchar(5);`
+
+let sql_addNewMaterial =
+    `alter table ?? add column ?? decimal(5,2);`
 
 let sql_insertUnit =
     `update ?? set ??=?;`
+
+let sql_findIdByMaterials =
+    `select id from ?? 
+    where ?;`
+
+let sql_addSubIngredientIds =
+    `insert into ${dbSetting.table_ingredient}
+    (meatId,fishId,miscId,sauceId) values(?,?,?,?);`
+
+let sql_selectLastInsertId =
+    `select last_insert_id() as id;`
+
+let sql_getIngredientIdUponInsertion = sql_addSubIngredientIds + sql_selectLastInsertId
+
+let sql_addNewRecipe =
+    `insert into ${dbSetting.table_recipe}
+    (name,style,img,memberId,ingredientId) 
+    values(?,?,?,?,?);`
+
 
 
 
@@ -331,7 +364,12 @@ module.exports = {
     sql_getIngredientById,
     sql_getRecipeByIds,
     sql_getRecipeByName,
+    sql_addNewMaterialUnit,
     sql_addNewMaterial,
     sql_insertUnit,
+    sql_findIdByMaterials,
+    sql_getIngredientIdUponInsertion,
+    sql_addNewRecipe,
+
 
 }

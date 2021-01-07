@@ -7,116 +7,140 @@ const express = require('express');
 const router = express.Router();
 const dao = require('../models/Dao')
 const c = require('../utils/constants')
-const materialUtil = require('../models/utils/materialUtil')
+const materialUtil = require('../models/utils/materialUtil');
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
 
-    const recipeNameChecker = async(req.body.name, req.session.passport.user) => {
-        const result = await dao.getRecipeByName(req.body.name, req.session.passport.user)
-        if (result) res.json(resHandler(false, resCode.duplicate, null))
-        else {
+    // takes recipeName and userId
+    // returns true/err
+    const recipeNameChecker = async (name, userId) => {
+        const result = await dao.getRecipeByName(name, userId)
+        if (result) {
+            let err = new Error()
+            err.reason = 'duplicate'
+            return Promise.reject(err)
+        } else {
             console.log('[Router]: Duplicate Recipe Name Checked OK.')
-            return Promise.resolve(req.body.contents)
+            console.log()
+            return Promise.resolve(true)
         }
     }
 
 
-    // ing table duplicate check
-    // if so, find and connect that id
+    // takes tableName and eachIngredientTableInfo
+    // return an Id for that ingredient table
+    const eachIngredientTableIdFinder = async (i, info) => {
+        if (!info) return Promise.resolve(null)
 
-    //omg...need to set default 0 in material table..
-
-
-    // duplicate table check -> utilize in model
-    // new material introduced check -> utilize in model
-    // new material register -> utilize in model
-
-    // complete
-
-
-    const eachIngredientHandler = (contents, i) => {
-        if (!contents) return Promise.resolve(null)
-        // contents=[{name:...,amount:...,unit:...},{},{}]
         const currentMaterialSet = await materialUtil.currentMaterialSetMaker(i)
-        console.log('currentMaterialSet has been made', currentMaterialSet)
-        for (let obj of contents) {
-            materialUtil.newMaterialCheckThenAdder(obj, currentMaterialSet, i)
-        }
+        // let cond = []
+        let names = []
+        let amounts = []
 
-
-    }
-    const allIngredientsHandler = async contents => {
-        // contents={meat:{},fish:{},...}
-        // 4개의 서브 테이블이 묶인 contents를 받아
-        // 각 ingredientId (총 4개)가 묶인 객체(ingIds)를 리턴
-        let ingIds = {}
-        Promise.all(c.ingredientTableNames.map(async (name, i) => {
-            ingIds[name] = await eachIngredientHandler(contents[name].contents, i)
-        }))
-
-        contents.map(async obj => {
-            console.log('obj', obj)
+        await info.contents.map(async obj => {
             await materialUtil.newMaterialCheckThenAdder(obj, currentMaterialSet, i)
-            temp.push(obj.name + '=' + obj.amount)
+            // cond.push(obj.name, obj.amount)
             names.push(obj.name)
             amounts.push(obj.amount)
         })
+
+        // cond = cond.join(' and ')
+        // names = names.join(',')
+        // amounts = amounts.join(',')
+
+        let sql_findIdFromMaterials =
+            `select id from ${c.ingredientTableNames[i]} 
+            where `
+
+        namesSz = names.length
+        names.map((e, i) => {
+            sql_findIdFromMaterials += e + '= ' + amounts[i]
+            if (i === namesSz - 1) sql_findIdFromMaterials += ';'
+            else sql_findIdFromMaterials += ' and '
+        })
+        let findIdResult = await dao.sqlHandler(sql_findIdFromMaterials, null, 1)
+
+        if (findIdResult) {
+            console.log('[Router]: Existing SubIngredient Table Detected.')
+            console.log()
+            return findIdResult.id
+        }
+
+
+        let sql_getLastInsertIdFromMaterials =
+            `insert into ${c.ingredientTableNames[i]}
+            (`
+        names.map((e, i) => {
+            sql_getLastInsertIdFromMaterials += e
+            if (i === namesSz - 1) { }
+            else sql_getLastInsertIdFromMaterials += ','
+        })
+        sql_getLastInsertIdFromMaterials += ') values('
+        amounts.map((e, i) => {
+            sql_getLastInsertIdFromMaterials += e
+            if (i === namesSz - 1) { }
+            else sql_getLastInsertIdFromMaterials += ','
+        })
+        sql_getLastInsertIdFromMaterials += ');'
+        sql_getLastInsertIdFromMaterials += 'select last_insert_id() as id;'
+
+        let insertResult = await dao.sqlHandler(sql_getLastInsertIdFromMaterials, null)
+        console.log('[Router]: New SubIngredient Table Created.')
+        console.log()
+        console.log('insertResult', insertResult)
+        console.log()
+        return insertResult[1][0].id
     }
 
-    dao.getRecipeByName(req.body.name, req.session.passport.user)
-        .then(result => {
-            if (result) res.json(resHandler(false, resCode.duplicate, null))
-            else {
-                console.log('[Router]: Duplicate Recipe Name Checked OK.')
-                return Promise.resolve(req.body.contents)
-            }
+
+    // takes recipeContents
+    // returns an array containing all four ingredient Ids
+    const ingredientTablesIdFinder = async contents => {
+        return Promise.all(c.ingredientTableNames.map(async (tableName, i) => {
+            return await eachIngredientTableIdFinder(i, contents[tableName])
+                .catch(err => Promise.reject(err))
+        }))
+            .catch(err => Promise.reject(err))
+    }
+
+    const ingredientTableIdFinder = async ingIdArr => {
+        console.log(ingIdArr)
+        console.log()
+        let findSql =
+            `select id from ingredient 
+            where `
+
+        ingIdArr.map((ingId, i) => {
+            if (ingId) findSql += `${c.ingredientTableIds[i]}=${ingId}`
+            else findSql += `${c.ingredientTableIds[i]} is null`
+            if (i === c.ingredientTableIds.length - 1) findSql += ';'
+            else findSql += ' and '
         })
-        .then(async contents => {
-            let ingIds = {}
-            return Promise.all(c.ingredientTableNames.map(async (name, i) => {
-                const currentMaterialSet = await materialUtil.currentMaterialSetMaker(i)
-                console.log('currentMaterialSet in recipe.js', currentMaterialSet)
-                let temp = []
-                let names = []
-                let amounts = []
-                console.log('ingIds', ingIds)
-                return Promise.all(contents[name].contents.map(async obj => {
-                    console.log('obj', obj)
-                    await materialUtil.newMaterialCheckThenAdder(obj, currentMaterialSet, i)
-                    temp.push(obj.name + '=' + obj.amount)
-                    names.push(obj.name)
-                    amounts.push(obj.amount)
-                })).then(async () => {
-                    // temp=['닭고기',1,'소고기',0.5...]
-                    temp = temp.join(' and ')
-                    let findSql = `select id from ${c.ingredientTableNames[i]} 
-                    where ${temp};`
-                    await dao.customSqlHandler(findSql, 1)
-                        .then(async exist => {
-                            console.log('exist', exist)
-                            if (exist) {
-                                console.log('[Router]: An Existing Ingredient Table Detected.')
-                                ingIds[c.ingredientTableIds[i]] = exist.id
-                            }
-                            else {
-                                console.log('not exist')
-                                let insertSql =
-                                    `insert into ${c.ingredientTableNames[i]}(${names.join(',')}) 
-                                    values (${amounts.join(',')});`
-                                await dao.customSqlHandler(insertSql)
-                                    .then(async () => {
-                                        ingIds[c.ingredientTableIds[i]] = await dao.customSqlHandler(findSql, 1)
-                                        console.log('[Router]: New Ingredient Table Created.')
-                                    })
+
+        let findIdResult = await dao.sqlHandler(findSql, ingIdArr, null, 1)
+        if (findIdResult.length) {
+            console.log('[Router]: Existing Ingredient Table Detected.')
+            console.log()
+            return findIdResult[0].id
+        }
+        findIdResult = await dao.getIngredientIdUponInsertion(ingIdArr)
+        console.log('[Router]: New Ingredient Table Created.')
+        console.log()
+        return findIdResult[1][0].id
+    }
 
 
-                            }
-                        })
-                })
-            }))
-                .then(() => console.log('ingIds', ingIds))
+    await recipeNameChecker(req.body.name, req.session.passport.user)
+        .then(async () => {
+            let ingIdArr = await ingredientTablesIdFinder(req.body.contents)
+                .catch(err => Promise.reject(err))
+            return Promise.resolve(ingIdArr)
         })
+        .then(ingredientTableIdFinder)
+        .then(async ingId => await dao.addNewRecipe(req.body.name, req.body.style, req.body.img, req.session.passport.user, ingId))
+        .then(() => res.json(resHandler(true, resCode.success, null)))
         .catch(err => res.json(errHandler(err)))
+
 })
 
 router.get('/:id', (req, res) => {
@@ -148,12 +172,13 @@ router.get('/:id', (req, res) => {
             }))
         }
         console.log('[Router]: materialHandler complete.')
+        console.log()
         return Promise.resolve(result)
     }
 
     const ingredientsFinder = async result => {
         // result={id:###,name:###,style:###,...}
-        let ingIds = await dao.getIngredientById(result.id)
+        let ingIds = await dao.getIngredientById(result.ingredientId)
             .catch(err => res.json(errHandler(err)))
         // ingIds={meatId:####,fishId:####,...}
         result.contents = {}
@@ -164,19 +189,21 @@ router.get('/:id', (req, res) => {
         ))
             .then(() => {
                 console.log('[Router]: ingredientsFinder complete.')
+                console.log()
                 return Promise.resolve(result)
             })
     }
 
     dao.getMemberByUserId(req.session.passport.user)
         .then(member => {
-            if (member) return dao.getRecipeByIds(req.params.id, member.id)
+            if (member) return dao.getRecipeByIds(parseInt(req.params.id), member.id)
             else res.json(resHandler(false, resCode.notAuth, null))
         })
         .then(result => {
             if (!result) res.json(resHandler(false, resCode.notAuth, null))
             else {
                 console.log('[Router]: Recipe Ownership checked OK.')
+                console.log()
                 return Promise.resolve(result)
             }
         })

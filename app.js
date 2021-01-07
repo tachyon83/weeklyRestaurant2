@@ -29,6 +29,7 @@ app.use((req, res, next) => {
     let currTime = new Date();
     let timeStamp = currTime.getHours() + ':' + currTime.getMinutes();
     console.log('[TimeStamp] server called at: ', timeStamp)
+    console.log()
     next()
 })
 
@@ -50,6 +51,7 @@ app.use(function (err, req, res, next) {
 
     res.status(err.status || 500);
     console.log('reached the end...404 or 500')
+    console.log()
     // res.render('error');
 });
 
@@ -57,4 +59,5 @@ app.use('/', router);
 const server = http.createServer(app);
 server.listen(app.get('port'), () => {
     console.log('http://localhost:%d', app.get('port'));
+    console.log()
 });
