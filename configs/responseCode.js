@@ -4,4 +4,5 @@ module.exports = {
     wrong: 2,
     error: 3,
     notAuth: 4,
+    noIng: 5,
 }

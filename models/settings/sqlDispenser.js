@@ -69,8 +69,8 @@ let sql_createTable_recipe =
         unique key(name,memberId),
         foreign key(ingredientId) 
         references ${dbSetting.table_ingredient}(id) 
-        on update cascade 
-        on delete cascade,
+        
+
         foreign key(memberId) 
         references ${dbSetting.table_member}(id) 
         on update cascade 
@@ -259,6 +259,7 @@ let sql_insert_ingredient1 =
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(1,null,1,1);`
 
+// handled in dbSetup_local
 // let sql_insert_member1=
 //     `insert into ${dbSetting.table_member}
 //     (username,password,servings) 

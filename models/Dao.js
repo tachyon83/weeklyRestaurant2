@@ -1,6 +1,5 @@
 const mysql = require('mysql');
 const db = require('./dbPoolCreator');
-const { sql_getIngredientIdUponInsertion } = require('./settings/sqlDispenser');
 const sqls = require('./settings/sqlDispenser')
 
 class Dao {
