@@ -68,7 +68,7 @@ let sql_createTable_recipe =
         primary key(id),
         unique key(name,memberId),
         foreign key(ingredientId) 
-        references ${dbSetting.table_ingredient}(id) 
+        references ${dbSetting.table_ingredient}(id),
         
 
         foreign key(memberId) 
