@@ -1,8 +1,7 @@
 const mysql = require('mysql');
 const dbSetting = require('./models/settings/dbConnectionSettings')
 const sqls = require('./models/settings/sqlDispenser')
-const bcrypt = require('bcrypt')
-const saltRounds = 10
+const encode = require('./utils/encode')
 
 let rootSettingObj = {
     host: dbSetting.host,
@@ -21,7 +20,7 @@ let settingObj = {
 
 let testMember = [
     'test',
-    'abcd1234',
+    process.env.dummyId_password || 'abcd1234',
     200,
 ]
 
@@ -56,10 +55,7 @@ function db_initSetting() {
                         conn_init3.destroy()
                         reject(err)
                     }
-                    bcrypt.genSalt(saltRounds)
-                        .then(salt => {
-                            return bcrypt.hash(testMember[1], salt)
-                        })
+                    encode(testMember[1])
                         .then(hash => {
                             testMember[1] = hash
                             conn_init3.query(sql_addMember, testMember, err => {

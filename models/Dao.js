@@ -23,8 +23,6 @@ class Dao {
 
         return new Promise(async (resolve, reject) => {
             if (q) sql = mysql.format(sql, q)
-            console.log('[DAO]: SQL=', sql)
-            console.log()
             dbPool.getConnection((err, conn) => {
                 if (err) {
                     console.log('err in getconn', err)
@@ -39,6 +37,7 @@ class Dao {
                         return reject(err)
                     }
                     // console.log('db process result', rows)
+                    console.log('[DAO]: SQL=', sql)
                     console.log('[DAO]: Query processed. resolving rows...')
                     console.log()
                     if (opt) {
@@ -64,13 +63,13 @@ class Dao {
         })
     }
 
-    register = q => {
+    insertMember = q => {
         let info = [
             q.username,
             q.password,
             q.servings,
         ]
-        return this.sqlHandler(sqls.sql_register, info)
+        return this.sqlHandler(sqls.sql_insertMember, info)
     }
     getMemberByUsername = username => {
         return this.sqlHandler(sqls.sql_getMemberByUsername, username, 1)
@@ -84,15 +83,15 @@ class Dao {
         ]
         return this.sqlHandler(sqls.sql_getRecipeByIds, info, 1)
     }
-    getIngredientById = id => {
-        return this.sqlHandler(sqls.sql_getIngredientById, id, 1)
+    getIngredientsById = id => {
+        return this.sqlHandler(sqls.sql_getIngredientsById, id, 1)
     }
 
-    getMaterialById = (tableName, id) => {
+    getSubIngredientById = (tableName, id) => {
         let info = [
             tableName, id
         ]
-        return this.sqlHandler(sqls.sql_getMaterialById, info, 1)
+        return this.sqlHandler(sqls.sql_getSubIngredientById, info, 1)
     }
     getUnit = unitTableName => {
         return this.sqlHandler(sqls.sql_getUnit, unitTableName, 1)
@@ -108,25 +107,25 @@ class Dao {
         return this.sqlHandler(sqls.sql_getRecipeByName, info, 1)
     }
 
-    addNewMaterialUnit = (tableName, columnName) => {
+    insertMaterialUnitColumn = (tableName, columnName) => {
         let info = [
             tableName, columnName
         ]
-        return this.sqlHandler(sqls.sql_addNewMaterialUnit, info)
+        return this.sqlHandler(sqls.sql_insertMaterialUnitColumn, info)
     }
 
-    addNewMaterial = (tableName, columnName) => {
+    insertMaterialColumn = (tableName, columnName) => {
         let info = [
             tableName, columnName
         ]
-        return this.sqlHandler(sqls.sql_addNewMaterial, info)
+        return this.sqlHandler(sqls.sql_insertMaterialColumn, info)
     }
 
-    insertUnit = (tableName, columnName, unit) => {
+    insertMaterialUnit = (tableName, columnName, unit) => {
         let info = [
             tableName, columnName, unit
         ]
-        return this.sqlHandler(sqls.sql_insertUnit, info)
+        return this.sqlHandler(sqls.sql_insertMaterialUnit, info)
     }
 
     findIdByMaterials = (tableName, condition) => {
@@ -140,11 +139,11 @@ class Dao {
         return this.sqlHandler(sqls.sql_getIngredientIdUponInsertion, q)
     }
 
-    addNewRecipe = (name, style, img, memberId, ingId) => {
+    insertRecipe = (name, style, img, memberId, ingId) => {
         let info = [
             name, style, img, memberId, ingId
         ]
-        return this.sqlHandler(sqls.sql_addNewRecipe, info)
+        return this.sqlHandler(sqls.sql_insertRecipe, info)
     }
 
 

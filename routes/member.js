@@ -2,13 +2,13 @@ const resCode = require('../configs/responseCode')
 const resHandler = require('../utils/responseHandler')
 const errHandler = require('../utils/errorHandler')
 const auth = require('../utils/auth')
+const encode = require('../utils/encode')
 const express = require('express');
 const router = express.Router();
+const dao = require('../models/Dao')
 const passport = require('passport');
 const passportConfig = require('../configs/passportLocal')
-const dao = require('../models/Dao')
-const bcrypt = require('bcrypt')
-const saltRounds = 10
+
 passportConfig()
 
 
@@ -41,20 +41,18 @@ router.post('/login', (req, res, next) => {
 
 router.post('/', (req, res) => {
 
-    bcrypt.genSalt(saltRounds)
-        .then(salt => {
-            return bcrypt.hash(req.body.password, salt)
-        })
+    encode(req.body.password)
         .then(hash => {
             req.body.password = hash
             return Promise.resolve(req.body)
         })
-        .then(dao.register)
+        .then(dao.insertMember)
         .then(result => {
             if (result) res.json(resHandler(true, resCode.success, null))
             res.json(resHandler(false, resCode.error, null))
         })
         .catch(err => res.json(errHandler(err)))
+
 })
 
 router.get('/logout', auth, (req, res) => {

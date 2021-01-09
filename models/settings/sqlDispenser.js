@@ -283,7 +283,7 @@ let sqls2 = sql_createTable_member + sql_createTable_meat
 // + sql_insert_recipe1
 
 
-let sql_register =
+let sql_insertMember =
     `insert into ${dbSetting.table_member}
     (username,password,servings) 
     values(?,?,?);`
@@ -301,14 +301,14 @@ let sql_getMemberByUserId =
 let sql_getUnit =
     `select * from ??;`
 
-let sql_getMaterialById =
+let sql_getSubIngredientById =
     `select * from ?? where id=?;`
 
 let sql_getColumnNames =
     `select column_name from information_schema.columns 
     where table_name=?;`
 
-let sql_getIngredientById =
+let sql_getIngredientsById =
     `select meatId,fishId,miscId,sauceId 
     from ${dbSetting.table_ingredient} 
     where id=?;`
@@ -321,29 +321,29 @@ let sql_getRecipeByName =
     `select id,name,style,img from 
     ${dbSetting.table_recipe} where name=? and memberid=?;`
 
-let sql_addNewMaterialUnit =
+let sql_insertMaterialUnitColumn =
     `alter table ?? add column ?? varchar(5);`
 
-let sql_addNewMaterial =
+let sql_insertMaterialColumn =
     `alter table ?? add column ?? decimal(5,2);`
 
-let sql_insertUnit =
+let sql_insertMaterialUnit =
     `update ?? set ??=?;`
 
 let sql_findIdByMaterials =
     `select id from ?? 
     where ?;`
 
-let sql_addSubIngredientIds =
+let sql_insertSubIngredientIds =
     `insert into ${dbSetting.table_ingredient}
     (meatId,fishId,miscId,sauceId) values(?,?,?,?);`
 
 let sql_selectLastInsertId =
     `select last_insert_id() as id;`
 
-let sql_getIngredientIdUponInsertion = sql_addSubIngredientIds + sql_selectLastInsertId
+let sql_getIngredientIdUponInsertion = sql_insertSubIngredientIds + sql_selectLastInsertId
 
-let sql_addNewRecipe =
+let sql_insertRecipe =
     `insert into ${dbSetting.table_recipe}
     (name,style,img,memberId,ingredientId) 
     values(?,?,?,?,?);`
@@ -356,21 +356,21 @@ module.exports = {
     newDB: sql_createDB,
     createDummy: sqls2,
 
-    sql_register,
+    sql_insertMember,
     sql_getMemberByUsername,
     sql_getMemberByUserId,
     sql_getUnit,
-    sql_getMaterialById,
+    sql_getSubIngredientById,
     sql_getColumnNames,
-    sql_getIngredientById,
+    sql_getIngredientsById,
     sql_getRecipeByIds,
     sql_getRecipeByName,
-    sql_addNewMaterialUnit,
-    sql_addNewMaterial,
-    sql_insertUnit,
+    sql_insertMaterialUnitColumn,
+    sql_insertMaterialColumn,
+    sql_insertMaterialUnit,
     sql_findIdByMaterials,
     sql_getIngredientIdUponInsertion,
-    sql_addNewRecipe,
+    sql_insertRecipe,
 
 
 }

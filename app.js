@@ -4,6 +4,7 @@ const session = require('express-session');
 const passport = require('passport');
 const morgan = require('morgan')
 const auth = require('./utils/auth')
+const timeStampMiddleware = require('./utils/timestamp')
 const webSettings = require('./configs/webSettings')
 // important: this [cors] must come before Router
 const cors = require('cors');
@@ -24,15 +25,7 @@ app.set('port', process.env.PORT || 3002);
 // }
 // app.use(sessionCheck)
 
-app.use((req, res, next) => {
-    // console.log(req.headers)
-    let currTime = new Date();
-    let timeStamp = currTime.getHours() + ':' + currTime.getMinutes();
-    console.log('[TimeStamp] server called at: ', timeStamp)
-    console.log()
-    next()
-})
-
+app.use(timeStampMiddleware)
 app.use('/member', require('./routes/member'))
 app.use('/recipe', auth, require('./routes/recipe'))
 
