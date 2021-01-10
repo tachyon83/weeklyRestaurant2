@@ -19,6 +19,8 @@ module.exports = {
     table_fish_unit: 'fish_unit',
     table_misc_unit: 'misc_unit',
     table_sauce_unit: 'sauce_unit',
+    table_week: 'week',
+    table_day: 'day',
 
     connectionLimit: 100,
 }

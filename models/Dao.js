@@ -36,13 +36,11 @@ class Dao {
                         // console.log('err in query', err)
                         return reject(err)
                     }
-                    // console.log('db process result', rows)
-                    console.log('[DAO]: SQL=', sql)
+                    // console.log('[DAO]: SQL=', sql)
                     console.log('[DAO]: Query processed. resolving rows...')
+                    // console.log('db process result', rows)
                     console.log()
-                    if (opt) {
-                        resolve(rows[0])
-                    }
+                    if (opt) resolve(rows[0])
                     else resolve(rows)
                 })
             })
@@ -71,21 +69,22 @@ class Dao {
         ]
         return this.sqlHandler(sqls.sql_insertMember, info)
     }
-    getMemberByUsername = username => {
-        return this.sqlHandler(sqls.sql_getMemberByUsername, username, 1)
+    getMemberByUsername = username => this.sqlHandler(sqls.sql_getMemberByUsername, username, 1)
+
+    getMemberByUserId = id => this.sqlHandler(sqls.sql_getMemberByUserId, id, 1)
+
+    getRecipeById = id => {
+        if (!id) return Promise.resolve(null)
+        return this.sqlHandler(sqls.sql_getRecipeById, id, 1)
     }
-    getMemberByUserId = id => {
-        return this.sqlHandler(sqls.sql_getMemberByUserId, id, 1)
-    }
+
     getRecipeByIds = (id, memberId) => {
         let info = [
             id, memberId
         ]
         return this.sqlHandler(sqls.sql_getRecipeByIds, info, 1)
     }
-    getIngredientsById = id => {
-        return this.sqlHandler(sqls.sql_getIngredientsById, id, 1)
-    }
+    getIngredientsById = id => this.sqlHandler(sqls.sql_getIngredientsById, id, 1)
 
     getSubIngredientById = (tableName, id) => {
         let info = [
@@ -93,12 +92,9 @@ class Dao {
         ]
         return this.sqlHandler(sqls.sql_getSubIngredientById, info, 1)
     }
-    getUnit = unitTableName => {
-        return this.sqlHandler(sqls.sql_getUnit, unitTableName, 1)
-    }
-    getColumnNames = unitTableName => {
-        return this.sqlHandler(sqls.sql_getColumnNames, unitTableName)
-    }
+    getUnit = unitTableName => this.sqlHandler(sqls.sql_getUnit, unitTableName, 1)
+
+    getColumnNames = unitTableName => this.sqlHandler(sqls.sql_getColumnNames, unitTableName)
 
     getRecipeByName = (name, memberId) => {
         let info = [
@@ -135,9 +131,7 @@ class Dao {
         return this.sqlHandler(sqls.sql_findIdByMaterials, info, 1)
     }
 
-    getIngredientIdUponInsertion = q => {
-        return this.sqlHandler(sqls.sql_getIngredientIdUponInsertion, q)
-    }
+    getIngredientIdUponInsertion = q => this.sqlHandler(sqls.sql_getIngredientIdUponInsertion, q)
 
     insertRecipe = (name, style, img, memberId, ingId) => {
         let info = [
@@ -145,6 +139,31 @@ class Dao {
         ]
         return this.sqlHandler(sqls.sql_insertRecipe, info)
     }
+
+    updateRecipe = (name, style, img, ingredientId, id) => {
+        let info = [
+            name, style, img, ingredientId, id
+        ]
+        return this.sqlHandler(sqls.sql_updateRecipe, info)
+    }
+
+    deleteRecipe = id => this.sqlHandler(sqls.sql_deleteRecipe, id)
+
+    getStyleList = style => this.sqlHandler(sqls.sql_getStyleList, style)
+
+    // findDayId = q => this.sqlHandler(sqls.sql_findDayId, q, 1)
+
+    getDayIdUponInsertion = q => this.sqlHandler(sqls.sql_getDayIdUponInsertion, q)
+
+    findWeekId = q => this.sqlHandler(sqls.sql_findWeekId, q, 1)
+
+    getWeekIdUponInsertion = q => this.sqlHandler(sqls.sql_getWeekIdUponInsertion, q)
+
+    updateWeek = q => this.sqlHandler(sqls.sql_updateWeek, q)
+
+    getDay = id => this.sqlHandler(sqls.sql_getDay, id, 1)
+
+    getWeek = q => this.sqlHandler(sqls.sql_getWeek, q, 1)
 
 
 }

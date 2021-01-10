@@ -19,6 +19,7 @@ let sqls1 = sql_createUser + sql_grantPrivileges + sql_flush + sql_alterUser;
 let sql_createDB =
     `create database if not exists ${dbSetting.database};`;
 
+// isAdmin int not null,
 let sql_createTable_member =
     `create table if not exists 
     ${dbSetting.table_member}(
@@ -267,8 +268,70 @@ let sql_insert_ingredient1 =
 
 // let sql_insert_recipe1 =
 //     `insert into ${dbSetting.table_recipe}(name,style,img,memberId,ingredientId) 
-//     values ('닭볶음탕','kor','https',1,1);`
+//     values ('닭볶음탕','KOR','https',1,1);`
 
+let sql_createTable_day =
+    `create table if not exists ${dbSetting.table_day}
+    (
+        id int not null auto_increment,
+        breakfast int,
+        lunch int,
+        dinner int,
+        primary key(id),
+        unique key(breakfast,lunch,dinner),
+        foreign key(breakfast) 
+        references ${dbSetting.table_recipe}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(lunch) 
+        references ${dbSetting.table_recipe}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(dinner) 
+        references ${dbSetting.table_recipe}(id) 
+        on update cascade 
+        on delete cascade
+    );`
+
+let sql_createTable_week =
+    `create table if not exists ${dbSetting.table_week}
+    (
+        id int not null auto_increment,
+        year int not null,
+        week int not null,
+        memberId int not null,
+        sun int,
+        mon int,
+        tue int,
+        wed int,
+        thu int,
+        fri int,
+        sat int,
+        primary key(id),
+        unique key(year,week,memberId),
+        foreign key(memberId) 
+        references ${dbSetting.table_member}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(sun) 
+        references ${dbSetting.table_day}(id),
+        foreign key(mon) 
+        references ${dbSetting.table_day}(id),
+        foreign key(tue) 
+        references ${dbSetting.table_day}(id),
+        foreign key(wed) 
+        references ${dbSetting.table_day}(id),
+        foreign key(thu) 
+        references ${dbSetting.table_day}(id),
+        foreign key(fri) 
+        references ${dbSetting.table_day}(id),
+        foreign key(sat) 
+        references ${dbSetting.table_day}(id)
+    );`
+
+let sql_insert_day1 =
+    `insert into ${dbSetting.table_day}
+    (breakfast,lunch,dinner) values(null,null,null);`
 
 let sqls2 = sql_createTable_member + sql_createTable_meat
     + sql_createTable_fish + sql_createTable_misc
@@ -280,6 +343,8 @@ let sqls2 = sql_createTable_member + sql_createTable_meat
     + sql_createTable_recipe + sql_insert_meat1
     + sql_insert_meat2 + sql_insert_misc1
     + sql_insert_sauce1 + sql_insert_ingredient1
+    + sql_createTable_day + sql_createTable_week
+    + sql_insert_day1
 // + sql_insert_recipe1
 
 
@@ -311,6 +376,10 @@ let sql_getColumnNames =
 let sql_getIngredientsById =
     `select meatId,fishId,miscId,sauceId 
     from ${dbSetting.table_ingredient} 
+    where id=?;`
+
+let sql_getRecipeById =
+    `select id,name,style,img from ${dbSetting.table_recipe} 
     where id=?;`
 
 let sql_getRecipeByIds =
@@ -348,8 +417,49 @@ let sql_insertRecipe =
     (name,style,img,memberId,ingredientId) 
     values(?,?,?,?,?);`
 
+let sql_updateRecipe =
+    `update ${dbSetting.table_recipe} 
+    set name=?,style=?,img=?,ingredientId=? where id=?;`
 
+let sql_deleteRecipe =
+    `delete from ${dbSetting.table_recipe} 
+    where id=?;`
 
+let sql_getStyleList =
+    `select id,name,img from ${dbSetting.table_recipe} 
+    where style=? order by id asc;`
+
+// let sql_findDayId =
+//     `select id from ${dbSetting.table_day} 
+//     where breakfast=? and lunch=? and dinner=?;`
+
+let sql_insertDay =
+    `insert into ${dbSetting.table_day}
+    (breakfast,lunch,dinner) values(?,?,?);`
+
+let sql_getDayIdUponInsertion = sql_insertDay + sql_selectLastInsertId
+
+let sql_findWeekId =
+    `select id from ${dbSetting.table_week} 
+    where year=? and week=? and memberId=?;`
+
+let sql_insertWeek =
+    `insert into ${dbSetting.table_week}
+    (year,week,memberId) values(?,?,?);`
+
+let sql_getWeekIdUponInsertion = sql_insertWeek + sql_selectLastInsertId
+
+let sql_updateWeek =
+    `update ${dbSetting.table_week} 
+    set sun=?,mon=?,tue=?,wed=?,thu=?,fri=?,sat=? where id=?;`
+
+let sql_getDay =
+    `select * from ${dbSetting.table_day} 
+    where id=?;`
+
+let sql_getWeek =
+    `select * from ${dbSetting.table_week} 
+    where year=? and week=?;`
 
 module.exports = {
     initialSetup: sqls1,
@@ -363,6 +473,7 @@ module.exports = {
     sql_getSubIngredientById,
     sql_getColumnNames,
     sql_getIngredientsById,
+    sql_getRecipeById,
     sql_getRecipeByIds,
     sql_getRecipeByName,
     sql_insertMaterialUnitColumn,
@@ -371,6 +482,15 @@ module.exports = {
     sql_findIdByMaterials,
     sql_getIngredientIdUponInsertion,
     sql_insertRecipe,
-
+    sql_updateRecipe,
+    sql_deleteRecipe,
+    sql_getStyleList,
+    // sql_findDayId,
+    sql_getDayIdUponInsertion,
+    sql_findWeekId,
+    sql_getWeekIdUponInsertion,
+    sql_updateWeek,
+    sql_getDay,
+    sql_getWeek,
 
 }

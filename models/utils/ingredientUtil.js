@@ -2,15 +2,13 @@ const dao = require('../Dao')
 const c = require('../../utils/constants')
 const materialUtil = require('./materialUtil')
 
+
 // takes subIngredientTableId, its tableName, and corresponding unitTableName
 // returns the whole subIngredient object (id, name, contents)
 const subIngredientGetter = async (id, tableName, unitTableName) => {
     const materialInfo = await dao.getSubIngredientById(tableName, id)
-        .catch(err => res.json(errHandler(err)))
     const units = await dao.getUnit(unitTableName)
-        .catch(err => res.json(errHandler(err)))
     const colNames = await dao.getColumnNames(unitTableName)
-        .catch(err => res.json(errHandler(err)))
 
     let result = {}
     if (materialInfo) {
@@ -30,7 +28,7 @@ const subIngredientGetter = async (id, tableName, unitTableName) => {
     }
     console.log('[Util]: SubIngredientGetter complete.')
     console.log()
-    return Promise.resolve(result)
+    return result
 }
 
 
@@ -39,13 +37,11 @@ const subIngredientGetter = async (id, tableName, unitTableName) => {
 const ingredientsFinder = async result => {
     // result={id:###,name:###,style:###,...}
     let ingIds = await dao.getIngredientsById(result.ingredientId)
-        .catch(err => {
-            err.reason = 'noIng'
-            res.json(errHandler(err))
-        })
     // ingIds={meatId:####,fishId:####,...}
     result.contents = {}
 
+    // meat, fish, misc, sauce are independent
+    // the following parallel processing in map works fine.
     return Promise.all(c.ingredientTableNames.map(
         async (name, i) =>
             result.contents[name] = await subIngredientGetter(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
@@ -58,20 +54,24 @@ const ingredientsFinder = async result => {
 }
 
 
-// takes tableName and eachIngredientTableInfo
+// takes index and eachIngredientTableInfo
 // returns an Id for that ingredient table
 const eachIngredientTableIdFinder = async (i, info) => {
-    if (!info) return Promise.resolve(null)
+    if (!info) return null
 
-    const currentMaterialSet = await materialUtil.currentMaterialSetMaker(i)
+    let currentMaterialSet = await materialUtil.currentMaterialSetMaker(i)
+    // const currentMaterialArr=await materialUtil.currentMaterialArrMaker(i)
     // let cond = []
     let names = []
     let amounts = []
-    console.log('info.contents in eachIng', info.contents)
+    // console.log('info.contents in eachIng', info.contents)
 
+    // each material is assumed to be unique in the array.
+    // the following parallel processing in map works fine.
     await Promise.all(info.contents.map(async obj => {
-        await materialUtil.newMaterialCheckThenAdder(obj, currentMaterialSet, i)
+        const added = await materialUtil.newMaterialCheckThenAdder(obj, currentMaterialSet, i)
         // cond.push(obj.name, obj.amount)
+        if (!added) currentMaterialSet.delete(obj.name)
         names.push(obj.name)
         amounts.push(obj.amount)
     }))
@@ -85,16 +85,26 @@ const eachIngredientTableIdFinder = async (i, info) => {
             where `
 
     let namesSz = names.length
-    console.log('namesSz', c.ingredientTableNames[i], namesSz)
+    // console.log('namesSz', c.ingredientTableNames[i], namesSz)
     names.map((e, i) => {
         sql_findIdFromMaterials += e + '= ' + amounts[i]
-        if (i === namesSz - 1) sql_findIdFromMaterials += ';'
-        else sql_findIdFromMaterials += ' and '
+        sql_findIdFromMaterials += ' and '
     })
+
+    let idx = 0
+    currentMaterialSet.forEach(e => {
+        sql_findIdFromMaterials += e + ' is null'
+        idx++
+        if (idx < currentMaterialSet.size) sql_findIdFromMaterials += ' and '
+        else sql_findIdFromMaterials += ';'
+    })
+    // console.log('sql', sql_findIdFromMaterials)
+
     let findIdResult = await dao.sqlHandler(sql_findIdFromMaterials, null, 1)
+    // console.log(findIdResult)
 
     if (findIdResult) {
-        console.log('[Util]: Existing SubIngredient Table Detected.')
+        console.log('[Util]: An Existing SubIngredient Table Detected.')
         console.log()
         return findIdResult.id
     }
@@ -103,15 +113,15 @@ const eachIngredientTableIdFinder = async (i, info) => {
         `insert into ${c.ingredientTableNames[i]}
             (`
     names.map((e, i) => {
-        console.log('i in names.map', e, i)
-        console.log(namesSz)
+        // console.log('i in names.map', e, i)
+        // console.log(namesSz)
         sql_getLastInsertIdFromMaterials += e
         if (i === namesSz - 1) { }
         else sql_getLastInsertIdFromMaterials += ','
     })
     sql_getLastInsertIdFromMaterials += ') values('
     amounts.map((e, i) => {
-        console.log('i in names.map', e, i)
+        // console.log('i in names.map', e, i)
         sql_getLastInsertIdFromMaterials += e
         if (i === namesSz - 1) { }
         else sql_getLastInsertIdFromMaterials += ','
@@ -120,7 +130,7 @@ const eachIngredientTableIdFinder = async (i, info) => {
     sql_getLastInsertIdFromMaterials += 'select last_insert_id() as id;'
 
     let insertResult = await dao.sqlHandler(sql_getLastInsertIdFromMaterials, null)
-    console.log('[Util]: New SubIngredient Table Created.')
+    console.log('[Util]: A New SubIngredient Table Created.')
     console.log()
     // console.log('insertResult', insertResult)
     // console.log()
@@ -131,13 +141,15 @@ const eachIngredientTableIdFinder = async (i, info) => {
 // takes recipeContents
 // returns an array containing all four ingredient Ids
 const ingredientTablesIdFinder = contents => {
+    // meat, fish, misc, sauce are independent
+    // the following parallel processing in map works fine.
     return Promise.all(c.ingredientTableNames.map(async (tableName, i) =>
         await eachIngredientTableIdFinder(i, contents[tableName])
     ))
 }
 
 const ingredientTableIdFinder = async ingIdArr => {
-    console.log(ingIdArr)
+    console.log('subIngredientsIdArr', ingIdArr)
     console.log()
     let findSql =
         `select id from ingredient 
@@ -153,14 +165,28 @@ const ingredientTableIdFinder = async ingIdArr => {
     let findIdResult = await dao.sqlHandler(findSql, null, 1)
     // console.log(findIdResult)
     if (findIdResult) {
-        console.log('[Util]: Existing Ingredient Table Detected.')
+        console.log('[Util]: An Existing Ingredient Table Detected.')
         console.log()
         return findIdResult.id
     }
     findIdResult = await dao.getIngredientIdUponInsertion(ingIdArr)
-    console.log('[Util]: New Ingredient Table Created.')
+    console.log('[Util]: A New Ingredient Table Created.')
     console.log()
     return findIdResult[1][0].id
+}
+
+
+// takes unitTableName
+// returns each subIngredient current list
+const eachSubIngredientListFinder = async unitTableName => {
+
+    const colNames = await dao.getColumnNames(unitTableName)
+    const units = await dao.getUnit(unitTableName)
+
+    return colNames.map((colName, i) => {
+        colName = colName.COLUMN_NAME
+        return { [colName]: units[colName] }
+    })
 }
 
 module.exports = {
@@ -168,5 +194,6 @@ module.exports = {
     ingredientTableIdFinder,
     subIngredientGetter,
     ingredientsFinder,
+    eachSubIngredientListFinder,
 
 }

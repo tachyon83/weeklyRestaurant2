@@ -32,7 +32,7 @@ const sql_addMember =
 const sql_addRecipe =
     `insert into ${dbSetting.table_recipe}
     (name,style,img,memberId,ingredientId) 
-    values ('닭볶음탕','kor','https',1,1);`
+    values ('닭볶음탕','KOR','https',1,1);`
 
 
 function db_initSetting() {

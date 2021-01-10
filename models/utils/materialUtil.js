@@ -2,6 +2,11 @@ const dao = require('../Dao')
 const c = require('../../utils/constants')
 
 module.exports = {
+    currentMaterialArrMaker: async i => {
+        const currentMaterialArr = await dao.getColumnNames(c.ingredientUnitTableNames[i])
+        return currentMaterialArr.map(material => material.COLUMN_NAME)
+    },
+
     currentMaterialSetMaker: async i => {
         const currentMaterialArr = await dao.getColumnNames(c.ingredientUnitTableNames[i])
         // .catch(err => Promise.reject(err))
@@ -13,22 +18,21 @@ module.exports = {
         return currentMaterialSet
     },
 
+    // returns if added or not
     newMaterialCheckThenAdder: async (obj, set, i) => {
         console.log('each obj', obj)
         if (!set.has(obj.name)) {
             console.log('[Util]: New Material Detected.')
             console.log()
             await dao.insertMaterialColumn(c.ingredientTableNames[i], obj.name)
-            // .catch(err => { return Promise.reject(err) })
             await dao.insertMaterialUnitColumn(c.ingredientUnitTableNames[i], obj.name)
-            // .catch(err => { return Promise.reject(err) })
             await dao.insertMaterialUnit(c.ingredientUnitTableNames[i], obj.name, obj.unit)
-            // .catch(err => { return Promise.reject(err) })
             console.log('[Util]: New Material Added into DB.')
             console.log()
+            return true
         }
         else console.log('[Util]: This Material Exists.')
-        return
+        return false
     },
 
 }
