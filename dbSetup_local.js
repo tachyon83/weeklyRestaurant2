@@ -19,8 +19,8 @@ let settingObj = {
 }
 
 let testMember = [
-    'test',
-    process.env.dummyId_password || 'abcd1234',
+    process.env.DUMMY_USERNAME || 'test',
+    process.env.DUMMY_PASSWORD || 'abcd1234',
     200,
 ]
 
@@ -34,6 +34,10 @@ const sql_addRecipe =
     (name,style,img,memberId,ingredientId) 
     values ('닭볶음탕','KOR','https',1,1);`
 
+const sql_insertInventory =
+    `insert into ${dbSetting.table_inventory}
+    (memberId,meat,fish,misc,sauce) values(1,1,1,1,1);`
+
 
 function db_initSetting() {
     return new Promise((resolve, reject) => {
@@ -41,19 +45,19 @@ function db_initSetting() {
         conn_init1.connect();
         conn_init1.query(sqls.initialSetup, (err) => {
             conn_init1.destroy();
-            if (err) reject(err);
+            if (err) return reject(err);
             const conn_init2 = mysql.createConnection(settingObj)
             conn_init2.connect()
             conn_init2.query(sqls.newDB, (err) => {
                 conn_init2.destroy();
-                if (err) reject(err);
+                if (err) return reject(err);
                 settingObj.database = dbSetting.database
                 const conn_init3 = mysql.createConnection(settingObj)
                 conn_init3.connect()
                 conn_init3.query(sqls.createDummy, err => {
                     if (err) {
                         conn_init3.destroy()
-                        reject(err)
+                        return reject(err)
                     }
                     encode(testMember[1])
                         .then(hash => {
@@ -61,11 +65,11 @@ function db_initSetting() {
                             conn_init3.query(sql_addMember, testMember, err => {
                                 if (err) {
                                     conn_init3.destroy();
-                                    reject(err);
+                                    return reject(err);
                                 }
-                                conn_init3.query(sql_addRecipe, err => {
+                                conn_init3.query(sql_addRecipe + sql_insertInventory, err => {
                                     conn_init3.destroy()
-                                    if (err) reject(err)
+                                    if (err) return reject(err)
                                     resolve()
                                 })
                             })

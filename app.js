@@ -29,6 +29,7 @@ app.use(timeStampMiddleware)
 app.use('/member', require('./routes/member'))
 app.use('/recipe', auth, require('./routes/recipe'))
 app.use('/plan', require('./routes/plan'))
+app.use('/inventory', auth, require('./routes/inventory'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

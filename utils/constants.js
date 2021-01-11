@@ -4,4 +4,5 @@ module.exports = {
     ingredientTableIds: ['meatId', 'fishId', 'miscId', 'sauceId'],
     meals: ['breakfast', 'lunch', 'dinner'],
     days: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+    inventoryNames: ['meat_inventory', 'fish_inventory', 'misc_inventory', 'sauce_inventory'],
 }

@@ -24,9 +24,12 @@ module.exports = {
         if (!set.has(obj.name)) {
             console.log('[Util]: New Material Detected.')
             console.log()
+
             await dao.insertMaterialColumn(c.ingredientTableNames[i], obj.name)
             await dao.insertMaterialUnitColumn(c.ingredientUnitTableNames[i], obj.name)
             await dao.insertMaterialUnit(c.ingredientUnitTableNames[i], obj.name, obj.unit)
+            await dao.inserInventoryColumn(c.inventoryNames[i], obj.name)
+
             console.log('[Util]: New Material Added into DB.')
             console.log()
             return true

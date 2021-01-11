@@ -22,7 +22,7 @@ const subIngredientGetter = async (id, tableName, unitTableName) => {
             return {
                 name: colName,
                 amount: materialInfo[colName],
-                units: units[colName]
+                unit: units[colName]
             }
         }))
     }

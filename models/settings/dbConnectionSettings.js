@@ -8,6 +8,7 @@ module.exports = {
     user: process.env.CLEARDB_USER || 'foodmanager',
     password: process.env.CLEARDB_PASSWORD || '1234',
     database: process.env.CLEARDB_DATABASE || 'fooddb',
+
     table_member: 'member',
     table_recipe: 'recipe',
     table_ingredient: 'ingredient',
@@ -21,6 +22,11 @@ module.exports = {
     table_sauce_unit: 'sauce_unit',
     table_week: 'week',
     table_day: 'day',
+    table_meat_inventory: 'meat_inventory',
+    table_fish_inventory: 'fish_inventory',
+    table_misc_inventory: 'misc_inventory',
+    table_sauce_inventory: 'sauce_inventory',
+    table_inventory: 'inventory',
 
     connectionLimit: 100,
 }

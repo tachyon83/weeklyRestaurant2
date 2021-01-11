@@ -329,9 +329,126 @@ let sql_createTable_week =
         references ${dbSetting.table_day}(id)
     );`
 
+let sql_createTable_meat_inventory =
+    `create table if not exists ${dbSetting.table_meat_inventory}
+    (
+        id int not null auto_increment,
+        닭고기 int not null default 0,
+        소고기 int not null default 0,
+        돼지고기 int not null default 0,
+        순대 int not null default 0,
+        primary key(id)
+    );`
+
+let sql_createTable_fish_inventory =
+    `create table if not exists ${dbSetting.table_fish_inventory}
+    (
+        id int not null auto_increment,
+        멸치 int not null default 0,
+        새우 int not null default 0,
+        조개 int not null default 0,
+        오징어 int not null default 0,
+        primary key(id)
+    );`
+
+let sql_createTable_misc_inventory =
+    `create table if not exists ${dbSetting.table_misc_inventory}
+    (
+        id int not null auto_increment,
+        감자 int not null default 0,
+        양파 int not null default 0,
+        당근 int not null default 0,
+        버섯 int not null default 0,
+        대파 int not null default 0,
+        마늘 int not null default 0,
+        면 int not null default 0,
+        국수 int not null default 0,
+        청양고추 int not null default 0,
+        고추 int not null default 0,
+        애호박 int not null default 0,
+        참깨 int not null default 0,
+        김 int not null default 0,
+        밥 int not null default 0,
+        콩나물 int not null default 0,
+        두부 int not null default 0,
+        달걀 int not null default 0,
+        양배추 int not null default 0,
+        오이 int not null default 0,
+        죽순 int not null default 0,
+        파프리카 int not null default 0,
+        청경채 int not null default 0,
+        빵가루 int not null default 0,
+        우유 int not null default 0,
+        primary key(id)
+    );`
+
+let sql_createTable_sauce_inventory =
+    `create table if not exists ${dbSetting.table_sauce_inventory}
+    (
+        id int not null auto_increment,
+        간장 int not null default 0,
+        고추장 int not null default 0,
+        고춧가루 int not null default 0,
+        설탕 int not null default 0,
+        소금 int not null default 0,
+        후추 int not null default 0,
+        식초 int not null default 0,
+        다진마늘 int not null default 0,
+        청주 int not null default 0,
+        참기름 int not null default 0,
+        새우젓 int not null default 0,
+        춘장 int not null default 0,
+        primary key(id)
+    );`
+
+let sql_createTable_inventory =
+    `create table if not exists ${dbSetting.table_inventory}
+    (
+        id int not null auto_increment,
+        memberId int not null unique,
+        meat int not null,
+        fish int not null,
+        misc int not null,
+        sauce int not null,
+        primary key(id),
+        foreign key(memberId) 
+        references ${dbSetting.table_member}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(meat) 
+        references ${dbSetting.table_meat_inventory}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(fish) 
+        references ${dbSetting.table_fish_inventory}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(misc) 
+        references ${dbSetting.table_misc_inventory}(id) 
+        on update cascade 
+        on delete cascade,
+        foreign key(sauce) 
+        references ${dbSetting.table_sauce_inventory}(id) 
+        on update cascade 
+        on delete cascade
+    );`
+
 let sql_insert_day1 =
     `insert into ${dbSetting.table_day}
     (breakfast,lunch,dinner) values(null,null,null);`
+
+let sql_insert_meat_inventory =
+    `insert into ${dbSetting.table_meat_inventory} 
+    values();`
+let sql_insert_fish_inventory =
+    `insert into ${dbSetting.table_fish_inventory} 
+    values();`
+let sql_insert_misc_inventory =
+    `insert into ${dbSetting.table_misc_inventory} 
+    values();`
+let sql_insert_sauce_inventory =
+    `insert into ${dbSetting.table_sauce_inventory} 
+    values();`
 
 let sqls2 = sql_createTable_member + sql_createTable_meat
     + sql_createTable_fish + sql_createTable_misc
@@ -345,6 +462,15 @@ let sqls2 = sql_createTable_member + sql_createTable_meat
     + sql_insert_sauce1 + sql_insert_ingredient1
     + sql_createTable_day + sql_createTable_week
     + sql_insert_day1
+    + sql_createTable_meat_inventory
+    + sql_createTable_fish_inventory
+    + sql_createTable_misc_inventory
+    + sql_createTable_sauce_inventory
+    + sql_createTable_inventory
+    + sql_insert_meat_inventory
+    + sql_insert_fish_inventory
+    + sql_insert_misc_inventory
+    + sql_insert_sauce_inventory
 // + sql_insert_recipe1
 
 
@@ -461,6 +587,18 @@ let sql_getWeek =
     `select * from ${dbSetting.table_week} 
     where year=? and week=?;`
 
+let sql_getInventoryByMemberId =
+    `select meat,fish,misc,sauce from 
+    ${dbSetting.table_inventory} 
+    where memberId=?;`
+
+let sql_getSubInventoryById =
+    `select * from ?? 
+    where id=?;`
+
+let sql_insertInventoryColumn =
+    `alter table ?? add column ?? int not null default 0;`
+
 module.exports = {
     initialSetup: sqls1,
     newDB: sql_createDB,
@@ -492,5 +630,8 @@ module.exports = {
     sql_updateWeek,
     sql_getDay,
     sql_getWeek,
+    sql_getInventoryByMemberId,
+    sql_getSubInventoryById,
+    sql_insertInventoryColumn,
 
 }

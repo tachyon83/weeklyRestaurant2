@@ -165,6 +165,24 @@ class Dao {
 
     getWeek = q => this.sqlHandler(sqls.sql_getWeek, q, 1)
 
+    getInventoryByMemberId = id => this.sqlHandler(sqls.sql_getInventoryByMemberId, id, 1)
+
+    getSubInventoryById = (tableName, id) => {
+        let info = [
+            tableName, id
+        ]
+        return this.sqlHandler(sqls.sql_getSubInventoryById, info, 1)
+    }
+
+    inserInventoryColumn = (tableName, colName) => {
+        let info = [
+            tableName, colName
+        ]
+        return this.sqlHandler(sqls.sql_insertInventoryColumn, info)
+    }
+
+
+
 
 }
 
