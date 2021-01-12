@@ -24,7 +24,7 @@ module.exports = (function () {
                 console.log('this instance creator must be called only once')
                 dbPool = await initiate();
             }
-            return Promise.resolve(dbPool);
+            return dbPool;
         }
     }
 })();
