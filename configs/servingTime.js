@@ -1,4 +1,4 @@
-module.expors = {
+module.exports = {
     breakfast: 8,
     lunch: 12,
     dinner: 6,

@@ -13,8 +13,8 @@ module.exports = {
 
         let currentMaterialSet = new Set()
         for (let elem of currentMaterialArr) currentMaterialSet.add(elem.COLUMN_NAME)
-        console.log(currentMaterialSet)
-        console.log()
+        // console.log(currentMaterialSet)
+        // console.log()
         return currentMaterialSet
     },
 

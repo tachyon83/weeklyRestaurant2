@@ -15,6 +15,7 @@ const getDay = async dayId => {
 
 const getWeek = async (year, week) => {
     const weekInfo = await dao.getWeek([year, week])
+    if (!weekInfo) return null
     console.log('[Util]: Week Info obtained. Now getting Day Info...')
     console.log()
 

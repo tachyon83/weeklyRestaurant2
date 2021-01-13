@@ -1,36 +1,25 @@
 const moment = require('moment')
-const servingTime = require('../settings/servingTime')
+const servingTime = require('../../configs/servingTime')
 const schedule = require('node-schedule')
+const inventoryUtil = require('../utils/inventoryUtil')
+const c = require('../../utils/constants')
 
-const breakfastRule = new schedule.RecurrenceRule()
-const lunchRule = new schedule.RecurrenceRule()
-const dinnerRule = new schedule.RecurrenceRule()
-breakfastRule.hour = servingTime.breakfast
-lunchRule.hour = servingTime.lunch
-dinnerRule.hour = servingTime.dinner
+const serve = meal => {
+    const now = Date.now()
+    const year = moment(now).year()
+    const week = moment(now).week()
+    const day = moment(now).day()
 
-module.exports = {
-    breakfast: schedule.scheduleJob(breakfastRule, () => {
-        const now = Date.now()
-        const year = moment(now).year()
-        const week = moment(now).week()
-        const day = moment(now).day()
+    console.log('[SCHEDULE]: time to eat', meal)
+    inventoryUtil.consume(year, week, servingTime.days[day], meal)
+        .catch(err => { throw err })
+}
 
-        // week table null
-        // 해당 meal recipeId=null
-        // inventory에 0
-        // 차감 후 마이너스일때
-
-        // year,week,day -> recipe
-        // 재료 숫자
-        // member servings파악
-        // inventory에서 차감
-        console.log('time to eat breakfast')
-    }),
-    lunch: schedule.scheduleJob(lunchRule, () => {
-        console.log('oh now eat lunch')
-    }),
-    dinner: schedule.scheduleJob(dinnerRule, () => {
-
-    }),
+module.exports = () => {
+    c.meals.map(meal => {
+        const rule = new schedule.RecurrenceRule()
+        rule.hour = servingTime[meal]
+        // rule.second = servingTime[meal]
+        schedule.scheduleJob(rule, () => serve(meal))
+    })
 }

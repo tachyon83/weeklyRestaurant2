@@ -489,11 +489,8 @@ let sql_getMemberByUserId =
     from ${dbSetting.table_member} 
     where id=?;`
 
-let sql_getUnit =
+let sql_getFromTable =
     `select * from ??;`
-
-let sql_getSubIngredientById =
-    `select * from ?? where id=?;`
 
 let sql_getColumnNames =
     `select column_name from information_schema.columns 
@@ -506,6 +503,10 @@ let sql_getIngredientsById =
 
 let sql_getRecipeById =
     `select id,name,style,img from ${dbSetting.table_recipe} 
+    where id=?;`
+
+let sql_getIngIdByRecipeId =
+    `select ingredientId from ${dbSetting.table_recipe} 
     where id=?;`
 
 let sql_getRecipeByIds =
@@ -592,12 +593,19 @@ let sql_getInventoryByMemberId =
     ${dbSetting.table_inventory} 
     where memberId=?;`
 
-let sql_getSubInventoryById =
+let sql_getFromTableById =
     `select * from ?? 
     where id=?;`
 
 let sql_insertInventoryColumn =
     `alter table ?? add column ?? int not null default 0;`
+
+let sql_updateInventory =
+    `update ?? set ?? where id=?;`
+
+let sql_getServings =
+    `select servings from ${dbSetting.table_member} 
+    where id=1;`
 
 module.exports = {
     initialSetup: sqls1,
@@ -607,11 +615,11 @@ module.exports = {
     sql_insertMember,
     sql_getMemberByUsername,
     sql_getMemberByUserId,
-    sql_getUnit,
-    sql_getSubIngredientById,
+    sql_getFromTable,
     sql_getColumnNames,
     sql_getIngredientsById,
     sql_getRecipeById,
+    sql_getIngIdByRecipeId,
     sql_getRecipeByIds,
     sql_getRecipeByName,
     sql_insertMaterialUnitColumn,
@@ -631,7 +639,9 @@ module.exports = {
     sql_getDay,
     sql_getWeek,
     sql_getInventoryByMemberId,
-    sql_getSubInventoryById,
+    sql_getFromTableById,
     sql_insertInventoryColumn,
+    sql_updateInventory,
+    sql_getServings,
 
 }

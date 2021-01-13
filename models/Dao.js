@@ -33,7 +33,7 @@ class Dao {
                 conn.query(sql, (err, rows, fields) => {
                     conn.release();
                     if (err) {
-                        // console.log('err in query', err)
+                        console.log('err in query', err)
                         return reject(err)
                     }
                     // console.log('[DAO]: SQL=', sql)
@@ -78,6 +78,8 @@ class Dao {
         return this.sqlHandler(sqls.sql_getRecipeById, id, 1)
     }
 
+    getIngIdByRecipeId = id => this.sqlHandler(sqls.sql_getIngIdByRecipeId, id, 1)
+
     getRecipeByIds = (id, memberId) => {
         let info = [
             id, memberId
@@ -86,13 +88,7 @@ class Dao {
     }
     getIngredientsById = id => this.sqlHandler(sqls.sql_getIngredientsById, id, 1)
 
-    getSubIngredientById = (tableName, id) => {
-        let info = [
-            tableName, id
-        ]
-        return this.sqlHandler(sqls.sql_getSubIngredientById, info, 1)
-    }
-    getUnit = unitTableName => this.sqlHandler(sqls.sql_getUnit, unitTableName, 1)
+    getFromTable = unitTableName => this.sqlHandler(sqls.sql_getFromTable, unitTableName, 1)
 
     getColumnNames = unitTableName => this.sqlHandler(sqls.sql_getColumnNames, unitTableName)
 
@@ -167,11 +163,11 @@ class Dao {
 
     getInventoryByMemberId = id => this.sqlHandler(sqls.sql_getInventoryByMemberId, id, 1)
 
-    getSubInventoryById = (tableName, id) => {
+    getFromTableById = (tableName, id) => {
         let info = [
             tableName, id
         ]
-        return this.sqlHandler(sqls.sql_getSubInventoryById, info, 1)
+        return this.sqlHandler(sqls.sql_getFromTableById, info, 1)
     }
 
     inserInventoryColumn = (tableName, colName) => {
@@ -181,7 +177,14 @@ class Dao {
         return this.sqlHandler(sqls.sql_insertInventoryColumn, info)
     }
 
+    updateInventory = (tableName, condition, id) => {
+        let info = [
+            tableName, condition, id
+        ]
+        return this.sqlHandler(sqls.sql_updateInventory, info)
+    }
 
+    getServings = () => this.sqlHandler(sqls.sql_getServings, null, 1)
 
 
 }

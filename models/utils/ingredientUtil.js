@@ -6,8 +6,8 @@ const materialUtil = require('./materialUtil')
 // takes subIngredientTableId, its tableName, and corresponding unitTableName
 // returns the whole subIngredient object (id, name, contents)
 const subIngredientGetter = async (id, tableName, unitTableName) => {
-    const materialInfo = await dao.getSubIngredientById(tableName, id)
-    const units = await dao.getUnit(unitTableName)
+    const materialInfo = await dao.getFromTableById(tableName, id)
+    const units = await dao.getFromTable(unitTableName)
     const colNames = await dao.getColumnNames(unitTableName)
 
     let result = {}
@@ -181,7 +181,7 @@ const ingredientTableIdFinder = async ingIdArr => {
 const eachSubIngredientListFinder = async unitTableName => {
 
     const colNames = await dao.getColumnNames(unitTableName)
-    const units = await dao.getUnit(unitTableName)
+    const units = await dao.getFromTable(unitTableName)
 
     return colNames.map((colName, i) => {
         colName = colName.COLUMN_NAME

@@ -10,6 +10,7 @@ const webSettings = require('./configs/webSettings')
 const cors = require('cors');
 const router = express.Router();
 const serveFood = require('./models/utils/serveSchedule')
+serveFood()
 
 const app = express();
 app.use(morgan('short'))
