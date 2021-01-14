@@ -1,38 +1,34 @@
 import React, { useCallback, useState } from "react";
 import axios from 'axios';
-import e from "cors";
 const host = require("../host");
 
 const Login = ({setIslogin}) => {
 
   const [loginValue, setLoginValue] = useState(
     {
-      id : 'kim',
-      pw : '123',
+      username : 'test',
+      password : 'abcd1234',
     }
   );
 
   const onLoginInputId = useCallback((e)=>{
     e.preventDefault();
-    setLoginValue({...loginValue, id : e.target.value});
-    console.log(loginValue)
+    setLoginValue({...loginValue, username : e.target.value});
   })
 
   const onLoginInputPassword = useCallback((e)=>{
     e.preventDefault();
-    setLoginValue({...loginValue, pw : e.target.value});
+    setLoginValue({...loginValue, password : e.target.value});
     setTimeout(()=>{console.log(loginValue)}, 1000)
   })
 
   const handleLogin = useCallback((event) => {
     event.preventDefault();
-    setIslogin(true)
-    console.log(loginValue)
-    // axios.post(`${host.server}/member/login`, loginValue).then((result) => {
-    //   console.log(result)
-    //   setIslogin(true)
-    // }).catch( error => { console.log('failed', error) })
-  }, [setIslogin]);
+    axios.post(`${host.server}/member/login`, loginValue).then((result) => {
+      console.log(result)
+      setIslogin(true)
+    }).catch( error => { console.log('failed', error) })
+  }, [loginValue]);
 
   return (
     <form className="Login">
@@ -41,13 +37,13 @@ const Login = ({setIslogin}) => {
         <dl>
           <dt>ID</dt>
           <dd>
-            <input type="text" onChange={onLoginInputId} value={loginValue.id} />
+            <input type="text" onChange={onLoginInputId} value={loginValue.username} />
           </dd>
         </dl>
         <dl>
           <dt>Password</dt>
           <dd>
-            <input type="password" onChange={onLoginInputPassword} value={loginValue.pw} />
+            <input type="password" onChange={onLoginInputPassword} value={loginValue.password} />
           </dd>
         </dl>
         <div className="Login__buttonWrap">
