@@ -1,13 +1,18 @@
 import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 import logo from '../images/logo.png';
+import axios from 'axios';
+const host = require("../host");
 
 const Navigation = (props) => {
   const {islogin, setIslogin} = props
 
   const handleLogout = useCallback(
     () => {
-      setIslogin(false)
+      axios.get(`${host.server}/member/logout`).then((result) => {
+        console.log(result)
+        setIslogin(false)
+      }).catch( error => { console.log('failed', error) })
     })
 
   return (

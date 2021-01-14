@@ -9,7 +9,8 @@ const Inventory = () => {
   const [inventoryPopupShow, setInventoryPopupShow] = useState({value: false, title: null});
 
   useEffect(()=>{
-    axios.get(`${host.server}/storage/check`).then((result) => {
+    axios.get(`${host.server}/inventory`).then((result) => {
+      console.log(result.data)
       setIngredient(result.data);
     }).catch( error => { console.log('failed', error) });
   }, [])
