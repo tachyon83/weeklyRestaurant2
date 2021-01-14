@@ -179,14 +179,8 @@ const ingredientTableIdFinder = async ingIdArr => {
 // takes unitTableName
 // returns each subIngredient current list
 const eachSubIngredientListFinder = async unitTableName => {
-
-    const colNames = await dao.getColumnNames(unitTableName)
     const units = await dao.getFromTable(unitTableName)
-
-    return colNames.map((colName, i) => {
-        colName = colName.COLUMN_NAME
-        return { [colName]: units[colName] }
-    })
+    return Object.keys(units).map(material => { material: units[material] })
 }
 
 module.exports = {

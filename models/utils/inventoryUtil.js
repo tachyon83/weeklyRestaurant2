@@ -61,7 +61,27 @@ const consume = async (year, week, day, meal) => {
         })
         if (sql[sql.length - 1] === ',') sql = sql.substring(0, sql.length - 1)
         sql += ' where id=1;'
+        await dao.sqlHandler(sql, null).catch(err => err)
+    }
+}
+
+const add = async body => {
+    for (let i = 0; i < c.inventoryNames.length; ++i) {
+        const currSubMaterials = body[c.ingredientTableNames[i]]
+        if (!currSubMaterials) continue
+
+        let sql = 'update '
+        sql += c.inventoryNames[i] + ' '
+        sql += 'set '
+
+        const sz = currSubMaterials.length
+        currSubMaterials.map((obj, i) => {
+            sql += obj.name + '=' + obj.amoount
+            if (i < sz - 1) sql += ','
+        })
+        sql += ' where id=1;'
         await dao.sqlHandler(sql, null)
+            .catch(err => err)
     }
 }
 
@@ -69,5 +89,6 @@ module.exports = {
     getEachInventoryArr,
     getInventories,
     consume,
+    add
 
 }

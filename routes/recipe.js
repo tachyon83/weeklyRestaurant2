@@ -32,7 +32,6 @@ router.delete('/', (req, res) => {
 })
 
 router.put('/', async (req, res) => {
-
     // 수정 시에는 소유권을 확인하지 않는다.
     const ingIdsArr = await ingredientUtil.ingredientTablesIdFinder(req.body.contents)
     const ingId = await ingredientUtil.ingredientTableIdFinder(ingIdsArr)

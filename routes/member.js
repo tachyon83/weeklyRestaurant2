@@ -8,7 +8,6 @@ const router = express.Router();
 const dao = require('../models/Dao')
 const passport = require('passport');
 const passportConfig = require('../configs/passportLocal')
-
 passportConfig()
 
 
@@ -30,10 +29,12 @@ router.post('/login', (req, res, next) => {
             req.logIn(member, (err) => {
                 if (err) res.json(errHandler(err))
                 console.log('[MEMBER]: login successful')
+                console.log()
                 res.json(resHandler(true, resCode.success, null))
             })
         } else {
             console.log('[MEMBER]: login failed')
+            console.log()
             res.json(resHandler(false, resCode.wrong, null))
         }
     })(req, res, next)
@@ -48,7 +49,11 @@ router.post('/', (req, res) => {
         })
         .then(dao.insertMember)
         .then(result => {
-            if (result) res.json(resHandler(true, resCode.success, null))
+            if (result) {
+                res.json(resHandler(true, resCode.success, null))
+                console.log('[MEMBER]: signup successful')
+                console.log()
+            }
             res.json(resHandler(false, resCode.error, null))
         })
         .catch(err => res.json(errHandler(err)))
@@ -58,6 +63,8 @@ router.post('/', (req, res) => {
 router.get('/logout', auth, (req, res) => {
     req.session.destroy(err => {
         if (err) res.json(errHandler(err))
+        console.log('[MEMBER]: successfully logged out')
+        console.log()
         res.json(resHandler(true, resCode.success, null))
     })
 })

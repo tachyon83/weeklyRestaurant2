@@ -13,9 +13,7 @@ router.get('/:year/:week', async (req, res) => {
     planUtil.getWeek(req.params.year, req.params.week)
         .then(result => res.json(resHandler(true, resCode.success, result)))
         .catch(err => res.json(errHandler(err)))
-
 })
-
 
 router.put('/', auth, async (req, res) => {
 
