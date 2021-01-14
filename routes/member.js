@@ -29,6 +29,7 @@ router.post('/login', (req, res, next) => {
             req.logIn(member, (err) => {
                 if (err) res.json(errHandler(err))
                 console.log('[MEMBER]: login successful')
+                console.log(req.session.passport)
                 console.log()
                 res.json(resHandler(true, resCode.success, null))
             })

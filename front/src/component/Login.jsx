@@ -2,32 +2,34 @@ import React, { useCallback, useState } from "react";
 import axios from 'axios';
 const host = require("../host");
 
-const Login = ({setIslogin}) => {
+const Login = ({ setIslogin }) => {
 
   const [loginValue, setLoginValue] = useState(
     {
-      username : 'test',
-      password : 'abcd1234',
+      username: 'test',
+      password: 'abcd1234',
     }
   );
 
-  const onLoginInputId = useCallback((e)=>{
+  const onLoginInputId = useCallback((e) => {
     e.preventDefault();
-    setLoginValue({...loginValue, username : e.target.value});
+    setLoginValue({ ...loginValue, username: e.target.value });
   })
 
-  const onLoginInputPassword = useCallback((e)=>{
+  const onLoginInputPassword = useCallback((e) => {
     e.preventDefault();
-    setLoginValue({...loginValue, password : e.target.value});
-    setTimeout(()=>{console.log(loginValue)}, 1000)
+    setLoginValue({ ...loginValue, password: e.target.value });
+    setTimeout(() => { console.log(loginValue) }, 1000)
   })
 
   const handleLogin = useCallback((event) => {
     event.preventDefault();
-    axios.post(`${host.server}/member/login`, loginValue).then((result) => {
+    axios.post(`${host.server}/member/login`, loginValue, {
+      withCredentials: true
+    }).then((result) => {
       console.log(result)
       setIslogin(true)
-    }).catch( error => { console.log('failed', error) })
+    }).catch(error => { console.log('failed', error) })
   }, [loginValue]);
 
   return (

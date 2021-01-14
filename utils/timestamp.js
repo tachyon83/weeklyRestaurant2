@@ -4,5 +4,6 @@ module.exports = (req, res, next) => {
     let timeStamp = currTime.getHours() + ':' + currTime.getMinutes();
     console.log('[TimeStamp] server called at: ', timeStamp)
     console.log()
+    console.log('session Id in timestamp', req.session.id)
     next()
 }

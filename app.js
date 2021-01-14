@@ -18,9 +18,9 @@ serveFood()
 app.use(morgan('short'))
 app.use(express.json())
 app.use(session(webSettings.sessionSettings))
-app.use(cors(webSettings.corsSettings))
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors(webSettings.corsSettings))
 app.set('port', process.env.PORT || 3002);
 
 app.use(timeStampMiddleware)
