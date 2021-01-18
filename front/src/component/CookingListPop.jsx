@@ -19,8 +19,10 @@ const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId}) =
           event.target.classList.add('CookingList__tabItem--active')
         } 
     
-        axios.get(`${host.server}/recipe/list?req=${event ? event.target.attributes.nation.value : `KOR`}`).then((result) => {
-          setCookingList(result.data)
+        axios.get(`${host.server}/recipe/list?style=${event ? event.target.attributes.nation.value : `kor`}`, {
+            withCredentials: true
+          }).then((result) => {
+          setCookingList(result.data.data)
         }).catch( error => { console.log('failed', error) });
       }, []);
     
@@ -38,12 +40,11 @@ const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId}) =
             </div>
             <div className="CookingList">
                 <ul className="CookingList__tab">
-                <li className="CookingList__tabItem CookingList__tabItem--active" onClick={handleList} nation={`KOR`}>
+                <li className="CookingList__tabItem CookingList__tabItem--active" onClick={handleList} nation={`kor`}>
                     한식
                 </li>
-                <li className="CookingList__tabItem" onClick={handleList} nation={`CHN`}>중식</li>
-                <li className="CookingList__tabItem" onClick={handleList} nation={`WES`}>양식</li>
-                <li className="CookingList__tabItem" onClick={handleList} nation={`JPN`}>일식</li>
+                <li className="CookingList__tabItem" onClick={handleList} nation={`chn`}>중식</li>
+                <li className="CookingList__tabItem" onClick={handleList} nation={`wes`}>양식</li>
                 </ul>
                 <ul className="CookingList__dishList">
                 {

@@ -12,8 +12,8 @@ const Inventory = () => {
     axios.get(`${host.server}/inventory`, {
       withCredentials: true
     }).then((result) => {
-      console.log(result.data)
-      setIngredient(result.data);
+      console.log(result.data.data)
+      setIngredient(result.data.data);
     }).catch(error => { console.log('failed', error) });
   }, [])
 
@@ -38,7 +38,7 @@ const Inventory = () => {
               </dt>
               <dd className="Inventory__ingredient">
                 {
-                  ingredient.meats.map((item, i) => {
+                  ingredient.meat.map((item, i) => {
                     return (
                       <InventoryItem ingredient={item} key={i} />
                     )
@@ -53,7 +53,7 @@ const Inventory = () => {
               </dt>
               <dd className="Inventory__ingredient">
                 {
-                  ingredient.fishes.map((item, i) => {
+                  ingredient.fish.map((item, i) => {
                     return (
                       <InventoryItem ingredient={item} key={i} />
                     )
@@ -68,7 +68,7 @@ const Inventory = () => {
               </dt>
               <dd className="Inventory__ingredient">
                 {
-                  ingredient.miscs.map((item, i) => {
+                  ingredient.misc.map((item, i) => {
                     return (
                       <InventoryItem ingredient={item} key={i} />
                     )
@@ -83,7 +83,7 @@ const Inventory = () => {
               </dt>
               <dd className="Inventory__ingredient">
                 {
-                  ingredient.sauces.map((item, i) => {
+                  ingredient.sauce.map((item, i) => {
                     return (
                       <InventoryItem ingredient={item} key={i} />
                     )

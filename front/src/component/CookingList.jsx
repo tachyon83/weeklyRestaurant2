@@ -20,9 +20,10 @@ const CookingList = () => {
       event.target.classList.add('CookingList__tabItem--active')
     } 
 
-    axios.get(`${host.server}/recipe/list?style=${event ? event.target.attributes.nation.value : `kor`}`).then((result) => {
-      // setCookingList(result.data)
-      console.log(result.data)
+    axios.get(`${host.server}/recipe/list?style=${event ? event.target.attributes.nation.value : `kor`}`, {
+      withCredentials: true
+    }).then((result) => {
+      setCookingList(result.data.data);
     }).catch( error => { console.log('failed', error) });
   }, []);
 
@@ -38,13 +39,13 @@ const CookingList = () => {
           <li className="CookingList__tabItem" onClick={handleList} nation={`wes`}>양식</li>
         </ul>
         <ul className="CookingList__dishList">
-          {/* {
-            cookingList.map((item, index) => {
+          {
+            cookingList.map((item) => {
               return (
                 <CookingListItem cookingList={item} key={item.id} />
               )
             })
-          } */}
+          }
         </ul>
       </div>
     </div>

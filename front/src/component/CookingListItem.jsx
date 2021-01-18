@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import { Link } from 'react-router-dom';
 
 const CookingListItem = (props) => {
-    const {name, img} = props.cookingList.contents;
+    const {name, img} = props.cookingList;
     const id = props.cookingList.id;
     const popup = props.popup
     const setIsListPopup = props.setIsListPopup;
