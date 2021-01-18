@@ -19,8 +19,10 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
     }, [])
 
     const handleDetail = useCallback(() => {
-        axios.get(`${host.server}/recipe/${popupCookingId}`).then((result) => {
-            setCookingDetail(result.data);
+        axios.get(`${host.server}/recipe/${popupCookingId}`, {
+            withCredentials: true
+        }).then((result) => {
+            setCookingDetail(result.data.data);
         }).catch(error => { console.log('failed', error) });
     }, []);
 
@@ -36,10 +38,10 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
                     <div className="CookingDetail">
                         <div className="CookingDetail__top">
                             <div className="CookingDetail__desc">
-                                <div className="CookingDetail__title">{cookingDetail.contents.name}</div>
+                                <div className="CookingDetail__title">{cookingDetail.name}</div>
                                 <div className="CookingDetail__imgUrl">
                                     <span>이미지 URL</span>
-                                    <p>{cookingDetail.contents.img}</p>
+                                    <p>{cookingDetail.img}</p>
                                 </div>
                                 <div className="CookingDetail__buttonWrap">
                                     <button className="CookingDetail__button CookingDetail__button--edit">수정하기</button>
@@ -47,7 +49,7 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
                                 </div>
                             </div>
                             <div className="CookingDetail__thumb">
-                                <img src={cookingDetail.contents.img} alt="" />
+                                <img src={cookingDetail.img} alt="" />
                             </div>
                         </div>
                         <div className="CookingDetail__ingredient">
@@ -55,8 +57,8 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
                                 <dt className="CookingDetail__category">육류</dt>
                                 <dd>
                                     {
-                                        cookingDetail.ingredients.contents.meats ? (
-                                            cookingDetail.ingredients.contents.meats.contents.map((item, i) => {
+                                        cookingDetail.contents.meat ? (
+                                            cookingDetail.contents.meat.contents.map((item, i) => {
                                                 return (
                                                     <InventoryItem ingredient={item} key={i} />
                                                 )
@@ -69,8 +71,8 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
                                 <dt className="CookingDetail__category">어류</dt>
                                 <dd>
                                     {
-                                        cookingDetail.ingredients.contents.fishes ? (
-                                            cookingDetail.ingredients.contents.fishes.contents.map((item, i) => {
+                                        cookingDetail.contents.fishe ? (
+                                            cookingDetail.contents.fishe.contents.map((item, i) => {
                                                 return (
                                                     <InventoryItem ingredient={item} key={i} />
                                                 )
@@ -83,8 +85,8 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
                                 <dt className="CookingDetail__category">부재료</dt>
                                 <dd>
                                     {
-                                        cookingDetail.ingredients.contents.miscs ? (
-                                            cookingDetail.ingredients.contents.miscs.contents.map((item, i) => {
+                                        cookingDetail.contents.misc ? (
+                                            cookingDetail.contents.misc.contents.map((item, i) => {
                                                 return (
                                                     <InventoryItem ingredient={item} key={i} />
                                                 )
@@ -97,8 +99,8 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
                                 <dt className="CookingDetail__category">양념(소스)</dt>
                                 <dd>
                                     {
-                                        cookingDetail.ingredients.contents.sauces ? (
-                                            cookingDetail.ingredients.contents.sauces.contents.map((item, i) => {
+                                        cookingDetail.contents.sauce ? (
+                                            cookingDetail.contents.sauce.contents.map((item, i) => {
                                                 return (
                                                     <InventoryItem ingredient={item} key={i} />
                                                 )

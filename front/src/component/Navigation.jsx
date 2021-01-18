@@ -9,8 +9,9 @@ const Navigation = (props) => {
 
   const handleLogout = useCallback(
     () => {
-      axios.get(`${host.server}/member/logout`).then((result) => {
-        console.log(result)
+      axios.get(`${host.server}/member/logout`, {
+        withCredentials: true
+      }).then((result) => {
         setIslogin(false)
       }).catch( error => { console.log('failed', error) })
     })
