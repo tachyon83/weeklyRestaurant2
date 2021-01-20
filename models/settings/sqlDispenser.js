@@ -120,7 +120,7 @@ let sql_createTable_misc =
         애호박 decimal(5,2),
         참깨 decimal(5,2),
         김 decimal(5,2),
-        밥 decimal(5,2),
+        쌀 decimal(5,2),
         콩나물 decimal(5,2),
         두부 decimal(5,2),
         달걀 decimal(5,2),
@@ -188,7 +188,7 @@ let sql_createTable_misc_unit =
         애호박 varchar(5),
         참깨 varchar(5),
         김 varchar(5),
-        밥 varchar(5),
+        쌀 varchar(5),
         콩나물 varchar(5),
         두부 varchar(5),
         달걀 varchar(5),
@@ -248,17 +248,185 @@ let sql_insert_meat2 =
     `insert into ${dbSetting.table_meat}(닭고기) 
     values(1.5);`
 
+let sql_insert_meat3 =
+    `insert into ${dbSetting.table_meat}(돼지고기) 
+    values(1);`
+
+let sql_insert_meat4 =
+    `insert into ${dbSetting.table_meat}(소고기) 
+    values(1);`
+
+let sql_insert_meat5 =
+    `insert into ${dbSetting.table_meat}(순대) 
+    values(4);`
+
+let sql_insert_meat6 =
+    `insert into ${dbSetting.table_meat}(돼지고기) 
+    values(0.2);`
+
+let sql_insert_meat7 =
+    `insert into ${dbSetting.table_meat}(돼지고기) 
+    values(0.6);`
+
+let sql_insert_meat8 =
+    `insert into ${dbSetting.table_meat}(소고기,돼지고기) 
+    values(0.3,0.3);`
+
+let sql_insert_fish1 =
+    `insert into ${dbSetting.table_fish}(멸치) 
+    values(30);`
+
+let sql_insert_fish2 =
+    `insert into ${dbSetting.table_fish}(새우,조개,오징어) 
+    values(10,80,20);`
+
+let sql_insert_fish3 =
+    `insert into ${dbSetting.table_fish}(새우,조개,오징어) 
+    values(3,200,0.5);`
+
 let sql_insert_misc1 =
     `insert into ${dbSetting.table_misc}(감자,양파,당근,버섯,대파,마늘,면,국수,청양고추) 
     values (2, 0.5, 0.3, 0.5, 1, 0, 0, 0, 2);`
+
+let sql_insert_misc2 =
+    `insert into ${dbSetting.table_misc}(양파,국수,애호박,참깨,김,우유) 
+    values(0.5,1,0.5,1,1,0.5);`
+
+let sql_insert_misc3 =
+    `insert into ${dbSetting.table_misc}(양파,대파,쌀,두부) 
+    values(1,1,300,1);`
+
+let sql_insert_misc4 =
+    `insert into ${dbSetting.table_misc}(양파,마늘,면,청양고추,애호박) 
+    values(0.6,5,2,1,1);`
+
+let sql_insert_misc5 =
+    `insert into ${dbSetting.table_misc}(당근,고추,참깨,쌀) 
+    values(0.3,1,1,350);`
+
+let sql_insert_misc6 =
+    `insert into ${dbSetting.table_misc}(양파,국수,애호박,참깨,김,우유) 
+    values(0.7,1,0.5,1,1,0.5);`
+
+let sql_insert_misc7 =
+    `insert into ${dbSetting.table_misc}(대파,청양고추) 
+    values(1,2);`
+
+let sql_insert_misc8 =
+    `insert into ${dbSetting.table_misc}(양파,대파,면,양배추,오이) 
+    values(1, 1.5, 2, 0.2, 0.3);`
+
+let sql_insert_misc9 =
+    `insert into ${dbSetting.table_misc}(양파,버섯,대파,참깨,쌀,죽순,파프리카,청경채) 
+    values(0.5,2,1,10,200,1,1,4);`
+
+let sql_insert_misc10 =
+    `insert into ${dbSetting.table_misc}(양파, 마늘, 달걀, 빵가루, 우유) 
+    values(1, 1, 3, 200, 950);`
+
+let sql_insert_misc11 =
+    `insert into ${dbSetting.table_misc}(양파,마늘,면) 
+    values(1, 5, 1);`
+
+let sql_insert_misc12 =
+    `insert into ${dbSetting.table_misc}(양파,버섯,달걀,빵가루) 
+    values(1,6,2,200);`
 
 let sql_insert_sauce1 =
     `insert into ${dbSetting.table_sauce}(간장,고추장,고춧가루,설탕,소금,후추,식초,다진마늘) 
     values (1.5, 0, 1, 3, 0, 0, 0, 2);`
 
+let sql_insert_sauce2 =
+    `insert into ${dbSetting.table_sauce}(간장,고추장,고춧가루,설탕,소금,후추,식초,다진마늘) 
+    values (1.5, 0, 1, 3, 0, 1, 0, 2);`
+
+let sql_insert_sauce3 =
+    `insert into ${dbSetting.table_sauce}(간장,소금) 
+    values (10, 1.5);`
+
+let sql_insert_sauce4 =
+    `insert into ${dbSetting.table_sauce}(간장,고추장,고춧가루,다진마늘,참기름) 
+    values (0.3, 0.5, 3, 2, 1);`
+
+let sql_insert_sauce5 =
+    `insert into ${dbSetting.table_sauce}(간장,고추장,설탕,소금,후추,식초,다진마늘,청주) 
+    values (1, 1.5, 1, 0.3, 1, 1, 0.5, 2);`
+
+let sql_insert_sauce6 =
+    `insert into ${dbSetting.table_sauce}(간장,고춧가루,다진마늘,청주,참기름) 
+    values (3, 0.5, 0.5, 1, 1);`
+
+let sql_insert_sauce7 =
+    `insert into ${dbSetting.table_sauce}(고춧가루,소금,후추,다진마늘,새우젓) 
+    values (3, 0.5, 0.5, 1.5, 1.5);`
+
+let sql_insert_sauce8 =
+    `insert into ${dbSetting.table_sauce}(설탕,춘장) 
+    values (0.2, 0.3);`
+
+let sql_insert_sauce9 =
+    `insert into ${dbSetting.table_sauce}(다진마늘,청주,참기름) 
+    values (2, 2, 2);`
+
+let sql_insert_sauce10 =
+    `insert into ${dbSetting.table_sauce}(소금,후추) 
+    values (0.5, 0.3);`
+
+let sql_insert_sauce11 =
+    `insert into ${dbSetting.table_sauce}(소금) 
+    values (0.2);`
+
+let sql_insert_sauce12 =
+    `insert into ${dbSetting.table_sauce}(간장,설탕,소금,후추,다진마늘) 
+    values (0.5, 0.5, 0.2, 0.2, 0.5);`
+
+
+
+
 let sql_insert_ingredient1 =
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(1,null,1,1);`
+
+let sql_insert_ingredient2 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(null,1,2,3);`
+
+let sql_insert_ingredient3 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(4,null,3,4);`
+
+let sql_insert_ingredient4 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(1,null,4,5);`
+
+let sql_insert_ingredient5 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(4,null,5,6);`
+
+let sql_insert_ingredient6 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(5,null,7,7);`
+
+let sql_insert_ingredient7 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(6,null,8,8);`
+
+let sql_insert_ingredient8 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(null,2,9,9);`
+
+let sql_insert_ingredient9 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(7,null,10,10);`
+
+let sql_insert_ingredient10 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(null,3,11,11);`
+
+let sql_insert_ingredient11 =
+    `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
+    values(8,null,12,12);`
+
 
 // handled in dbSetup_local
 // let sql_insert_member1=
@@ -266,67 +434,19 @@ let sql_insert_ingredient1 =
 //     (username,password,servings) 
 //     values('test','1234',200)`
 
-// let sql_insert_recipe1 =
-//     `insert into ${dbSetting.table_recipe}(name,style,img,memberId,ingredientId) 
-//     values ('닭볶음탕','KOR','https',1,1);`
-
-let sql_createTable_day =
-    `create table if not exists ${dbSetting.table_day}
-    (
-        id int not null auto_increment,
-        breakfast int,
-        lunch int,
-        dinner int,
-        primary key(id),
-        unique key(breakfast,lunch,dinner),
-        foreign key(breakfast) 
-        references ${dbSetting.table_recipe}(id) 
-        on update cascade 
-        on delete cascade,
-        foreign key(lunch) 
-        references ${dbSetting.table_recipe}(id) 
-        on update cascade 
-        on delete cascade,
-        foreign key(dinner) 
-        references ${dbSetting.table_recipe}(id) 
-        on update cascade 
-        on delete cascade
-    );`
-
 let sql_createTable_week =
     `create table if not exists ${dbSetting.table_week}
     (
         id int not null auto_increment,
         year int not null,
         week int not null,
-        memberId int not null,
-        sun int,
-        mon int,
-        tue int,
-        wed int,
-        thu int,
-        fri int,
-        sat int,
+        day int not null,
+        meal int not null,
+        recipeId int not null,
         primary key(id),
-        unique key(year,week,memberId),
-        foreign key(memberId) 
-        references ${dbSetting.table_member}(id) 
-        on update cascade 
-        on delete cascade,
-        foreign key(sun) 
-        references ${dbSetting.table_day}(id),
-        foreign key(mon) 
-        references ${dbSetting.table_day}(id),
-        foreign key(tue) 
-        references ${dbSetting.table_day}(id),
-        foreign key(wed) 
-        references ${dbSetting.table_day}(id),
-        foreign key(thu) 
-        references ${dbSetting.table_day}(id),
-        foreign key(fri) 
-        references ${dbSetting.table_day}(id),
-        foreign key(sat) 
-        references ${dbSetting.table_day}(id)
+        unique key(year,week,day,meal),
+        foreign key(recipeId) 
+        references ${dbSetting.table_recipe}(id) 
     );`
 
 let sql_createTable_meat_inventory =
@@ -368,7 +488,7 @@ let sql_createTable_misc_inventory =
         애호박 int not null default 0,
         참깨 int not null default 0,
         김 int not null default 0,
-        밥 int not null default 0,
+        쌀 int not null default 0,
         콩나물 int not null default 0,
         두부 int not null default 0,
         달걀 int not null default 0,
@@ -433,10 +553,6 @@ let sql_createTable_inventory =
         on delete cascade
     );`
 
-let sql_insert_day1 =
-    `insert into ${dbSetting.table_day}
-    (breakfast,lunch,dinner) values(null,null,null);`
-
 let sql_insert_meat_inventory =
     `insert into ${dbSetting.table_meat_inventory} 
     values();`
@@ -450,18 +566,51 @@ let sql_insert_sauce_inventory =
     `insert into ${dbSetting.table_sauce_inventory} 
     values();`
 
-let sqls2 = sql_createTable_member + sql_createTable_meat
-    + sql_createTable_fish + sql_createTable_misc
-    + sql_createTable_sauce + sql_createTable_meat_unit
-    + sql_createTable_fish_unit + sql_createTable_misc_unit
-    + sql_createTable_sauce_unit + sql_insert_meat_unit
-    + sql_insert_fish_unit + sql_insert_misc_unit
-    + sql_insert_sauce_unit + sql_createTable_ingredient
-    + sql_createTable_recipe + sql_insert_meat1
-    + sql_insert_meat2 + sql_insert_misc1
-    + sql_insert_sauce1 + sql_insert_ingredient1
-    + sql_createTable_day + sql_createTable_week
-    + sql_insert_day1
+
+let sqls2 = sql_createTable_member
+    + sql_createTable_meat + sql_createTable_fish
+    + sql_createTable_misc + sql_createTable_sauce
+    + sql_createTable_meat_unit + sql_createTable_fish_unit
+    + sql_createTable_misc_unit + sql_createTable_sauce_unit
+    + sql_insert_meat_unit + sql_insert_fish_unit
+    + sql_insert_misc_unit + sql_insert_sauce_unit
+    + sql_createTable_ingredient
+    + sql_createTable_recipe
+
+    + sql_insert_meat1 + sql_insert_meat2
+    + sql_insert_meat3 + sql_insert_meat4
+    + sql_insert_meat5 + sql_insert_meat6
+    + sql_insert_meat7 + sql_insert_meat8
+
+    + sql_insert_fish1 + sql_insert_fish2 + sql_insert_fish3
+
+    + sql_insert_misc1 + sql_insert_misc2
+    + sql_insert_misc3 + sql_insert_misc4
+    + sql_insert_misc5 + sql_insert_misc6
+    + sql_insert_misc7 + sql_insert_misc8
+    + sql_insert_misc9 + sql_insert_misc10
+    + sql_insert_misc11 + sql_insert_misc12
+
+    + sql_insert_sauce1 + sql_insert_sauce2
+    + sql_insert_sauce3 + sql_insert_sauce4
+    + sql_insert_sauce5 + sql_insert_sauce6
+    + sql_insert_sauce7 + sql_insert_sauce8
+    + sql_insert_sauce9 + sql_insert_sauce10
+    + sql_insert_sauce11 + sql_insert_sauce12
+
+    + sql_insert_ingredient1
+    + sql_insert_ingredient2
+    + sql_insert_ingredient3
+    + sql_insert_ingredient4
+    + sql_insert_ingredient5
+    + sql_insert_ingredient6
+    + sql_insert_ingredient7
+    + sql_insert_ingredient8
+    + sql_insert_ingredient9
+    + sql_insert_ingredient10
+    + sql_insert_ingredient11
+
+    + sql_createTable_week
     + sql_createTable_meat_inventory
     + sql_createTable_fish_inventory
     + sql_createTable_misc_inventory
@@ -471,7 +620,6 @@ let sqls2 = sql_createTable_member + sql_createTable_meat
     + sql_insert_fish_inventory
     + sql_insert_misc_inventory
     + sql_insert_sauce_inventory
-// + sql_insert_recipe1
 
 
 let sql_insertMember =
@@ -556,37 +704,15 @@ let sql_getStyleList =
     `select id,name,img from ${dbSetting.table_recipe} 
     where style=? order by id asc;`
 
-// let sql_findDayId =
-//     `select id from ${dbSetting.table_day} 
-//     where breakfast=? and lunch=? and dinner=?;`
-
-let sql_insertDay =
-    `insert into ${dbSetting.table_day}
-    (breakfast,lunch,dinner) values(?,?,?);`
-
-let sql_getDayIdUponInsertion = sql_insertDay + sql_selectLastInsertId
-
-let sql_findWeekId =
-    `select id from ${dbSetting.table_week} 
-    where year=? and week=? and memberId=?;`
-
-let sql_insertWeek =
-    `insert into ${dbSetting.table_week}
-    (year,week,memberId) values(?,?,?);`
-
-let sql_getWeekIdUponInsertion = sql_insertWeek + sql_selectLastInsertId
-
-let sql_updateWeek =
-    `update ${dbSetting.table_week} 
-    set sun=?,mon=?,tue=?,wed=?,thu=?,fri=?,sat=? where id=?;`
-
-let sql_getDay =
-    `select * from ${dbSetting.table_day} 
-    where id=?;`
-
 let sql_getWeek =
-    `select * from ${dbSetting.table_week} 
-    where year=? and week=?;`
+    `select w.day, w.meal, r.id, r.name, r.style,r.img 
+    from ${dbSetting.table_week} w left join ${dbSetting.table_recipe} r 
+    on w.recipeId=r.id 
+    where w.year=? and w.week=? order by w.day,w.meal;`
+
+let sql_handleWeek =
+    `insert into ${dbSetting.table_week}(year,week,day,meal,recipeId) 
+    values(?,?,?,?,?) on duplicate key update recipeId=?;`
 
 let sql_getInventoryByMemberId =
     `select meat,fish,misc,sauce from 
@@ -606,6 +732,8 @@ let sql_updateInventory =
 let sql_getServings =
     `select servings from ${dbSetting.table_member} 
     where id=1;`
+
+
 
 module.exports = {
     initialSetup: sqls1,
@@ -631,13 +759,8 @@ module.exports = {
     sql_updateRecipe,
     sql_deleteRecipe,
     sql_getStyleList,
-    // sql_findDayId,
-    sql_getDayIdUponInsertion,
-    sql_findWeekId,
-    sql_getWeekIdUponInsertion,
-    sql_updateWeek,
-    sql_getDay,
     sql_getWeek,
+    sql_handleWeek,
     sql_getInventoryByMemberId,
     sql_getFromTableById,
     sql_insertInventoryColumn,

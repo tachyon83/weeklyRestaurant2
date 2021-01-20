@@ -35,7 +35,6 @@ module.exports = class MiscDummyDao extends IngDummySuperDao {
             { id: 'misc_214', contents: this.newContents(2, 0.5, 0.3, 0.5, 1, 0, 0, 0, 2) },
             { id: 'misc_119', contents: this.newContents(0, 0.5, 0, 0, 0, 0, 0, 1, 0, 0, 0.5, 1, 1, 0, 0, 0, 0.5) },
             { id: 'misc_250', contents: this.newContents(0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1) },
-            { id: 'misc_250', contents: this.newContents(0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1) },
             { id: 'misc_410', contents: this.newContents(0, 0.6, 0, 0, 0, 5, 2, 0, 1, 0, 1) },
             { id: 'misc_516', contents: this.newContents(0, 0, 0.3, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 4) },
             { id: 'misc_416', contents: this.newContents(0, 0, 0, 0, 1, 0, 0, 0, 2) },

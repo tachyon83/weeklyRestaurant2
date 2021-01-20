@@ -7,7 +7,6 @@ const inventoryUtil = require('../models/utils/inventoryUtil')
 
 
 router.get('/', (req, res) => {
-    console.log('here in inventory')
     inventoryUtil.getInventories(req.session.passport.user)
         .then(result => res.json(resHandler(true, resCode.success, result)))
         .catch(err => res.json(errHandler(err)))

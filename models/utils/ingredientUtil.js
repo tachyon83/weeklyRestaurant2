@@ -60,8 +60,6 @@ const eachIngredientTableIdFinder = async (i, info) => {
     if (!info) return null
 
     let currentMaterialSet = await materialUtil.currentMaterialSetMaker(i)
-    // const currentMaterialArr=await materialUtil.currentMaterialArrMaker(i)
-    // let cond = []
     let names = []
     let amounts = []
     // console.log('info.contents in eachIng', info.contents)
@@ -180,7 +178,7 @@ const ingredientTableIdFinder = async ingIdArr => {
 // returns each subIngredient current list
 const eachSubIngredientListFinder = async unitTableName => {
     const units = await dao.getFromTable(unitTableName)
-    return Object.keys(units).map(material => { material: units[material] })
+    return Object.keys(units).map(material => { return { [material]: units[material] } })
 }
 
 module.exports = {

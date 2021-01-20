@@ -16,14 +16,9 @@ router.get('/:year/:week', async (req, res) => {
 })
 
 router.put('/', auth, async (req, res) => {
-
-    req.body.weekInfo = []
-    for (let day of req.body.plan) req.body.weekInfo.push(await planUtil.dayIdFinder(day))
-    req.body.memberId = req.session.passport.user
     planUtil.weekHandler(req.body)
         .then(() => res.json(resHandler(true, resCode.success, null)))
         .catch(err => res.json(errHandler(err)))
-
 })
 
 module.exports = router

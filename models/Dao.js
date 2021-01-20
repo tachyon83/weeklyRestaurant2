@@ -147,19 +147,11 @@ class Dao {
 
     getStyleList = style => this.sqlHandler(sqls.sql_getStyleList, style)
 
-    // findDayId = q => this.sqlHandler(sqls.sql_findDayId, q, 1)
-
-    getDayIdUponInsertion = q => this.sqlHandler(sqls.sql_getDayIdUponInsertion, q)
-
-    findWeekId = q => this.sqlHandler(sqls.sql_findWeekId, q, 1)
-
-    getWeekIdUponInsertion = q => this.sqlHandler(sqls.sql_getWeekIdUponInsertion, q)
-
-    updateWeek = q => this.sqlHandler(sqls.sql_updateWeek, q)
-
     getDay = id => this.sqlHandler(sqls.sql_getDay, id, 1)
 
-    getWeek = q => this.sqlHandler(sqls.sql_getWeek, q, 1)
+    getWeek = q => this.sqlHandler(sqls.sql_getWeek, q)
+
+    handleWeek = q => this.sqlHandler(sqls.sql_handleWeek, q)
 
     getInventoryByMemberId = id => this.sqlHandler(sqls.sql_getInventoryByMemberId, id, 1)
 
