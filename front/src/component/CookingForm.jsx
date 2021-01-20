@@ -1,6 +1,47 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+import axios from 'axios';
+const host = require("../host");
 
 const CookingForm = (props) => {
+
+  const [cookingForm, setCookingForm] = useState({
+    id: null,
+    name: null,
+    style: null,
+    img: null,
+    contents: {
+      meat: {
+        id: null,
+        name: null,
+        contents: null,
+      },
+      fish: {
+        id: null,
+        name: null,
+        contents: null,
+      },
+      mics: {
+        id: null,
+        name: null,
+        contents: null,
+      },
+      sauce: {
+        id: null,
+        name: null,
+        contents: null,
+      }
+    }
+  });
+
+  const onCookingCreate = useCallback(() => {
+    axios.post(`${host.server}/recipe`, {
+        withCredentials: true
+      }, cookingForm).then((result) => {
+        console.log(result)
+      }).catch( error => { console.log('failed', error) });
+    }, []
+  );
+
   return (
     <div className="LineBox">
       <h2>요리 추가</h2>
@@ -235,7 +276,7 @@ const CookingForm = (props) => {
           </li>
         </ul>
         <div className="CookingForm__buttonWrap">
-          <button type="submit" className="CookingForm__button CookingForm__button--submit">요리추가</button>
+          <button type="submit" className="CookingForm__button CookingForm__button--submit" onClick={onCookingCreate}>요리추가</button>
           <button type="submit" className="CookingForm__button CookingForm__button--edit">요리수정</button>
           <button type="submit" className="CookingForm__button CookingForm__button--remove">요리삭제</button>
         </div>
