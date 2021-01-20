@@ -2,10 +2,10 @@ const dao = require('../Dao')
 const c = require('../../utils/constants')
 
 module.exports = {
-    currentMaterialArrMaker: async i => {
-        const currentMaterialArr = await dao.getColumnNames(c.ingredientUnitTableNames[i])
-        return currentMaterialArr.map(material => material.COLUMN_NAME)
-    },
+    // currentMaterialArrMaker: async i => {
+    //     const currentMaterialArr = await dao.getColumnNames(c.ingredientUnitTableNames[i])
+    //     return currentMaterialArr.map(material => material.COLUMN_NAME)
+    // },
 
     currentMaterialSetMaker: async i => {
         const currentMaterialArr = await dao.getColumnNames(c.ingredientUnitTableNames[i])
@@ -22,7 +22,7 @@ module.exports = {
     newMaterialCheckThenAdder: async (obj, set, i) => {
         console.log('each obj', obj)
         if (!set.has(obj.name)) {
-            console.log('[Util]: New Material Detected.')
+            console.log('[Util]: New Material ' + obj.name + ' Detected.')
             console.log()
 
             await dao.insertMaterialColumn(c.ingredientTableNames[i], obj.name)
@@ -34,7 +34,7 @@ module.exports = {
             console.log()
             return true
         }
-        else console.log('[Util]: This Material Exists.')
+        else console.log('[Util]: This Material ' + obj.name + ' Exists.')
         return false
     },
 

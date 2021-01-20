@@ -21,7 +21,6 @@ module.exports = {
     table_misc_unit: 'misc_unit',
     table_sauce_unit: 'sauce_unit',
     table_week: 'week',
-    table_day: 'day',
     table_meat_inventory: 'meat_inventory',
     table_fish_inventory: 'fish_inventory',
     table_misc_inventory: 'misc_inventory',

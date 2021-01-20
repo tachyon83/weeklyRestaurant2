@@ -89,6 +89,6 @@ module.exports = {
     getEachInventoryArr,
     getInventories,
     consume,
-    add
+    add,
 
 }

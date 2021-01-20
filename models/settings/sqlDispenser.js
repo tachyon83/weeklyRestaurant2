@@ -270,63 +270,19 @@ let sql_insert_ingredient1 =
 //     `insert into ${dbSetting.table_recipe}(name,style,img,memberId,ingredientId) 
 //     values ('닭볶음탕','KOR','https',1,1);`
 
-let sql_createTable_day =
-    `create table if not exists ${dbSetting.table_day}
-    (
-        id int not null auto_increment,
-        breakfast int,
-        lunch int,
-        dinner int,
-        primary key(id),
-        unique key(breakfast,lunch,dinner),
-        foreign key(breakfast) 
-        references ${dbSetting.table_recipe}(id) 
-        on update cascade 
-        on delete cascade,
-        foreign key(lunch) 
-        references ${dbSetting.table_recipe}(id) 
-        on update cascade 
-        on delete cascade,
-        foreign key(dinner) 
-        references ${dbSetting.table_recipe}(id) 
-        on update cascade 
-        on delete cascade
-    );`
-
 let sql_createTable_week =
     `create table if not exists ${dbSetting.table_week}
     (
         id int not null auto_increment,
         year int not null,
         week int not null,
-        memberId int not null,
-        sun int,
-        mon int,
-        tue int,
-        wed int,
-        thu int,
-        fri int,
-        sat int,
+        day int not null,
+        meal int not null,
+        recipeId int not null,
         primary key(id),
-        unique key(year,week,memberId),
-        foreign key(memberId) 
-        references ${dbSetting.table_member}(id) 
-        on update cascade 
-        on delete cascade,
-        foreign key(sun) 
-        references ${dbSetting.table_day}(id),
-        foreign key(mon) 
-        references ${dbSetting.table_day}(id),
-        foreign key(tue) 
-        references ${dbSetting.table_day}(id),
-        foreign key(wed) 
-        references ${dbSetting.table_day}(id),
-        foreign key(thu) 
-        references ${dbSetting.table_day}(id),
-        foreign key(fri) 
-        references ${dbSetting.table_day}(id),
-        foreign key(sat) 
-        references ${dbSetting.table_day}(id)
+        unique key(year,week,day,meal),
+        foreign key(recipeId) 
+        references ${dbSetting.table_recipe}(id) 
     );`
 
 let sql_createTable_meat_inventory =
@@ -460,8 +416,7 @@ let sqls2 = sql_createTable_member + sql_createTable_meat
     + sql_createTable_recipe + sql_insert_meat1
     + sql_insert_meat2 + sql_insert_misc1
     + sql_insert_sauce1 + sql_insert_ingredient1
-    + sql_createTable_day + sql_createTable_week
-    + sql_insert_day1
+    + sql_createTable_week
     + sql_createTable_meat_inventory
     + sql_createTable_fish_inventory
     + sql_createTable_misc_inventory
@@ -556,37 +511,15 @@ let sql_getStyleList =
     `select id,name,img from ${dbSetting.table_recipe} 
     where style=? order by id asc;`
 
-// let sql_findDayId =
-//     `select id from ${dbSetting.table_day} 
-//     where breakfast=? and lunch=? and dinner=?;`
-
-let sql_insertDay =
-    `insert into ${dbSetting.table_day}
-    (breakfast,lunch,dinner) values(?,?,?);`
-
-let sql_getDayIdUponInsertion = sql_insertDay + sql_selectLastInsertId
-
-let sql_findWeekId =
-    `select id from ${dbSetting.table_week} 
-    where year=? and week=? and memberId=?;`
-
-let sql_insertWeek =
-    `insert into ${dbSetting.table_week}
-    (year,week,memberId) values(?,?,?);`
-
-let sql_getWeekIdUponInsertion = sql_insertWeek + sql_selectLastInsertId
-
-let sql_updateWeek =
-    `update ${dbSetting.table_week} 
-    set sun=?,mon=?,tue=?,wed=?,thu=?,fri=?,sat=? where id=?;`
-
-let sql_getDay =
-    `select * from ${dbSetting.table_day} 
-    where id=?;`
-
 let sql_getWeek =
-    `select * from ${dbSetting.table_week} 
-    where year=? and week=?;`
+    `select w.day, w.meal, r.id, r.name, r.style,r.img 
+    from ${dbSetting.table_week} w left join ${dbSetting.table_recipe} r 
+    on w.recipeId=r.id 
+    where w.year=? and w.week=? order by w.day,w.meal;`
+
+let sql_handleWeek =
+    `insert into ${dbSetting.table_week}(year,week,day,meal,recipeId) 
+    values(?,?,?,?,?) on duplicate key update recipeId=?;`
 
 let sql_getInventoryByMemberId =
     `select meat,fish,misc,sauce from 
@@ -631,13 +564,8 @@ module.exports = {
     sql_updateRecipe,
     sql_deleteRecipe,
     sql_getStyleList,
-    // sql_findDayId,
-    sql_getDayIdUponInsertion,
-    sql_findWeekId,
-    sql_getWeekIdUponInsertion,
-    sql_updateWeek,
-    sql_getDay,
     sql_getWeek,
+    sql_handleWeek,
     sql_getInventoryByMemberId,
     sql_getFromTableById,
     sql_insertInventoryColumn,
