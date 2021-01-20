@@ -15,7 +15,7 @@ const CookingListItem = (props) => {
             setIsDetailPopup(prevState => true);
             setPopupCookingId(prevState => id);
         },
-        [],
+        [setIsListPopup, setIsDetailPopup, setPopupCookingId],
     )
 
     return(

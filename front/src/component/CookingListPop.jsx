@@ -8,9 +8,9 @@ const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId}) =
     const [cookingList, setCookingList] = useState([])
     useEffect(()=> {
         handleList()
-      }, [])
+    }, [])
     
-      const handleList = useCallback((event) => {
+    const handleList = useCallback((event) => {
         if(event) {
           let children = event.target.parentElement.children;
           for(let i = 0; i < children.length; i++) {
@@ -24,7 +24,7 @@ const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId}) =
           }).then((result) => {
           setCookingList(result.data.data)
         }).catch( error => { console.log('failed', error) });
-      }, []);
+    }, [setCookingList]);
     
     const handleCloseList = useCallback(
         () => {

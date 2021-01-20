@@ -14,13 +14,13 @@ const Login = ({ setIslogin }) => {
   const onLoginInputId = useCallback((e) => {
     e.preventDefault();
     setLoginValue({ ...loginValue, username: e.target.value });
-  })
+  }, [loginValue])
 
   const onLoginInputPassword = useCallback((e) => {
     e.preventDefault();
     setLoginValue({ ...loginValue, password: e.target.value });
     setTimeout(() => { console.log(loginValue) }, 1000)
-  })
+  }, [loginValue])
 
   const handleLogin = useCallback((event) => {
     event.preventDefault();

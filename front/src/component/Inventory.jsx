@@ -22,7 +22,7 @@ const Inventory = () => {
       value: true,
       title: e.currentTarget.dataset.category,
     })
-  })
+  }, [setInventoryPopupShow])
 
   return (
     <>

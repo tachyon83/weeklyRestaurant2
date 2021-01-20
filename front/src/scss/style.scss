@@ -739,6 +739,12 @@ footer{
     &__section04{
         min-width: 76px;
     }
+
+    &__option{
+        margin-top: '10px'; 
+        padding-top: 0; 
+        border: 'none';
+    }
     
     ul{
         display: flex;

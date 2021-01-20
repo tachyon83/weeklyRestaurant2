@@ -11,7 +11,7 @@ const CalendarItem = (props = null) => {
 
   return (
     <li
-      className={setDay == [week] ? "Calendar__item active" : "Calendar__item"}
+      className={setDay === [week] ? "Calendar__item active" : "Calendar__item"}
     >
       <div className="Calendar__day">
         <span>{weekArr[week]}</span>
