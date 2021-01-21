@@ -383,77 +383,77 @@ let sql_insert_sauce12 =
 
 
 
-let sql_insert_ingredient1 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient1 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(1,null,1,1);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(1,null,1,1);`
 
-let sql_insert_ingredient2 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient2 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,1,11,21);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,1,2,3);`
 
-let sql_insert_ingredient3 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient3 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(31,null,21,31);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(4,null,3,4);`
 
-let sql_insert_ingredient4 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient4 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(1,null,31,41);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(1,null,4,5);`
 
-let sql_insert_ingredient5 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient5 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(31,null,41,51);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(4,null,5,6);`
 
-let sql_insert_ingredient6 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient6 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(41,null,61,61);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(5,null,7,7);`
 
-let sql_insert_ingredient7 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient7 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(51,null,71,71);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(6,null,8,8);`
 
-let sql_insert_ingredient8 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient8 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,11,81,81);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,2,9,9);`
 
-let sql_insert_ingredient9 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient9 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(61,null,91,91);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(7,null,10,10);`
 
-let sql_insert_ingredient10 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient10 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,21,101,101);`
     :
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,3,11,11);`
 
-let sql_insert_ingredient11 = process.env.NODE_ENV === production ?
+let sql_insert_ingredient11 = process.env.NODE_ENV === 'production' ?
     `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(71,null,111,111);`
     :
