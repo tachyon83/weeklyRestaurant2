@@ -3,14 +3,14 @@ import axios from 'axios';
 import CookingListItem from "./CookingListItem";
 const host = require("../host");
 
-const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId}) => {
+const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId, popupCookingId, calendarSelectData, calendarPlan}) => {
 
     const [cookingList, setCookingList] = useState([])
     useEffect(()=> {
         handleList()
-      }, [])
+    }, [])
     
-      const handleList = useCallback((event) => {
+    const handleList = useCallback((event) => {
         if(event) {
           let children = event.target.parentElement.children;
           for(let i = 0; i < children.length; i++) {
@@ -24,7 +24,7 @@ const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId}) =
           }).then((result) => {
           setCookingList(result.data.data)
         }).catch( error => { console.log('failed', error) });
-      }, []);
+    }, [setCookingList]);
     
     const handleCloseList = useCallback(
         () => {
@@ -50,7 +50,7 @@ const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId}) =
                 {
                     cookingList.map((item) => {
                     return (
-                        <CookingListItem cookingList={item} key={item.id} popup={true} setIsListPopup={setIsListPopup} setIsDetailPopup={setIsDetailPopup} setPopupCookingId={setPopupCookingId}/>
+                        <CookingListItem cookingList={item} key={item.id} popup={true} setIsListPopup={setIsListPopup} setIsDetailPopup={setIsDetailPopup} setPopupCookingId={setPopupCookingId} popupCookingId={popupCookingId} calendarSelectData={calendarSelectData} calendarPlan={calendarPlan} />
                     )
                     })
                 }

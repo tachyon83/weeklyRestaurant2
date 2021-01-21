@@ -1,5 +1,7 @@
 import React, {useCallback} from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+const host = require("../host");
 
 const CookingListItem = (props) => {
     const {name, img} = props.cookingList;
@@ -8,15 +10,37 @@ const CookingListItem = (props) => {
     const setIsListPopup = props.setIsListPopup;
     const setIsDetailPopup = props.setIsDetailPopup;
     const setPopupCookingId = props.setPopupCookingId;
+    const {popupCookingId, calendarSelectData, calendarPlan} = props;
 
-    const handleCloseList = useCallback(
+    console.log(popupCookingId, calendarSelectData, calendarPlan)
+
+    const handlePopupControl = useCallback(
         () => {
             setIsListPopup(prevState => false);
             setIsDetailPopup(prevState => true);
             setPopupCookingId(prevState => id);
         },
-        [],
+        [setIsListPopup, setIsDetailPopup, setPopupCookingId],
     )
+
+    const handleCanlendarPlan = useCallback(()=>{
+        setIsListPopup(prevState => false);
+        setPopupCookingId(prevState => id);
+
+        let planArr = [...calendarPlan];
+
+        planArr[calendarSelectData.planWeek][calendarSelectData.planEatTime] = popupCookingId;
+
+        axios.put(`${host.server}/plan`,{
+            year: calendarSelectData.year,
+            week: calendarSelectData.week,
+            plan: planArr
+        },{
+            withCredentials: true
+        }).then((result) => {
+            console.log(result)
+        }).catch(error => { console.log('failed', error) })
+    })
 
     return(
         <li className="CookingList__dishItem DishItem">
@@ -25,7 +49,7 @@ const CookingListItem = (props) => {
                 {
                     popup 
                     ? (
-                        <img src={img} onClick={handleCloseList} />
+                        <img src={img} onClick={handlePopupControl} />
                     ) : (
                         <Link to={`/cookingList/${id}`}>
                             <img
@@ -38,7 +62,7 @@ const CookingListItem = (props) => {
             <div className="DishItem__desc">
                 <div className="DishItem__title">{name}</div>
                 { popup && (
-                    <button className="DishItem__button DishItem__button--add">
+                    <button className="DishItem__button DishItem__button--add" onClick={handleCanlendarPlan}>
                         + 추가하기
                     </button>
                     )

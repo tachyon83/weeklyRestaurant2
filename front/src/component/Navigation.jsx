@@ -14,7 +14,7 @@ const Navigation = (props) => {
       }).then((result) => {
         setIslogin(false)
       }).catch( error => { console.log('failed', error) })
-    })
+    }, [setIslogin])
 
   return (
     <nav>

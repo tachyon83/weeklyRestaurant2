@@ -7,11 +7,11 @@ const randomImageNumber = () => {
 }
 
 const CalendarItem = (props = null) => {
-  const { calendarData, setIsDetailPopup, setIsListPopup, date, week, setDay, islogin, setPopupCookingId } = props;
+  const { calendarData, setIsDetailPopup, setIsListPopup, date, week, setYear, setWeek, setDay, islogin, setPopupCookingId, setCalendarSelectData } = props;
 
   return (
     <li
-      className={setDay == [week] ? "Calendar__item active" : "Calendar__item"}
+      className={setDay === [week] ? "Calendar__item active" : "Calendar__item"}
     >
       <div className="Calendar__day">
         <span>{weekArr[week]}</span>
@@ -33,7 +33,14 @@ const CalendarItem = (props = null) => {
                 islogin={islogin}
               /> 
             : islogin 
-              ? <CalendarItemAdd setIsListPopup={setIsListPopup} /> 
+              ? <CalendarItemAdd 
+                  setIsListPopup={setIsListPopup} 
+                  setCalendarSelectData={setCalendarSelectData} 
+                  eatTime={0} 
+                  week={week} 
+                  setYear={setYear}
+                  setWeek={setWeek} 
+                /> 
               : <CalendarItemEmpty />
           }
         </div>
@@ -52,7 +59,14 @@ const CalendarItem = (props = null) => {
                 islogin={islogin}
               /> 
             : islogin 
-              ? <CalendarItemAdd setIsListPopup={setIsListPopup} /> 
+              ? <CalendarItemAdd 
+                  setIsListPopup={setIsListPopup} 
+                  setCalendarSelectData={setCalendarSelectData} 
+                  eatTime={1} 
+                  week={week} 
+                  setYear={setYear}
+                  setWeek={setWeek} 
+                /> 
               : <CalendarItemEmpty />
           }
         </div>
@@ -71,7 +85,14 @@ const CalendarItem = (props = null) => {
                 islogin={islogin}
               /> 
             : islogin 
-              ? <CalendarItemAdd setIsListPopup={setIsListPopup} /> 
+              ? <CalendarItemAdd 
+                  setIsListPopup={setIsListPopup} 
+                  setCalendarSelectData={setCalendarSelectData} 
+                  eatTime={2} 
+                  week={week} 
+                  setYear={setYear}
+                  setWeek={setWeek} 
+                /> 
               : <CalendarItemEmpty />
           }
         </div>
@@ -90,10 +111,16 @@ const CalendarItemEmpty = (props) => {
 }
 
 const CalendarItemAdd = (props) => {
-  const { setIsListPopup } = props;
+  const { setIsListPopup, setCalendarSelectData, eatTime, week, setYear, setWeek } = props;
 
   const handleShowList = useCallback(() => {
     setIsListPopup(true);
+    setCalendarSelectData({
+      year: setYear,
+      week: setWeek,
+      planWeek: week,
+      planEatTime: eatTime,
+    });
   });
 
   return (
@@ -109,6 +136,7 @@ const CalendarItemAdd = (props) => {
 
 const CalendarItemContent = (props) => {
   const { setIsDetailPopup, name, id, img, setPopupCookingId, islogin } = props;
+  console.log('CalendarItemContent', props)
 
   const handleShowDetail = useCallback(() => {
     setPopupCookingId(id);

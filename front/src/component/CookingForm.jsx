@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import axios from 'axios';
+import CookingSelectOption from './CookingSelectOption';
 const host = require("../host");
 
 const CookingForm = (props) => {
@@ -33,14 +34,63 @@ const CookingForm = (props) => {
     }
   });
 
-  const onCookingCreate = useCallback(() => {
-    axios.post(`${host.server}/recipe`, {
-        withCredentials: true
-      }, cookingForm).then((result) => {
-        console.log(result)
-      }).catch( error => { console.log('failed', error) });
-    }, []
-  );
+  const [baseOption, setBaseOption] = useState();
+
+  const [selectOptionArr, setSelectOptionArr] = useState({
+    meat: [
+      {selfInput: false}
+    ],
+    fish: null,
+    mics: null,
+    sauce: null,
+  });
+
+  useEffect(() => {
+    axios.get(`${host.server}/recipe/new`, {
+      withCredentials: true
+    }).then((result) => {
+      console.log(result.data.data)
+      setBaseOption(result.data.data)
+    }).catch((error)=>{console.log('failed', error)})
+  }, [])
+
+  const onCookingCreate = useCallback((e) => {
+    // axios.post(`${host.server}/recipe`, {
+    //     withCredentials: true
+    //   }, cookingForm).then((result) => {
+    //     console.log(result)
+    //   }).catch( error => { console.log('failed', error) });
+
+    e.preventDefault();
+    console.log(cookingForm)
+    }, [cookingForm]
+  )
+
+  const onCookingName = useCallback((e)=>{
+    e.preventDefault();
+    setCookingForm({
+      ...cookingForm,
+      name: e.target.value
+    });
+    console.log(cookingForm)
+  }, [cookingForm])
+
+  const onCookingUrl = useCallback((e)=>{
+    e.preventDefault();
+    setCookingForm({
+      ...cookingForm,
+      img: e.target.value
+    });
+    console.log(cookingForm)
+  }, [cookingForm])
+
+  const onChangeInput = useCallback(()=>{
+    
+  })
+
+  // const onAddOption = useCallback((e)=>{
+  //   e.preventDefault();
+  // })
 
   return (
     <div className="LineBox">
@@ -53,7 +103,7 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리명</label>
               </dt>
               <dd>
-                <input type="text" />
+                <input type="text" onChange={onCookingName} />
               </dd>
             </dl>
           </li>
@@ -63,7 +113,7 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리사진 URL</label>
               </dt>
               <dd>
-                <input type="text" />
+                <input type="text" onChange={onCookingUrl} />
               </dd>
             </dl>
           </li>
@@ -74,74 +124,31 @@ const CookingForm = (props) => {
               <dt>
                 육류
               </dt>
-              <dd>
-                <div className="CookingForm__section01">
-                  <select name="" id="">
-                    <option value="">닭</option>
-                    <option value="">소고기</option>
-                    <option value="">돼지고기</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section02">
-                  <select name="" id="">
-                    <option value="">100</option>
-                    <option value="">200</option>
-                    <option value="">300</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section03">
-                  {`{unit}`}
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">직접입력</button>
-                </div>
-              </dd>
-              <dd style={{marginTop: '10px', paddingTop: 0, border: 'none'}}>
-                <div className="CookingForm__section01">
-                  <input type="text" placeholder="재료명" />
-                </div>
-                <div className="CookingForm__section02">
-                  <input type="text" placeholder="수량" />
-                </div>
-                <div className="CookingForm__section03">
-                  <input type="text" placeholder="단위" />
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">취소</button>
-                </div>
-              </dd>
+              {
+                baseOption
+                ? 
+                selectOptionArr.meat.map((item, index)=> {
+                  return (
+                    item.selfInput
+                    ? <CookingCustomOption key={index} />
+                    : <CookingSelectOption selectedOption={baseOption.meat} group={'meat'} selectOptionArr={selectOptionArr} setSelectOptionArr={setSelectOptionArr} key={index} />
+                  )
+                })
+                : null
+              }
             </dl>
-            <div className="CookingForm__more">
-              <button className="CookingForm__optionButton CookingForm__optionButton--add">+ 추가</button>
-            </div>
+            <CookingMoreOption />
           </li>
           <li>
             <dl>
               <dt>
                 어류
               </dt>
-              <dd>
-                <div className="CookingForm__section01">
-                  <select name="" id="">
-                    <option value="">고등어</option>
-                    <option value="">삼치</option>
-                    <option value="">전복</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section02">
-                  <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section03">
-                  {`{unit}`}
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">직접입력</button>
-                </div>
-              </dd>
+              {
+                baseOption
+                ? <CookingSelectOption selectedOption={baseOption.misc} />
+                : null
+              }
               <dd>
                 <div className="CookingForm__section01">
                   <select name="" id="">
@@ -284,5 +291,35 @@ const CookingForm = (props) => {
     </div>
   );
 };
+
+
+
+const CookingCustomOption = (props) => {
+  
+  return(
+    <dd className="CookingForm__option">
+      <div className="CookingForm__section01">
+        <input type="text" placeholder="재료명" />
+      </div>
+      <div className="CookingForm__section02">
+        <input type="text" placeholder="수량" />
+      </div>
+      <div className="CookingForm__section03">
+        <input type="text" placeholder="단위" />
+      </div>
+      <div className="CookingForm__section04">
+        <button className="CookingForm__optionButton">취소</button>
+      </div>
+    </dd>
+  )
+}
+
+const CookingMoreOption = (props) => {
+  return(
+    <div className="CookingForm__more">
+      <button className="CookingForm__optionButton CookingForm__optionButton--add">+ 추가</button>
+    </div>
+  )
+}
 
 export default CookingForm;

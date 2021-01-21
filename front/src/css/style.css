@@ -832,6 +832,12 @@ footer .layoutWrap {
   min-width: 76px;
 }
 
+.CookingForm__option {
+  margin-top: '10px';
+  padding-top: 0;
+  border: 'none';
+}
+
 .CookingForm ul {
   display: -webkit-box;
   display: -ms-flexbox;
