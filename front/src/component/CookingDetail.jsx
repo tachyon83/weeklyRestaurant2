@@ -50,7 +50,7 @@ const CookingDetail = () => {
                             <dl>
                                 <dt className="CookingDetail__category">육류</dt>
                                 {
-                                    cookingDetail.contents.meat ? (
+                                    cookingDetail.contents.meat.contents ? (
                                         cookingDetail.contents.meat.contents.map((item, i)=>{
                                         return(
                                             <InventoryItem ingredient={item} key={i} />
@@ -61,8 +61,8 @@ const CookingDetail = () => {
                             <dl>
                                 <dt className="CookingDetail__category">어류</dt>
                                 {
-                                    cookingDetail.contents.fishe ? (
-                                        cookingDetail.contents.fishe.contents.map((item, i)=>{
+                                    cookingDetail.contents.fish.contents ? (
+                                        cookingDetail.contents.fish.contents.map((item, i)=>{
                                         return(
                                             <InventoryItem ingredient={item} key={i} />
                                         )})
@@ -72,7 +72,7 @@ const CookingDetail = () => {
                             <dl>
                                 <dt className="CookingDetail__category">부재료</dt>
                                 {
-                                    cookingDetail.contents.misc ? (
+                                    cookingDetail.contents.misc.contents ? (
                                         cookingDetail.contents.misc.contents.map((item, i)=>{
                                         return(
                                             <InventoryItem ingredient={item} key={i} />
@@ -83,7 +83,7 @@ const CookingDetail = () => {
                             <dl>
                                 <dt className="CookingDetail__category">양념(소스)</dt>
                                 {
-                                    cookingDetail.contents.sauce ? (
+                                    cookingDetail.contents.sauce.contents ? (
                                         cookingDetail.contents.sauce.contents.map((item, i)=>{
                                         return(
                                             <InventoryItem ingredient={item} key={i} />
