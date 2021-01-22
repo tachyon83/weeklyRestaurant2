@@ -1,4 +1,6 @@
 import React, { useCallback } from "react";
+import axios from 'axios';
+const host = require("../host");
 
 const weekArr = ["일", "월", "화", "수", "목", "금", "토"];
 const emptyImage = ["fa-utensils", "fa-cheese", "fa-hamburger", "fa-fish", "fa-ice-cream", "fa-apple-alt", "fa-carrot", "fa-hotdog", "fa-egg", "fa-cookie-bite"];
@@ -7,11 +9,11 @@ const randomImageNumber = () => {
 }
 
 const CalendarItem = (props = null) => {
-  const { calendarData, setIsDetailPopup, setIsListPopup, date, week, setYear, setWeek, setDay, islogin, setPopupCookingId, setCalendarSelectData } = props;
+  const { calendarData, setCalendarData, calendarSelectData, setIsDetailPopup, setIsListPopup, date, week, setYear, setWeek, setDay, islogin, setPopupCookingId, setCalendarSelectData } = props;
 
   return (
     <li
-      className={setDay === [week] ? "Calendar__item active" : "Calendar__item"}
+      className={setDay === week ? "Calendar__item active" : "Calendar__item"}
     >
       <div className="Calendar__day">
         <span>{weekArr[week]}</span>
@@ -31,6 +33,9 @@ const CalendarItem = (props = null) => {
                 setIsDetailPopup={setIsDetailPopup}
                 setPopupCookingId={setPopupCookingId}
                 islogin={islogin}
+                calendarData={calendarData}
+                setCalendarData={setCalendarData} 
+                calendarSelectData={calendarSelectData}
               /> 
             : islogin 
               ? <CalendarItemAdd 
@@ -57,6 +62,9 @@ const CalendarItem = (props = null) => {
                 setIsDetailPopup={setIsDetailPopup}
                 setPopupCookingId={setPopupCookingId}
                 islogin={islogin}
+                calendarData={calendarData}
+                setCalendarData={setCalendarData} 
+                calendarSelectData={calendarSelectData}
               /> 
             : islogin 
               ? <CalendarItemAdd 
@@ -83,6 +91,9 @@ const CalendarItem = (props = null) => {
                 setIsDetailPopup={setIsDetailPopup}
                 setPopupCookingId={setPopupCookingId}
                 islogin={islogin}
+                calendarData={calendarData}
+                setCalendarData={setCalendarData} 
+                calendarSelectData={calendarSelectData}
               /> 
             : islogin 
               ? <CalendarItemAdd 
@@ -135,8 +146,7 @@ const CalendarItemAdd = (props) => {
 }
 
 const CalendarItemContent = (props) => {
-  const { setIsDetailPopup, name, id, img, setPopupCookingId, islogin } = props;
-  console.log('CalendarItemContent', props)
+  const { setIsDetailPopup, name, id, img, setPopupCookingId, islogin, calendarData, setCalendarData, calendarSelectData } = props;
 
   const handleShowDetail = useCallback(() => {
     setPopupCookingId(id);
@@ -144,7 +154,23 @@ const CalendarItemContent = (props) => {
   });
 
   const handleDeleteOnCalendar = useCallback(() => {
-    setIsDetailPopup(false);
+    console.log(calendarData,calendarSelectData)
+    // let planArr = [...calendarData];
+    // planArr[calendarSelectData.planWeek][calendarSelectData.planEatTime] = null;
+
+    // axios.put(`${host.server}/plan`,{
+    //     year: calendarSelectData.year,
+    //     week: calendarSelectData.week,
+    //     plan: planArr
+    // },{
+    //     withCredentials: true
+    // }).then((result) => {
+    //     axios.get(`${host.server}/plan/${calendarSelectData.year}/${calendarSelectData.week}`, {
+    //         withCredentials: true
+    //     }).then((result) => {
+    //         setCalendarData(result.data)
+    //     }).catch(error => { console.log('failed', error) })
+    // }).catch(error => { console.log('failed', error) })
   });
 
   return (

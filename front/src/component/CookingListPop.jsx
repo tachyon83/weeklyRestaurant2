@@ -3,7 +3,7 @@ import axios from 'axios';
 import CookingListItem from "./CookingListItem";
 const host = require("../host");
 
-const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId, popupCookingId, calendarSelectData, calendarPlan}) => {
+const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId, popupCookingId, calendarSelectData, calendarData, setCalendarData}) => {
 
     const [cookingList, setCookingList] = useState([])
     useEffect(()=> {
@@ -50,7 +50,7 @@ const CookingListPop = ({setIsListPopup, setIsDetailPopup, setPopupCookingId, po
                 {
                     cookingList.map((item) => {
                     return (
-                        <CookingListItem cookingList={item} key={item.id} popup={true} setIsListPopup={setIsListPopup} setIsDetailPopup={setIsDetailPopup} setPopupCookingId={setPopupCookingId} popupCookingId={popupCookingId} calendarSelectData={calendarSelectData} calendarPlan={calendarPlan} />
+                        <CookingListItem cookingList={item} key={item.id} popup={true} setIsListPopup={setIsListPopup} setIsDetailPopup={setIsDetailPopup} setPopupCookingId={setPopupCookingId} popupCookingId={popupCookingId} calendarSelectData={calendarSelectData} calendarData={calendarData} setCalendarData={setCalendarData}/>
                     )
                     })
                 }

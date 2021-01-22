@@ -10,9 +10,9 @@ const CookingListItem = (props) => {
     const setIsListPopup = props.setIsListPopup;
     const setIsDetailPopup = props.setIsDetailPopup;
     const setPopupCookingId = props.setPopupCookingId;
-    const {popupCookingId, calendarSelectData, calendarPlan} = props;
+    const {popupCookingId, calendarSelectData, calendarData, setCalendarData} = props;
 
-    console.log(popupCookingId, calendarSelectData, calendarPlan)
+    console.log(popupCookingId, calendarSelectData, calendarData)
 
     const handlePopupControl = useCallback(
         () => {
@@ -23,13 +23,12 @@ const CookingListItem = (props) => {
         [setIsListPopup, setIsDetailPopup, setPopupCookingId],
     )
 
-    const handleCanlendarPlan = useCallback(()=>{
+    const handleCanlendarPlan = useCallback(()=>{    
         setIsListPopup(prevState => false);
         setPopupCookingId(prevState => id);
 
-        let planArr = [...calendarPlan];
-
-        planArr[calendarSelectData.planWeek][calendarSelectData.planEatTime] = popupCookingId;
+        let planArr = [...calendarData.data];
+        planArr[calendarSelectData.planWeek][calendarSelectData.planEatTime] = id;
 
         axios.put(`${host.server}/plan`,{
             year: calendarSelectData.year,
@@ -38,7 +37,11 @@ const CookingListItem = (props) => {
         },{
             withCredentials: true
         }).then((result) => {
-            console.log(result)
+            axios.get(`${host.server}/plan/${calendarSelectData.year}/${calendarSelectData.week}`, {
+                withCredentials: true
+            }).then((result) => {
+                setCalendarData(result.data)
+            }).catch(error => { console.log('failed', error) })
         }).catch(error => { console.log('failed', error) })
     })
 
