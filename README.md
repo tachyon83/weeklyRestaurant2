@@ -14,7 +14,7 @@ https://www.notion.so/4133ba99cbfa4a38805e51c603f95649
 프론트엔드는 Carpe724 님이 맡았습니다.   
 Carpe724님의 Github주소: https://github.com/carpe724        
    
-아직 완성되진 않은 상태입니다. 주간계획 보기, 관리자 로그인, 요리 목록 보기, 재고 현황 보기, 요리 등록, 수정, 삭제 정도까지는 구현을 한 상태입니다.    
+아직 완성되진 않은 상태입니다. 주간계획 보기, 관리자 로그인, 요리 목록 보기, 재고 현황 보기, 요리 등록, 수정, 삭제 정도까지는 구현을 한 상태입니다. 아래 주소에서 확인하실 수 있습니다.   
 배포된 사이트 주소: https://weekly-restaurant.herokuapp.com   
 (백엔드api주소: https://weekly-restaurant-back.herokuapp.com)   
 
