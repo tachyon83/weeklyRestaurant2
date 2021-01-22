@@ -5,9 +5,7 @@ import InventoryItem from './InventoryItem'
 const host = require("../host");
 
 const CookingDetail = () => {
-
     let { cookingId } = useParams();
-
 
     const [cookingDetail, setCookingDetail] = useState()
 
@@ -25,7 +23,6 @@ const CookingDetail = () => {
 
     return (
         <>
-            {/* {console.log(cookingDetail.contents.meat)} */}
             {cookingDetail && (
                 <div className="LineBox">
                     <h2>요리 상세</h2>

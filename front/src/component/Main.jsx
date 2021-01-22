@@ -10,7 +10,8 @@ const Main = (props) => {
   const [ isListPopup, setIsListPopup ] = useState(false);
   const [ popupCookingId, setPopupCookingId ] = useState();
   const [ calendarSelectData, setCalendarSelectData ] = useState();
-  const [ calendarPlan, setCalendarPlan ] = useState();
+  const [calendarData, setCalendarData] = useState();
+  console.log(calendarSelectData)
 
   return (
     <>
@@ -20,8 +21,10 @@ const Main = (props) => {
         islogin={islogin}
         calendarSelectData={calendarSelectData}
         setPopupCookingId={setPopupCookingId}
+        calendarData={calendarData}
+        setCalendarData={setCalendarData}
+        calendarSelectData={calendarSelectData}
         setCalendarSelectData={setCalendarSelectData}
-        setCalendarPlan={setCalendarPlan}
       />
       {
         isDetailPopup &&
@@ -36,7 +39,8 @@ const Main = (props) => {
             setIsListPopup={setIsListPopup}
             setIsDetailPopup={setIsDetailPopup}
             setPopupCookingId={setPopupCookingId}
-            calendarPlan={calendarPlan}
+            calendarData={calendarData}
+            setCalendarData={setCalendarData}
             popupCookingId={popupCookingId}
             calendarSelectData={calendarSelectData}
           />
