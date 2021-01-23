@@ -23,9 +23,7 @@ const getWeek = async (year, week) => {
 
 const weekHandler = async body => {
     return await Promise.all(body.plan.map(async (day, dayIdx) => {
-        await Promise.all(day.map(async (meal, mealIdx) => {
-            if (meal) await dao.handleWeek([body.year, body.week, dayIdx, mealIdx, meal, meal])
-        }))
+        await Promise.all(day.map(async (meal, mealIdx) => await dao.handleWeek([body.year, body.week, dayIdx, mealIdx, meal, meal])))
     }))
 }
 

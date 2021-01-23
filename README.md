@@ -12,7 +12,11 @@ https://www.notion.so/4133ba99cbfa4a38805e51c603f95649
     
 백엔드는 제가 맡았고,  
 프론트엔드는 Carpe724 님이 맡았습니다.   
-https://github.com/carpe724        
+Carpe724님의 Github주소: https://github.com/carpe724        
+   
+아직 완성되진 않은 상태입니다. 주간계획 보기, 관리자 로그인, 요리 목록 보기, 재고 현황 보기, 요리 등록, 수정, 삭제 정도까지는 구현을 한 상태입니다. 아래 주소에서 확인하실 수 있습니다.   
+배포된 사이트 주소: https://weekly-restaurant.herokuapp.com   
+(백엔드api주소: https://weekly-restaurant-back.herokuapp.com)   
 
 본 Readme에는 백엔드 코드와 관련된 내용만 담겨있습니다.   
    
@@ -22,6 +26,7 @@ https://github.com/carpe724
    
 마치 학생식당, 구내식당 등에서 스크린 또는 게시판에서 식단계획표를 확인하듯이,   
 일반 사용자는 웹상에 접속만 하여도 시간표를 볼 수 있고, 관리자는 로그인 후에 레시피CRUD, 재고관리, 식단표 관리 등을 할 수 있도록 하였습니다.   
+동일한 육류/어류/부재료/소스 셋(set)을 사용했을 경우, 그 셋을 공용할 수 있도록 하였습니다. (셋에 대한 이름 부여)
 Restful한 api를 만들고자 하여 경로명만으로 무엇에 관련한 요청인지 그리고 method를 통해 어떤 기능인지 파악할 수 있도록 하였습니다.   
    
 * 특징   
