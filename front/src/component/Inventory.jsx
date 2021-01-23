@@ -6,23 +6,27 @@ const host = require("../host");
 
 const Inventory = () => {
   const [ingredient, setIngredient] = useState(null);
-  const [inventoryPopupShow, setInventoryPopupShow] = useState({ value: false, title: null });
+  const [inventoryPopupShow, setInventoryPopupShow] = useState(false);
+  const [inventoryPopupInfo, setInventoryPopupInfo] = useState({
+    title: null,
+    category: null,
+  })
 
   useEffect(() => {
     axios.get(`${host.server}/inventory`, {
       withCredentials: true
     }).then((result) => {
-      console.log(result.data.data)
       setIngredient(result.data.data);
     }).catch(error => { console.log('failed', error) });
   }, [])
 
   const onPopupShow = useCallback((e) => {
-    setInventoryPopupShow({
-      value: true,
-      title: e.currentTarget.dataset.category,
+    setInventoryPopupShow(true)
+    setInventoryPopupInfo({
+      title: e.currentTarget.dataset.title,
+      category: e.currentTarget.dataset.category
     })
-  }, [setInventoryPopupShow])
+  }, [])
 
   return (
     <>
@@ -30,11 +34,11 @@ const Inventory = () => {
         <div className="LineBox">
           <h2>재고 현황</h2>
           <div className="Inventory">
-            {inventoryPopupShow.value && <InventoryPopup title={inventoryPopupShow.title} setInventoryPopupShow={setInventoryPopupShow} />}
+            {inventoryPopupShow && <InventoryPopup inventoryPopupInfo={inventoryPopupInfo} setInventoryPopupShow={setInventoryPopupShow} ingredient={ingredient} setIngredient={setIngredient} />}
             <dl>
               <dt className="Inventory__category">
                 육류
-                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="육류"><i className="far fa-plus-square"></i></button>
+                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="meat" data-title="육류"><i className="far fa-plus-square"></i></button>
               </dt>
               <dd className="Inventory__ingredient">
                 {
@@ -49,7 +53,7 @@ const Inventory = () => {
             <dl>
               <dt className="Inventory__category">
                 어류
-                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="어류"><i className="far fa-plus-square"></i></button>
+                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="fish" data-title="어류"><i className="far fa-plus-square"></i></button>
               </dt>
               <dd className="Inventory__ingredient">
                 {
@@ -64,7 +68,7 @@ const Inventory = () => {
             <dl>
               <dt className="Inventory__category">
                 부재료
-                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="부재료"><i className="far fa-plus-square"></i></button>
+                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="misc" data-title="부재료"><i className="far fa-plus-square"></i></button>
               </dt>
               <dd className="Inventory__ingredient">
                 {
@@ -79,7 +83,7 @@ const Inventory = () => {
             <dl>
               <dt className="Inventory__category">
                 양념(소스)
-                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="양념(소스)"><i className="far fa-plus-square"></i></button>
+                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="sauce" data-title="양념(소스)"><i className="far fa-plus-square"></i></button>
               </dt>
               <dd className="Inventory__ingredient">
                 {

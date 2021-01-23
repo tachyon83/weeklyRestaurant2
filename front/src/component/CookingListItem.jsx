@@ -37,6 +37,7 @@ const CookingListItem = (props) => {
         },{
             withCredentials: true
         }).then((result) => {
+            console.log(result)
             axios.get(`${host.server}/plan/${calendarSelectData.year}/${calendarSelectData.week}`, {
                 withCredentials: true
             }).then((result) => {

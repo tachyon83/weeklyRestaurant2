@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import axios from 'axios';
 const host = require("../host");
 
@@ -9,7 +9,7 @@ const randomImageNumber = () => {
 }
 
 const CalendarItem = (props = null) => {
-  const { calendarData, setCalendarData, calendarSelectData, setIsDetailPopup, setIsListPopup, date, week, setYear, setWeek, setDay, islogin, setPopupCookingId, setCalendarSelectData } = props;
+  const { fullCalendarData, calendarData, setCalendarData, calendarSelectData, setIsDetailPopup, setIsListPopup, date, week, setYear, setWeek, setDay, islogin, setPopupCookingId, setCalendarSelectData } = props;
 
   return (
     <li
@@ -33,9 +33,14 @@ const CalendarItem = (props = null) => {
                 setIsDetailPopup={setIsDetailPopup}
                 setPopupCookingId={setPopupCookingId}
                 islogin={islogin}
-                calendarData={calendarData}
+                fullCalendarData={fullCalendarData}
                 setCalendarData={setCalendarData} 
                 calendarSelectData={calendarSelectData}
+                setCalendarSelectData={setCalendarSelectData} 
+                eatTime={0} 
+                week={week} 
+                setYear={setYear}
+                setWeek={setWeek} 
               /> 
             : islogin 
               ? <CalendarItemAdd 
@@ -62,9 +67,14 @@ const CalendarItem = (props = null) => {
                 setIsDetailPopup={setIsDetailPopup}
                 setPopupCookingId={setPopupCookingId}
                 islogin={islogin}
-                calendarData={calendarData}
+                fullCalendarData={fullCalendarData}
                 setCalendarData={setCalendarData} 
                 calendarSelectData={calendarSelectData}
+                setCalendarSelectData={setCalendarSelectData} 
+                eatTime={1} 
+                week={week} 
+                setYear={setYear}
+                setWeek={setWeek} 
               /> 
             : islogin 
               ? <CalendarItemAdd 
@@ -91,9 +101,14 @@ const CalendarItem = (props = null) => {
                 setIsDetailPopup={setIsDetailPopup}
                 setPopupCookingId={setPopupCookingId}
                 islogin={islogin}
-                calendarData={calendarData}
+                fullCalendarData={fullCalendarData}
                 setCalendarData={setCalendarData} 
                 calendarSelectData={calendarSelectData}
+                setCalendarSelectData={setCalendarSelectData} 
+                eatTime={2} 
+                week={week} 
+                setYear={setYear}
+                setWeek={setWeek} 
               /> 
             : islogin 
               ? <CalendarItemAdd 
@@ -146,7 +161,10 @@ const CalendarItemAdd = (props) => {
 }
 
 const CalendarItemContent = (props) => {
-  const { setIsDetailPopup, name, id, img, setPopupCookingId, islogin, calendarData, setCalendarData, calendarSelectData } = props;
+  const { setIsDetailPopup, name, id, img, setPopupCookingId, islogin, fullCalendarData, setCalendarData, calendarSelectData } = props;
+  const { setCalendarSelectData, eatTime, week, setYear, setWeek } = props;
+
+  const [planArrDelete, setPlanArrDelete] = useState(JSON.parse(JSON.stringify( fullCalendarData.data )));
 
   const handleShowDetail = useCallback(() => {
     setPopupCookingId(id);
@@ -154,23 +172,44 @@ const CalendarItemContent = (props) => {
   });
 
   const handleDeleteOnCalendar = useCallback(() => {
-    console.log(calendarData,calendarSelectData)
-    // let planArr = [...calendarData];
-    // planArr[calendarSelectData.planWeek][calendarSelectData.planEatTime] = null;
+    setCalendarSelectData({
+      year: setYear,
+      week: setWeek,
+      planWeek: week,
+      planEatTime: eatTime,
+    });
+    // console.log(planArrDelete)
+    // console.log(calendarSelectData, fullCalendarData)
+    // if(calendarSelectData){
+    //   setPlanArrDelete(...planArrDelete, planArrDelete[calendarSelectData.planWeek][calendarSelectData.planEatTime] = null);
+    // }
 
-    // axios.put(`${host.server}/plan`,{
-    //     year: calendarSelectData.year,
-    //     week: calendarSelectData.week,
-    //     plan: planArr
-    // },{
-    //     withCredentials: true
-    // }).then((result) => {
-    //     axios.get(`${host.server}/plan/${calendarSelectData.year}/${calendarSelectData.week}`, {
-    //         withCredentials: true
-    //     }).then((result) => {
-    //         setCalendarData(result.data)
-    //     }).catch(error => { console.log('failed', error) })
-    // }).catch(error => { console.log('failed', error) })
+    
+    
+    // console.log(planArrDelete)
+
+    axios.put(`${host.server}/plan`,{
+        year: calendarSelectData.year,
+        week: calendarSelectData.week,
+        plan: [
+          [null, null, null]
+          ,[null, null, null]
+          ,[null, null, null]
+          ,[null, null, null]
+          ,[null, null, null]
+          ,[null, null, null]
+          ,[null, null, null]
+        ]
+    },{
+        withCredentials: true
+    }).then((result) => {
+      // console.log(result, planArrDelete)
+        axios.get(`${host.server}/plan/${calendarSelectData.year}/${calendarSelectData.week}`, {
+            withCredentials: true
+        }).then((result) => {
+            setCalendarData(result.data)
+        }).catch(error => { console.log('failed', error) })
+    }).catch(error => { console.log('failed', error) })
   });
 
   return (

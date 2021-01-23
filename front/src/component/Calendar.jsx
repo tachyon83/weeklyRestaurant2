@@ -203,6 +203,7 @@ const Calendar = (props) => {
                 key={i}
                 setDay={calendarDateInfo.setDay}
                 calendarData={calendarData.data[i]}
+                fullCalendarData={calendarData}
                 setCalendarData={setCalendarData}
                 calendarSelectData={calendarSelectData}
                 setCalendarSelectData={setCalendarSelectData}
