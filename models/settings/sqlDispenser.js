@@ -475,7 +475,7 @@ let sql_createTable_week =
         week int not null,
         day int not null,
         meal int not null,
-        recipeId int not null,
+        recipeId int,
         primary key(id),
         unique key(year,week,day,meal),
         foreign key(recipeId) 
