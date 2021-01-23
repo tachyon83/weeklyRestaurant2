@@ -88,7 +88,6 @@ const Calendar = (props) => {
   });
 
   useEffect(() => {
-    console.log(todayYear, calendarDateInfo.setWeek)
     axios.get(`${host.server}/plan/${calendarDateInfo.setYear}/${calendarDateInfo.setWeek}`, {
       withCredentials: true
     }).then((result) => {

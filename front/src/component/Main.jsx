@@ -11,7 +11,6 @@ const Main = (props) => {
   const [ popupCookingId, setPopupCookingId ] = useState();
   const [ calendarSelectData, setCalendarSelectData ] = useState();
   const [calendarData, setCalendarData] = useState();
-  console.log(calendarSelectData)
 
   return (
     <>
@@ -45,7 +44,6 @@ const Main = (props) => {
             calendarSelectData={calendarSelectData}
           />
       }
-      {console.log(calendarSelectData)}
     </>
   )
 };

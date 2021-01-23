@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import axios from 'axios';
 const host = require("../host");
 
@@ -25,7 +25,7 @@ const CalendarItem = (props = null) => {
             <span>아침</span>
           </div>
           {
-            calendarData[0] 
+            (calendarData[0] && calendarData[0].id)
             ? <CalendarItemContent 
                 name={calendarData[0].name}
                 id={calendarData[0].id}
@@ -59,7 +59,7 @@ const CalendarItem = (props = null) => {
             <span>점심</span>
           </div>
           {
-            calendarData[1] 
+            (calendarData[1] && calendarData[1].id)
             ? <CalendarItemContent 
                 name={calendarData[1].name}
                 id={calendarData[1].id}
@@ -93,7 +93,7 @@ const CalendarItem = (props = null) => {
             <span>저녁</span>
           </div>
           {
-            calendarData[2] 
+            (calendarData[2] && calendarData[2].id)
             ? <CalendarItemContent 
                 name={calendarData[2].name}
                 id={calendarData[2].id}
@@ -164,53 +164,56 @@ const CalendarItemContent = (props) => {
   const { setIsDetailPopup, name, id, img, setPopupCookingId, islogin, fullCalendarData, setCalendarData, calendarSelectData } = props;
   const { setCalendarSelectData, eatTime, week, setYear, setWeek } = props;
 
-  const [planArrDelete, setPlanArrDelete] = useState(JSON.parse(JSON.stringify( fullCalendarData.data )));
+  const [planArrDelete, setPlanArrDelete] = useState();
+  const [onClickDelete, setOnclickDelete] = useState(false);
 
   const handleShowDetail = useCallback(() => {
     setPopupCookingId(id);
     setIsDetailPopup(true);
   });
 
+
+  useEffect(()=>{
+    if(onClickDelete){
+      const planArr = JSON.parse(JSON.stringify( fullCalendarData.data ))
+      for(let i = 0; i < 7; i++){
+        for(let j = 0; j < 3; j++){
+          planArr[i][j] = planArr[i][j].id
+        }
+      }
+      if(calendarSelectData){
+        setPlanArrDelete([...planArr, planArr[calendarSelectData.planWeek][calendarSelectData.planEatTime] = null]);
+      }
+      setOnclickDelete(false)
+    }
+  }, [calendarSelectData])
+
   const handleDeleteOnCalendar = useCallback(() => {
+    setOnclickDelete(true)
     setCalendarSelectData({
       year: setYear,
       week: setWeek,
       planWeek: week,
       planEatTime: eatTime,
     });
-    // console.log(planArrDelete)
-    // console.log(calendarSelectData, fullCalendarData)
-    // if(calendarSelectData){
-    //   setPlanArrDelete(...planArrDelete, planArrDelete[calendarSelectData.planWeek][calendarSelectData.planEatTime] = null);
-    // }
+  });
 
-    
-    
-    // console.log(planArrDelete)
-
+  useEffect(() => {
     axios.put(`${host.server}/plan`,{
-        year: calendarSelectData.year,
-        week: calendarSelectData.week,
-        plan: [
-          [null, null, null]
-          ,[null, null, null]
-          ,[null, null, null]
-          ,[null, null, null]
-          ,[null, null, null]
-          ,[null, null, null]
-          ,[null, null, null]
-        ]
+      year: calendarSelectData.year,
+      week: calendarSelectData.week,
+      plan: planArrDelete
     },{
         withCredentials: true
     }).then((result) => {
-      // console.log(result, planArrDelete)
         axios.get(`${host.server}/plan/${calendarSelectData.year}/${calendarSelectData.week}`, {
             withCredentials: true
         }).then((result) => {
             setCalendarData(result.data)
         }).catch(error => { console.log('failed', error) })
     }).catch(error => { console.log('failed', error) })
-  });
+  }, [planArrDelete])
+
 
   return (
     <div className="CalendarMenu__wrap">
