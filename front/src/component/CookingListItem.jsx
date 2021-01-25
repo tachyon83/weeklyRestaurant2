@@ -12,8 +12,6 @@ const CookingListItem = (props) => {
     const setPopupCookingId = props.setPopupCookingId;
     const {popupCookingId, calendarSelectData, calendarData, setCalendarData} = props;
 
-    console.log(popupCookingId, calendarSelectData, calendarData)
-
     const handlePopupControl = useCallback(
         () => {
             setIsListPopup(prevState => false);

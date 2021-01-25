@@ -88,7 +88,6 @@ const Calendar = (props) => {
   });
 
   useEffect(() => {
-    console.log(todayYear, calendarDateInfo.setWeek)
     axios.get(`${host.server}/plan/${calendarDateInfo.setYear}/${calendarDateInfo.setWeek}`, {
       withCredentials: true
     }).then((result) => {
@@ -203,6 +202,7 @@ const Calendar = (props) => {
                 key={i}
                 setDay={calendarDateInfo.setDay}
                 calendarData={calendarData.data[i]}
+                fullCalendarData={calendarData}
                 setCalendarData={setCalendarData}
                 calendarSelectData={calendarSelectData}
                 setCalendarSelectData={setCalendarSelectData}

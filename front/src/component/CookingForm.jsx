@@ -1,9 +1,20 @@
 import React, { useCallback, useState, useEffect } from "react";
 import axios from 'axios';
-import CookingSelectOption from './CookingSelectOption';
+import CookingFormSelectOption from './CookingFormSelectOption';
+import CookingFormCustomOption from './CookingFormCustomOption';
+
 const host = require("../host");
 
 const CookingForm = (props) => {
+
+  useEffect(() => {
+    axios.get(`${host.server}/recipe/new`, {
+      withCredentials: true
+    }).then((result) => {
+      console.log(result.data.data)
+      setBaseOption(result.data.data)
+    }).catch((error)=>{console.log('failed', error)})
+  }, [])
 
   const [cookingForm, setCookingForm] = useState({
     id: null,
@@ -14,45 +25,36 @@ const CookingForm = (props) => {
       meat: {
         id: null,
         name: null,
-        contents: null,
+        contents: [],
       },
       fish: {
         id: null,
         name: null,
-        contents: null,
+        contents: [],
       },
-      mics: {
+      misc: {
         id: null,
         name: null,
-        contents: null,
+        contents: [],
       },
       sauce: {
         id: null,
         name: null,
-        contents: null,
+        contents: [],
       }
     }
   });
 
   const [baseOption, setBaseOption] = useState();
+  const [handleValue, setHandleValue] = useState([]);
 
-  const [selectOptionArr, setSelectOptionArr] = useState({
-    meat: [
-      {selfInput: false}
-    ],
-    fish: null,
-    mics: null,
-    sauce: null,
+  const [categoryOptionArr, setCategoryOptionArr] = useState({
+    meat: [],
+    fish: [],
+    misc: [],
+    sauce: [],
   });
 
-  useEffect(() => {
-    axios.get(`${host.server}/recipe/new`, {
-      withCredentials: true
-    }).then((result) => {
-      console.log(result.data.data)
-      setBaseOption(result.data.data)
-    }).catch((error)=>{console.log('failed', error)})
-  }, [])
 
   const onCookingCreate = useCallback((e) => {
     // axios.post(`${host.server}/recipe`, {
@@ -66,31 +68,38 @@ const CookingForm = (props) => {
     }, [cookingForm]
   )
 
-  const onCookingName = useCallback((e)=>{
-    e.preventDefault();
+  const onChangeInput = useCallback((e)=>{
     setCookingForm({
       ...cookingForm,
-      name: e.target.value
-    });
-    console.log(cookingForm)
-  }, [cookingForm])
-
-  const onCookingUrl = useCallback((e)=>{
-    e.preventDefault();
-    setCookingForm({
-      ...cookingForm,
-      img: e.target.value
-    });
-    console.log(cookingForm)
-  }, [cookingForm])
-
-  const onChangeInput = useCallback(()=>{
-    
+      [e.target.name]: e.target.value,
+      contents: {
+        meat: {
+          id: null,
+          name: null,
+          contents: [null],
+        },
+        fish: {
+          id: null,
+          name: null,
+          contents: [null],
+        },
+        misc: {
+          id: null,
+          name: null,
+          contents: [null],
+        },
+        sauce: {
+          id: null,
+          name: null,
+          contents: [null],
+        }
+      }
+    })
   })
 
-  // const onAddOption = useCallback((e)=>{
-  //   e.preventDefault();
-  // })
+  useEffect(() => {
+    console.log(cookingForm)
+  }, [cookingForm])
 
   return (
     <div className="LineBox">
@@ -103,7 +112,7 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리명</label>
               </dt>
               <dd>
-                <input type="text" onChange={onCookingName} />
+                <input type="text" name="name" onChange={onChangeInput} value={cookingForm.name} />
               </dd>
             </dl>
           </li>
@@ -113,7 +122,7 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리사진 URL</label>
               </dt>
               <dd>
-                <input type="text" onChange={onCookingUrl} />
+                <input type="text" name="img" onChange={onChangeInput} value={cookingForm.img}  />
               </dd>
             </dl>
           </li>
@@ -127,17 +136,38 @@ const CookingForm = (props) => {
               {
                 baseOption
                 ? 
-                selectOptionArr.meat.map((item, index)=> {
+                categoryOptionArr.meat.map((item, index)=> {
                   return (
                     item.selfInput
-                    ? <CookingCustomOption key={index} />
-                    : <CookingSelectOption selectedOption={baseOption.meat} group={'meat'} selectOptionArr={selectOptionArr} setSelectOptionArr={setSelectOptionArr} key={index} />
+                    ? <CookingFormCustomOption
+                        group={'meat'} 
+                        categoryOptionArr={categoryOptionArr}
+                        setCategoryOptionArr={setCategoryOptionArr} 
+                        cookingForm={cookingForm}
+                        setCookingForm={setCookingForm}
+                        index={index}
+                        key={index} 
+                        handleValue={handleValue} 
+                        setHandleValue={setHandleValue}
+                      />
+                    : <CookingFormSelectOption 
+                        baseOption={baseOption.meat} 
+                        group={'meat'} 
+                        categoryOptionArr={categoryOptionArr} 
+                        setCategoryOptionArr={setCategoryOptionArr} 
+                        cookingForm={cookingForm}
+                        setCookingForm={setCookingForm}
+                        index={index}
+                        key={index} 
+                        handleValue={handleValue} 
+                        setHandleValue={setHandleValue}
+                      />
                   )
                 })
                 : null
               }
             </dl>
-            <CookingMoreOption />
+            <CookingMoreOption setCookingForm={setCookingForm} cookingForm={cookingForm} group={'meat'} categoryOptionArr={categoryOptionArr}  setCategoryOptionArr={setCategoryOptionArr} />
           </li>
           <li>
             <dl>
@@ -146,140 +176,121 @@ const CookingForm = (props) => {
               </dt>
               {
                 baseOption
-                ? <CookingSelectOption selectedOption={baseOption.misc} />
+                ? 
+                categoryOptionArr.fish.map((item, index)=> {
+                  return (
+                    item.selfInput
+                    ? <CookingFormCustomOption
+                        group={'fish'} 
+                        categoryOptionArr={categoryOptionArr}
+                        setCategoryOptionArr={setCategoryOptionArr} 
+                        cookingForm={cookingForm}
+                        setCookingForm={setCookingForm}
+                        index={index}
+                        key={index} 
+                        handleValue={handleValue} 
+                        setHandleValue={setHandleValue}
+                      />
+                    : <CookingFormSelectOption 
+                        baseOption={baseOption.fish} 
+                        group={'fish'} 
+                        categoryOptionArr={categoryOptionArr} 
+                        setCategoryOptionArr={setCategoryOptionArr} 
+                        cookingForm={cookingForm}
+                        setCookingForm={setCookingForm}
+                        index={index}
+                        key={index} 
+                        handleValue={handleValue} 
+                        setHandleValue={setHandleValue}
+                      />
+                  )
+                })
                 : null
               }
-              <dd>
-                <div className="CookingForm__section01">
-                  <select name="" id="">
-                    <option value="">고등어</option>
-                    <option value="">삼치</option>
-                    <option value="">전복</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section02">
-                  <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section03">
-                  {`{unit}`}
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">직접입력</button>
-                </div>
-              </dd>
             </dl>
-            <div className="CookingForm__more">
-              <button className="CookingForm__optionButton CookingForm__optionButton--add">+ 추가</button>
-            </div>
+            <CookingMoreOption setCookingForm={setCookingForm} cookingForm={cookingForm} group={'fish'} categoryOptionArr={categoryOptionArr}  setCategoryOptionArr={setCategoryOptionArr} />
           </li>
           <li>
             <dl>
               <dt>
                 부재료
               </dt>
-              <dd>
-                <div className="CookingForm__section01">
-                  <select name="" id="">
-                    <option value="">감자</option>
-                    <option value="">양파</option>
-                    <option value="">당근</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section02">
-                  <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section03">
-                  {`{unit}`}
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">직접입력</button>
-                </div>
-              </dd>
-              <dd style={{marginTop: '10px', paddingTop: 0, border: 'none'}}>
-                <div className="CookingForm__section01">
-                  <input type="text" placeholder="재료명" />
-                </div>
-                <div className="CookingForm__section02">
-                  <input type="text" placeholder="수량" />
-                </div>
-                <div className="CookingForm__section03">
-                  <input type="text" placeholder="단위" />
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">취소</button>
-                </div>
-              </dd>
+              {
+                baseOption
+                ? 
+                categoryOptionArr.misc.map((item, index)=> {
+                  return (
+                    item.selfInput
+                    ? <CookingFormCustomOption
+                        group={'misc'} 
+                        categoryOptionArr={categoryOptionArr}
+                        setCategoryOptionArr={setCategoryOptionArr} 
+                        cookingForm={cookingForm}
+                        setCookingForm={setCookingForm}
+                        index={index}
+                        key={index} 
+                        handleValue={handleValue} 
+                        setHandleValue={setHandleValue}
+                      />
+                    : <CookingFormSelectOption 
+                        baseOption={baseOption.misc} 
+                        group={'misc'} 
+                        categoryOptionArr={categoryOptionArr} 
+                        setCategoryOptionArr={setCategoryOptionArr} 
+                        cookingForm={cookingForm}
+                        setCookingForm={setCookingForm}
+                        index={index}
+                        key={index} 
+                        handleValue={handleValue} 
+                        setHandleValue={setHandleValue}
+                      />
+                  )
+                })
+                : null
+              }
             </dl>
-            <div className="CookingForm__more">
-              <button className="CookingForm__optionButton CookingForm__optionButton--add">+ 추가</button>
-            </div>
+            <CookingMoreOption setCookingForm={setCookingForm} cookingForm={cookingForm} group={'misc'} categoryOptionArr={categoryOptionArr}  setCategoryOptionArr={setCategoryOptionArr} />
           </li>
           <li>
             <dl>
               <dt>
                 소스(양념)
               </dt>
-              <dd>
-                <div className="CookingForm__section01">
-                  <input type="text" placeholder="재료명" value="종가집고추장" />
-                </div>
-                <div className="CookingForm__section02">
-                  <input type="text" placeholder="수량" value="2" />
-                </div>
-                <div className="CookingForm__section03">
-                  <input type="text" placeholder="단위" value="큰술" />
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">취소</button>
-                </div>
-              </dd>
-              <dd>
-                <div className="CookingForm__section01">
-                  <select name="" id="">
-                    <option value="">된장</option>
-                    <option value="">간장</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section02">
-                  <select name="" id="">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                  </select>
-                </div>
-                <div className="CookingForm__section03">
-                  {`{unit}`}
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">직접입력</button>
-                </div>
-              </dd>
-              <dd>
-                <div className="CookingForm__section01">
-                  <input type="text" placeholder="재료명" value="종가집고추장" />
-                </div>
-                <div className="CookingForm__section02">
-                  <input type="text" placeholder="수량" value="2" />
-                </div>
-                <div className="CookingForm__section03">
-                  <input type="text" placeholder="단위" value="큰술" />
-                </div>
-                <div className="CookingForm__section04">
-                  <button className="CookingForm__optionButton">취소</button>
-                </div>
-              </dd>
+              {
+                baseOption
+                ? 
+                categoryOptionArr.sauce.map((item, index)=> {
+                  return (
+                    item.selfInput
+                    ? <CookingFormCustomOption
+                        group={'sauce'} 
+                        categoryOptionArr={categoryOptionArr}
+                        setCategoryOptionArr={setCategoryOptionArr} 
+                        cookingForm={cookingForm}
+                        setCookingForm={setCookingForm}
+                        index={index}
+                        key={index} 
+                        handleValue={handleValue} 
+                        setHandleValue={setHandleValue}
+                      />
+                    : <CookingFormSelectOption 
+                        baseOption={baseOption.sauce} 
+                        group={'sauce'} 
+                        categoryOptionArr={categoryOptionArr} 
+                        setCategoryOptionArr={setCategoryOptionArr} 
+                        cookingForm={cookingForm}
+                        setCookingForm={setCookingForm}
+                        index={index}
+                        key={index} 
+                        handleValue={handleValue} 
+                        setHandleValue={setHandleValue}
+                      />
+                  )
+                })
+                : null
+              }
             </dl>
-            <div className="CookingForm__more">
-              <button className="CookingForm__optionButton CookingForm__optionButton--add">+ 추가</button>
-            </div>
+            <CookingMoreOption setCookingForm={setCookingForm} cookingForm={cookingForm} group={'sauce'} categoryOptionArr={categoryOptionArr}  setCategoryOptionArr={setCategoryOptionArr} />
           </li>
         </ul>
         <div className="CookingForm__buttonWrap">
@@ -293,31 +304,38 @@ const CookingForm = (props) => {
 };
 
 
+const CookingMoreOption = ({cookingForm,setCookingForm,setCategoryOptionArr, categoryOptionArr, group}) => {
+  const handleMore = useCallback((e)=>{
+    e.preventDefault()
+    const optionArr = JSON.parse(JSON.stringify( categoryOptionArr ));
+    optionArr[group].push({selfInput : false})
 
-const CookingCustomOption = (props) => {
-  
-  return(
-    <dd className="CookingForm__option">
-      <div className="CookingForm__section01">
-        <input type="text" placeholder="재료명" />
-      </div>
-      <div className="CookingForm__section02">
-        <input type="text" placeholder="수량" />
-      </div>
-      <div className="CookingForm__section03">
-        <input type="text" placeholder="단위" />
-      </div>
-      <div className="CookingForm__section04">
-        <button className="CookingForm__optionButton">취소</button>
-      </div>
-    </dd>
-  )
-}
+    setCategoryOptionArr(optionArr);
+    setCookingForm({
+      ...cookingForm,
+      contents: {
+        ...cookingForm.contents,
+        [group]: {
+          ...cookingForm.contents[group],
+          contents: [
+            ...cookingForm.contents[group].contents, {
+              name: null,
+              amount: null,
+              unit: null,
+            }
+          ]
+        }
+      }
+    })
+  }, [categoryOptionArr, setCategoryOptionArr])
 
-const CookingMoreOption = (props) => {
+  useEffect(() => {
+    // console.log(categoryOptionArr)
+  }, [categoryOptionArr])
+
   return(
     <div className="CookingForm__more">
-      <button className="CookingForm__optionButton CookingForm__optionButton--add">+ 추가</button>
+      <button className="CookingForm__optionButton CookingForm__optionButton--add" onClick={handleMore}>+ 추가</button>
     </div>
   )
 }
