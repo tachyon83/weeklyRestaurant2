@@ -1,13 +1,29 @@
-import e from 'cors';
 import React, {useCallback,useEffect,useState} from "react";
 
-const CookingFormSelectOption = ({handleValue, setHandleValue, baseOption, categoryOptionArr, cookingForm, setCookingForm, setCategoryOptionArr, group, index}) => {
+const CookingFormSelectOption = ({targetCategory,setTargetCategory,handleValue, setHandleValue, baseOption, categoryOptionArr, cookingForm, setCookingForm, setCategoryOptionArr, group, index}) => {
+  // 추가 버튼 클릭 후 categoryOptionArr 변경되면 시작
+  useEffect(() => {
+    initAdd() // 배열 기본 init 값 생성
+    callbackOptionFuntion(group, index); // 목록에 직접입력/선택입력 옵션 추가
+  }, [categoryOptionArr])
 
+  // 처음 생성시 배열 기본 init 값 생성 -> handelValue 에 전달
+  const initAdd = useCallback(()=>{
+    if(targetCategory){
+      const copyArr = JSON.parse(JSON.stringify(cookingForm.contents[targetCategory].contents));
+      copyArr[index] = {
+        name: Object.keys(baseOption[0])[0],
+        amount: null,
+        unit: baseOption[0][Object.keys(baseOption[0])],
+      };
+      console.log(copyArr, `${targetCategory}기본 생성값 추가되었다!`)
+      setHandleValue(copyArr)
+    }
+  }, [baseOption])
+
+  
+  // 목록 직접입력/선택입력 옵션 스위치
   const [optionArr, setOptionArr] = useState();
-  const [selectedKey, setSelectedKey] = useState({
-    key: Object.keys(baseOption[0]),
-    index: 0,
-  });
 
   const callbackOptionFuntion = useCallback((group, index) =>{
     const copyArr = JSON.parse(JSON.stringify( categoryOptionArr ));
@@ -20,42 +36,61 @@ const CookingFormSelectOption = ({handleValue, setHandleValue, baseOption, categ
     setCategoryOptionArr(optionArr)
   }, [optionArr])
 
+
+  // 현재 선택 셀렉트박스
+  const [selectedKey, setSelectedKey] = useState({
+    key: Object.keys(baseOption[0]),
+    index: 0,
+  });
+
+
+  // select 박스 변경시
+  // handleValue 에 전달하기전 targetCategory 기다린 후 전달
+  const [handleValueArr, setHandleValueArr] = useState(); 
+  
   useEffect(() => {
-    callbackOptionFuntion(group, index)
-  }, [categoryOptionArr])
+    if(handleValueArr){
+      setHandleValue(handleValueArr)
+    }
+  }, [targetCategory])
 
   const handleInput = useCallback((e)=>{
-    // 배열만들기
     e.preventDefault();
-
+    
     const copyArr = JSON.parse(JSON.stringify(cookingForm.contents[group].contents));
-    copyArr[index] = {
-      name: copyArr[index].name,
-      amount: copyArr[index].amount,
-      unit: baseOption[e.currentTarget.selectedIndex][e.currentTarget.value],
-      [e.currentTarget.name] : e.currentTarget.value,
-    };
-    setHandleValue(copyArr)
+    
 
+    copyArr[index].name = e.currentTarget.value;
+    copyArr[index].unit = baseOption[e.currentTarget.selectedIndex][e.currentTarget.value];
+
+    console.log(copyArr,'handleValue 바꿀꺼고 셀렉트 박스 바꿧네', group, '카테고린 요기')
+    
+    setTargetCategory(group)
+    setHandleValueArr(copyArr)
+
+    // 현재 선택 셀렉트박스
     setSelectedKey({
       key: e.currentTarget.value,
       index: e.currentTarget.selectedIndex,
     })
-  }, [])
+  }, [cookingForm, group, baseOption, index])
 
-  useEffect(() => {
-    setCookingForm({
-      ...cookingForm,
-      contents: {
-        ...cookingForm.contents,
-        [group]: {
-          id: null,
-          name: null,
-          contents: handleValue
-        }
-      }
-    })
-  }, [handleValue])
+
+
+  // useEffect(() => {
+  //   console.log(handleValue, 'handleValue',group )
+  //   setCookingForm({
+  //     ...cookingForm,
+  //     contents: {
+  //       ...cookingForm.contents,
+  //       [group]: {
+  //         id: null,
+  //         name: null,
+  //         contents: handleValue
+  //       }
+  //     }
+  //   })
+  // }, [handleValue, group])
 
 
     return(
