@@ -76,7 +76,7 @@ const add = async body => {
 
         const sz = currSubMaterials.length
         currSubMaterials.map((obj, i) => {
-            sql += obj.name + '=' + obj.amoount
+            sql += obj.name + '=' + obj.amount
             if (i < sz - 1) sql += ','
         })
         sql += ' where id=1;'
