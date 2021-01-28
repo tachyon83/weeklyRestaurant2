@@ -34,6 +34,7 @@ const CookingFormCustomOption = ({categoryOptionArr, setCategoryOptionArr, group
           <button className="CookingForm__optionButton" onClick={handleSelfInput}>선택입력</button>
         </div>
       </dd>
+      
     )
   }
 

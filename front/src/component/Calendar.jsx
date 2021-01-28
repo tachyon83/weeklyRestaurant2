@@ -91,14 +91,16 @@ const Calendar = (props) => {
     axios.get(`${host.server}/plan/${calendarDateInfo.setYear}/${calendarDateInfo.setWeek}`, {
       withCredentials: true
     }).then((result) => {
-      console.log(result.data)
       setCalendarData(result.data)
     }).catch(error => { console.log('failed', error) })
+
+    
   }, [calendarDateInfo])
 
   useEffect(() => {
     calendarCalc(calendarDateInfo.setYear, calendarDateInfo.setMonth, calendarDateInfo.setDay, calendarDateInfo.setDate);
-  }, [calendarDateInfo])
+  }, [calendarData])
+
 
   const prevCalendar = useCallback(() => {
     // 1월에서 이전달로 갈시
@@ -190,6 +192,7 @@ const Calendar = (props) => {
       </div>
 
       <ul className="Calendar">
+        
         {
           calendarData
           ? calendarDateArr.map((item, i) => {

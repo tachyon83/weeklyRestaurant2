@@ -174,6 +174,7 @@ const CalendarItemContent = (props) => {
 
 
   useEffect(()=>{
+    console.log('handleDeleteOnCalendar')
     if(onClickDelete){
       const planArr = JSON.parse(JSON.stringify( fullCalendarData.data ))
       for(let i = 0; i < 7; i++){
@@ -196,25 +197,26 @@ const CalendarItemContent = (props) => {
       planWeek: week,
       planEatTime: eatTime,
     });
-  });
+  }, [setYear, setWeek, week, eatTime]);
 
   useEffect(() => {
-    if(calendarSelectData){
-      axios.put(`${host.server}/plan`,{
-        year: calendarSelectData.year,
-        week: calendarSelectData.week,
-        plan: planArrDelete
-      },{
-          withCredentials: true
-      }).then((result) => {
-          axios.get(`${host.server}/plan/${calendarSelectData.year}/${calendarSelectData.week}`, {
-              withCredentials: true
-          }).then((result) => {
-              setCalendarData(result.data)
-          }).catch(error => { console.log('failed', error) })
-      }).catch(error => { console.log('failed', error) })
-    }
-  }, [calendarSelectData, planArrDelete])
+    console.log('planArrDelete')
+    // if(calendarSelectData){
+    //   axios.put(`${host.server}/plan`,{
+    //     year: calendarSelectData.year,
+    //     week: calendarSelectData.week,
+    //     plan: planArrDelete
+    //   },{
+    //       withCredentials: true
+    //   }).then((result) => {
+    //       axios.get(`${host.server}/plan/${calendarSelectData.year}/${calendarSelectData.week}`, {
+    //           withCredentials: true
+    //       }).then((result) => {
+    //           setCalendarData(result.data)
+    //       }).catch(error => { console.log('failed', error) })
+    //   }).catch(error => { console.log('failed', error) })
+    // }
+  }, [planArrDelete])
 
 
   return (
