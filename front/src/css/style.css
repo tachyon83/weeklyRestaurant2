@@ -682,6 +682,14 @@ footer .layoutWrap {
       -ms-flex: 1;
           flex: 1;
   border-left: 1px solid #ebebeb;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 600px;
 }
 
 .Inventory dl:first-of-type {
@@ -702,6 +710,9 @@ footer .layoutWrap {
   padding: 10px 20px 30px;
   height: 542px;
   overflow: auto;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .Inventory__addButton {
@@ -709,11 +720,13 @@ footer .layoutWrap {
   line-height: 0;
   padding: 0;
   margin: 0;
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+}
+
+.Inventory__newIngredient {
+  height: 46px;
+  line-height: 46px;
+  text-align: center;
+  border-top: 1px solid #ebebeb;
 }
 
 .InventoryPopup {

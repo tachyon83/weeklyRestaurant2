@@ -24,7 +24,9 @@ const InventoryPopup = (props) => {
     const handleAddInventory = useCallback(()=>{
         
         const copyIngredient = JSON.parse(JSON.stringify(ingredient))
-        copyIngredient.[inventoryPopupInfo.category].push(inventoryInputValue);
+        copyIngredient[inventoryPopupInfo.category].push(inventoryInputValue);
+
+        console.log(copyIngredient, 'copyIngredient')
 
         axios.put(`${host.server}/inventory`, copyIngredient,{
             withCredentials: true

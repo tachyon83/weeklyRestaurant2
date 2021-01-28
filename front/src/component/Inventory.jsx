@@ -38,7 +38,6 @@ const Inventory = () => {
             <dl>
               <dt className="Inventory__category">
                 육류
-                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="meat" data-title="육류"><i className="far fa-plus-square"></i></button>
               </dt>
               <dd className="Inventory__ingredient">
                 {
@@ -49,11 +48,13 @@ const Inventory = () => {
                   })
                 }
               </dd>
+              <dd className="Inventory__newIngredient">
+                <button className="Inventory__addButton" onClick={onPopupShow} data-category="meat" data-title="육류">새 재료 추가 <i className="far fa-plus-square"></i></button>
+              </dd>
             </dl>
             <dl>
               <dt className="Inventory__category">
                 어류
-                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="fish" data-title="어류"><i className="far fa-plus-square"></i></button>
               </dt>
               <dd className="Inventory__ingredient">
                 {
@@ -64,11 +65,13 @@ const Inventory = () => {
                   })
                 }
               </dd>
+              <dd className="Inventory__newIngredient">
+                <button className="Inventory__addButton" onClick={onPopupShow} data-category="fish" data-title="어류">새 재료 추가 <i className="far fa-plus-square"></i></button>
+              </dd>
             </dl>
             <dl>
               <dt className="Inventory__category">
                 부재료
-                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="misc" data-title="부재료"><i className="far fa-plus-square"></i></button>
               </dt>
               <dd className="Inventory__ingredient">
                 {
@@ -79,11 +82,13 @@ const Inventory = () => {
                   })
                 }
               </dd>
+              <dd className="Inventory__newIngredient">
+                <button className="Inventory__addButton" onClick={onPopupShow} data-category="misc" data-title="부재료">새 재료 추가 <i className="far fa-plus-square"></i></button>
+              </dd>
             </dl>
             <dl>
               <dt className="Inventory__category">
                 양념(소스)
-                  <button className="Inventory__addButton" onClick={onPopupShow} data-category="sauce" data-title="양념(소스)"><i className="far fa-plus-square"></i></button>
               </dt>
               <dd className="Inventory__ingredient">
                 {
@@ -93,6 +98,9 @@ const Inventory = () => {
                     )
                   })
                 }
+              </dd>
+              <dd className="Inventory__newIngredient">
+                <button className="Inventory__addButton" onClick={onPopupShow} data-category="sauce" data-title="양념(소스)">새 재료 추가 <i className="far fa-plus-square"></i></button>
               </dd>
             </dl>
           </div>
