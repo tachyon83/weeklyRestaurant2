@@ -53,7 +53,7 @@ const CookingForm = (props) => {
   const [targetCategory, setTargetCategory] = useState();
 
   useEffect(() => {
-    console.log(handleValue, 'handleValue 바꼇다!!', targetCategory, ': 눌럿어' )
+    console.log(handleValue, 'handleValue change', targetCategory, ': target' )
     if(targetCategory){
       setCookingForm({
         ...cookingForm,
@@ -118,7 +118,7 @@ const CookingForm = (props) => {
   })
 
   useEffect(() => {
-    console.log(cookingForm.contents, 'cookingForm 바꼇다!!')
+    console.log(cookingForm.contents, 'cookingForm change!!')
   }, [cookingForm])
 
   return (

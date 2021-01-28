@@ -16,7 +16,7 @@ const CookingFormSelectOption = ({targetCategory,setTargetCategory,handleValue, 
         amount: null,
         unit: baseOption[0][Object.keys(baseOption[0])],
       };
-      console.log(copyArr, `${targetCategory}기본 생성값 추가되었다!`)
+      console.log(copyArr, `${targetCategory}기본 생성값 추가!`)
       setHandleValue(copyArr)
     }
   }, [baseOption])
@@ -63,7 +63,7 @@ const CookingFormSelectOption = ({targetCategory,setTargetCategory,handleValue, 
     copyArr[index].name = e.currentTarget.value;
     copyArr[index].unit = baseOption[e.currentTarget.selectedIndex][e.currentTarget.value];
 
-    console.log(copyArr,'handleValue 바꿀꺼고 셀렉트 박스 바꿧네', group, '카테고린 요기')
+    console.log(copyArr,'handleValue change, selectbox change', group, 'category')
     
     setTargetCategory(group)
     setHandleValueArr(copyArr)
