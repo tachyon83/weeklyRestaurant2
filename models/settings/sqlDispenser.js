@@ -62,7 +62,7 @@ let sql_createTable_recipe =
     ${dbSetting.table_recipe}(
         id int not null auto_increment,
         name varchar(20) not null unique,
-        style varchar(5),
+        style varchar(5) not null,
         img varchar(400),
         memberId int not null,
         ingredientId int not null,
