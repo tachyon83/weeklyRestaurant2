@@ -567,7 +567,6 @@ footer{
 }
 
 .Ingredient{
-    display: flex;
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px dashed #ebebeb;
@@ -596,6 +595,15 @@ footer{
         padding-top: 0;
         border-top: 0;
     }
+
+    a{
+        display: flex;
+        cursor: pointer;
+
+        &:hover{
+            text-decoration: underline;
+        }
+    }
 }
 
 .Inventory{
@@ -606,6 +614,9 @@ footer{
     dl{
         flex: 1;        
         border-left: 1px solid #ebebeb;
+        display: flex;
+        flex-direction: column;
+        height: 600px;
         
         &:first-of-type{
             border-left: 0;
@@ -626,6 +637,7 @@ footer{
         padding: 10px 20px 30px; 
         height: 542px;
         overflow: auto;
+        flex: 1;
     }
 
     &__addButton{
@@ -633,10 +645,13 @@ footer{
         line-height: 0;
         padding: 0;
         margin: 0;
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
+    }
+
+    &__newIngredient{
+        height: 46px;
+        line-height: 46px;
+        text-align: center;
+        border-top: 1px solid #ebebeb;
     }
 }
 
@@ -753,6 +768,15 @@ footer{
 
         li{
             width: calc(50% - 15px);
+        }
+    }
+
+    .halfType{
+        display: flex;
+        gap: 10px;
+        dl{
+            flex: 1;
+            margin-top: 0;
         }
     }
 
