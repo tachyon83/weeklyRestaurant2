@@ -136,13 +136,25 @@ const CookingForm = (props) => {
               </dd>
             </dl>
           </li>
-          <li>
+          <li className="halfType">
             <dl>
               <dt>
                 <label htmlFor="">요리사진 URL</label>
               </dt>
               <dd>
                 <input type="text" name="img" onChange={onChangeInput} value={cookingForm.img}  />
+              </dd>
+            </dl>
+            <dl>
+              <dt>
+                <label htmlFor="">요리 카테고리</label>
+              </dt>
+              <dd>
+                <select name="" id="">
+                  <option value="">한식</option>
+                  <option value="">중식</option>
+                  <option value="">양식</option>
+                </select>
               </dd>
             </dl>
           </li>

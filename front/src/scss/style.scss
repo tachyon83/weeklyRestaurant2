@@ -567,7 +567,6 @@ footer{
 }
 
 .Ingredient{
-    display: flex;
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px dashed #ebebeb;
@@ -595,6 +594,15 @@ footer{
     &:first-of-type{
         padding-top: 0;
         border-top: 0;
+    }
+
+    a{
+        display: flex;
+        cursor: pointer;
+
+        &:hover{
+            text-decoration: underline;
+        }
     }
 }
 
@@ -760,6 +768,15 @@ footer{
 
         li{
             width: calc(50% - 15px);
+        }
+    }
+
+    .halfType{
+        display: flex;
+        gap: 10px;
+        dl{
+            flex: 1;
+            margin-top: 0;
         }
     }
 

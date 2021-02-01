@@ -637,9 +637,6 @@ footer .layoutWrap {
 }
 
 .Ingredient {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px dashed #ebebeb;
@@ -667,6 +664,17 @@ footer .layoutWrap {
 .Ingredient:first-child, .Ingredient:first-of-type {
   padding-top: 0;
   border-top: 0;
+}
+
+.Ingredient a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  cursor: pointer;
+}
+
+.Ingredient a:hover {
+  text-decoration: underline;
 }
 
 .Inventory {
@@ -862,6 +870,20 @@ footer .layoutWrap {
 
 .CookingForm ul li {
   width: calc(50% - 15px);
+}
+
+.CookingForm .halfType {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+}
+
+.CookingForm .halfType dl {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-top: 0;
 }
 
 .CookingForm dl {

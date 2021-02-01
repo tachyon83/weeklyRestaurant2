@@ -6,10 +6,15 @@ const host = require("../host");
 
 const Inventory = () => {
   const [ingredient, setIngredient] = useState(null);
-  const [inventoryPopupShow, setInventoryPopupShow] = useState(false);
   const [inventoryPopupInfo, setInventoryPopupInfo] = useState({
+    display: false,
     title: null,
     category: null,
+    modifyMode: null,
+    modifyModeName: null,
+    modifyModeAmount: null,
+    modifyModeUnit: null,
+    listIndex: null,
   })
 
   useEffect(() => {
@@ -20,11 +25,16 @@ const Inventory = () => {
     }).catch(error => { console.log('failed', error) });
   }, [])
 
-  const onPopupShow = useCallback((e) => {
-    setInventoryPopupShow(true)
+  const onNewIngredient = useCallback((e) => {
     setInventoryPopupInfo({
+      display: true,
       title: e.currentTarget.dataset.title,
-      category: e.currentTarget.dataset.category
+      category: e.currentTarget.dataset.category,
+      modifyMode: false,
+      modifyModeName: null,
+      modifyModeAmount: null,
+      modifyModeUnit: null,
+      listIndex: null,
     })
   }, [])
 
@@ -34,7 +44,13 @@ const Inventory = () => {
         <div className="LineBox">
           <h2>재고 현황</h2>
           <div className="Inventory">
-            {inventoryPopupShow && <InventoryPopup inventoryPopupInfo={inventoryPopupInfo} setInventoryPopupShow={setInventoryPopupShow} ingredient={ingredient} setIngredient={setIngredient} />}
+            {inventoryPopupInfo.display && 
+            <InventoryPopup 
+              inventoryPopupInfo={inventoryPopupInfo} 
+              setInventoryPopupInfo={setInventoryPopupInfo} 
+              ingredient={ingredient} 
+              setIngredient={setIngredient} 
+            />}
             <dl>
               <dt className="Inventory__category">
                 육류
@@ -43,13 +59,13 @@ const Inventory = () => {
                 {
                   ingredient.meat.map((item, i) => {
                     return (
-                      <InventoryItem ingredient={item} key={i} />
+                      <InventoryItem ingredient={item} key={i} setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="meat" title="육류" />
                     )
                   })
                 }
               </dd>
               <dd className="Inventory__newIngredient">
-                <button className="Inventory__addButton" onClick={onPopupShow} data-category="meat" data-title="육류">새 재료 추가 <i className="far fa-plus-square"></i></button>
+                <button className="Inventory__addButton" onClick={onNewIngredient} data-category="meat" data-title="육류">새 재료 추가 <i className="far fa-plus-square"></i></button>
               </dd>
             </dl>
             <dl>
@@ -60,13 +76,13 @@ const Inventory = () => {
                 {
                   ingredient.fish.map((item, i) => {
                     return (
-                      <InventoryItem ingredient={item} key={i} />
+                      <InventoryItem ingredient={item} key={i} setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="fish" title="어류" />
                     )
                   })
                 }
               </dd>
               <dd className="Inventory__newIngredient">
-                <button className="Inventory__addButton" onClick={onPopupShow} data-category="fish" data-title="어류">새 재료 추가 <i className="far fa-plus-square"></i></button>
+                <button className="Inventory__addButton" onClick={onNewIngredient} data-category="fish" data-title="어류">새 재료 추가 <i className="far fa-plus-square"></i></button>
               </dd>
             </dl>
             <dl>
@@ -77,13 +93,13 @@ const Inventory = () => {
                 {
                   ingredient.misc.map((item, i) => {
                     return (
-                      <InventoryItem ingredient={item} key={i} />
+                      <InventoryItem ingredient={item} key={i} setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="misc" title="부재료" />
                     )
                   })
                 }
               </dd>
               <dd className="Inventory__newIngredient">
-                <button className="Inventory__addButton" onClick={onPopupShow} data-category="misc" data-title="부재료">새 재료 추가 <i className="far fa-plus-square"></i></button>
+                <button className="Inventory__addButton" onClick={onNewIngredient} data-category="misc" data-title="부재료">새 재료 추가 <i className="far fa-plus-square"></i></button>
               </dd>
             </dl>
             <dl>
@@ -94,13 +110,13 @@ const Inventory = () => {
                 {
                   ingredient.sauce.map((item, i) => {
                     return (
-                      <InventoryItem ingredient={item} key={i} />
+                      <InventoryItem ingredient={item} key={i} setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="sauce" title="양념(소스)" />
                     )
                   })
                 }
               </dd>
               <dd className="Inventory__newIngredient">
-                <button className="Inventory__addButton" onClick={onPopupShow} data-category="sauce" data-title="양념(소스)">새 재료 추가 <i className="far fa-plus-square"></i></button>
+                <button className="Inventory__addButton" onClick={onNewIngredient} data-category="sauce" data-title="양념(소스)">새 재료 추가 <i className="far fa-plus-square"></i></button>
               </dd>
             </dl>
           </div>
