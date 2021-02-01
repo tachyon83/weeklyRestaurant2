@@ -1,5 +1,6 @@
 const dao = require('../Dao')
 const c = require('../../utils/constants')
+const materialUtil = require('./materialUtil')
 
 const getEachInventoryArr = async (i, id) => {
     let subInvs = await dao.getFromTableById(c.inventoryNames[i], id)
@@ -69,6 +70,11 @@ const add = async body => {
     for (let i = 0; i < c.inventoryNames.length; ++i) {
         const currSubMaterials = body[c.ingredientTableNames[i]]
         if (!currSubMaterials) continue
+
+        const currSubMaterialSet = await materialUtil.currentMaterialSetMaker(i)
+        await Promise.all(currSubMaterials.map(async obj => {
+            await materialUtil.newMaterialCheckThenAdder(obj, currSubMaterialSet, i)
+        }))
 
         let sql = 'update '
         sql += c.inventoryNames[i] + ' '
