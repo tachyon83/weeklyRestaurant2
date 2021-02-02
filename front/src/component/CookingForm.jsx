@@ -83,17 +83,17 @@ const CookingForm = (props) => {
   });
 
   const onCookingCreate = useCallback((e) => {
-    axios.post(`${host.server}/recipe`, {
-      withCredentials: true
-    }, cookingForm).then((result) => {
-      console.log(result)
-    }).catch( error => { console.log('failed', error) });
-
     e.preventDefault();
 
     console.log(cookingForm, '최종 전송 폼')
-    }, [cookingForm]
-  )
+
+    axios.post(`${host.server}/recipe`, cookingForm, {
+      withCredentials: true
+    }).then((result) => {
+      console.log(result)
+    }).catch( error => { console.log('failed', error) });
+
+  }, [cookingForm])
 
   const onChangeInput = useCallback((e)=>{
     setCookingForm({
