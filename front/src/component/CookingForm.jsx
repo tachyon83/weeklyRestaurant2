@@ -44,25 +44,31 @@ const CookingForm = (props) => {
     }
   });
 
-  const [baseOption, setBaseOption] = useState();
-  const [handleValue, setHandleValue] = useState({
+  const [baseOption, setBaseOption] = useState({
     name: null,
     amount: null,
     unit: null,
   });
-  const [targetCategory, setTargetCategory] = useState();
+  const [handleValue, setHandleValue] = useState({
+    targetCateogry: null,
+    contents: {
+      name: null,
+      amount: null,
+      unit: null,
+    }
+  });
 
   useEffect(() => {
-    console.log(handleValue, 'handleValue change', targetCategory, ': target' )
-    if(targetCategory){
+    console.log(handleValue.contents, 'handleValue change', handleValue.targetCategory, ': target' )
+    if(handleValue.targetCategory){
       setCookingForm({
         ...cookingForm,
         contents: {
           ...cookingForm.contents,
-          [targetCategory]: {
+          [handleValue.targetCategory]: {
             id: null,
             name: null,
-            contents: handleValue
+            contents: handleValue.contents
           }
         }
       })
@@ -77,48 +83,27 @@ const CookingForm = (props) => {
   });
 
   const onCookingCreate = useCallback((e) => {
-    // axios.post(`${host.server}/recipe`, {
-    //     withCredentials: true
-    //   }, cookingForm).then((result) => {
-    //     console.log(result)
-    //   }).catch( error => { console.log('failed', error) });
-
     e.preventDefault();
-    console.log(cookingForm)
-    }, [cookingForm]
-  )
+
+    console.log(cookingForm, '최종 전송 폼')
+
+    axios.post(`${host.server}/recipe`, cookingForm, {
+      withCredentials: true
+    }).then((result) => {
+      console.log(result)
+    }).catch( error => { console.log('failed', error) });
+
+  }, [cookingForm])
 
   const onChangeInput = useCallback((e)=>{
     setCookingForm({
       ...cookingForm,
       [e.target.name]: e.target.value,
-      contents: {
-        meat: {
-          id: null,
-          name: null,
-          contents: [null],
-        },
-        fish: {
-          id: null,
-          name: null,
-          contents: [null],
-        },
-        misc: {
-          id: null,
-          name: null,
-          contents: [null],
-        },
-        sauce: {
-          id: null,
-          name: null,
-          contents: [null],
-        }
-      }
     })
   })
 
   useEffect(() => {
-    console.log(cookingForm.contents, 'cookingForm change!!')
+    console.log(cookingForm, 'cookingForm change!!')
   }, [cookingForm])
 
   return (
@@ -150,10 +135,11 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리 카테고리</label>
               </dt>
               <dd>
-                <select name="" id="">
-                  <option value="">한식</option>
-                  <option value="">중식</option>
-                  <option value="">양식</option>
+                <select name="style" id="" onChange={onChangeInput}>
+                  <option value="" selected disabled hidden>카테고리 선택</option>
+                  <option value="KOR">한식</option>
+                  <option value="CHN">중식</option>
+                  <option value="WES">양식</option>
                 </select>
               </dd>
             </dl>
@@ -172,13 +158,12 @@ const CookingForm = (props) => {
                   return (
                     item.selfInput
                     ? <CookingFormCustomOption
+                        baseOption={baseOption.meat} 
                         group={'meat'} 
                         categoryOptionArr={categoryOptionArr}
                         setCategoryOptionArr={setCategoryOptionArr} 
                         cookingForm={cookingForm}
                         setCookingForm={setCookingForm}
-                        targetCategory={targetCategory}
-                        setTargetCategory={setTargetCategory}
                         index={index}
                         key={index} 
                         handleValue={handleValue} 
@@ -191,8 +176,6 @@ const CookingForm = (props) => {
                         setCategoryOptionArr={setCategoryOptionArr} 
                         cookingForm={cookingForm}
                         setCookingForm={setCookingForm}
-                        targetCategory={targetCategory}
-                        setTargetCategory={setTargetCategory}
                         index={index}
                         key={index} 
                         handleValue={handleValue} 
@@ -203,7 +186,15 @@ const CookingForm = (props) => {
                 : null
               }
             </dl>
-            <CookingMoreOption setTargetCategory={setTargetCategory} setCookingForm={setCookingForm} cookingForm={cookingForm} group={'meat'} categoryOptionArr={categoryOptionArr}  setCategoryOptionArr={setCategoryOptionArr} />
+            <CookingMoreOption 
+              baseOption={baseOption.meat} 
+              setHandleValue={setHandleValue}
+              setCookingForm={setCookingForm} 
+              cookingForm={cookingForm} 
+              group={'meat'} 
+              categoryOptionArr={categoryOptionArr}  
+              setCategoryOptionArr={setCategoryOptionArr} 
+            />
           </li>
           <li>
             <dl>
@@ -217,13 +208,12 @@ const CookingForm = (props) => {
                   return (
                     item.selfInput
                     ? <CookingFormCustomOption
+                        baseOption={baseOption.fish} 
                         group={'fish'} 
                         categoryOptionArr={categoryOptionArr}
                         setCategoryOptionArr={setCategoryOptionArr} 
                         cookingForm={cookingForm}
                         setCookingForm={setCookingForm}
-                        targetCategory={targetCategory}
-                        setTargetCategory={setTargetCategory}
                         index={index}
                         key={index} 
                         handleValue={handleValue} 
@@ -236,8 +226,6 @@ const CookingForm = (props) => {
                         setCategoryOptionArr={setCategoryOptionArr} 
                         cookingForm={cookingForm}
                         setCookingForm={setCookingForm}
-                        targetCategory={targetCategory}
-                        setTargetCategory={setTargetCategory}
                         index={index}
                         key={index} 
                         handleValue={handleValue} 
@@ -248,7 +236,15 @@ const CookingForm = (props) => {
                 : null
               }
             </dl>
-            <CookingMoreOption setTargetCategory={setTargetCategory} setCookingForm={setCookingForm} cookingForm={cookingForm} group={'fish'} categoryOptionArr={categoryOptionArr}  setCategoryOptionArr={setCategoryOptionArr} />
+            <CookingMoreOption 
+              baseOption={baseOption.fish} 
+              setHandleValue={setHandleValue}
+              setCookingForm={setCookingForm} 
+              cookingForm={cookingForm} 
+              group={'fish'} 
+              categoryOptionArr={categoryOptionArr}  
+              setCategoryOptionArr={setCategoryOptionArr} 
+            />
           </li>
           <li>
             <dl>
@@ -262,13 +258,12 @@ const CookingForm = (props) => {
                   return (
                     item.selfInput
                     ? <CookingFormCustomOption
+                        baseOption={baseOption.misc} 
                         group={'misc'} 
                         categoryOptionArr={categoryOptionArr}
                         setCategoryOptionArr={setCategoryOptionArr} 
                         cookingForm={cookingForm}
                         setCookingForm={setCookingForm}
-                        targetCategory={targetCategory}
-                        setTargetCategory={setTargetCategory}
                         index={index}
                         key={index} 
                         handleValue={handleValue} 
@@ -281,8 +276,6 @@ const CookingForm = (props) => {
                         setCategoryOptionArr={setCategoryOptionArr} 
                         cookingForm={cookingForm}
                         setCookingForm={setCookingForm}
-                        targetCategory={targetCategory}
-                        setTargetCategory={setTargetCategory}
                         index={index}
                         key={index} 
                         handleValue={handleValue} 
@@ -293,7 +286,15 @@ const CookingForm = (props) => {
                 : null
               }
             </dl>
-            <CookingMoreOption setTargetCategory={setTargetCategory} setCookingForm={setCookingForm} cookingForm={cookingForm} group={'misc'} categoryOptionArr={categoryOptionArr}  setCategoryOptionArr={setCategoryOptionArr} />
+            <CookingMoreOption 
+              baseOption={baseOption.misc} 
+              setHandleValue={setHandleValue}
+              setCookingForm={setCookingForm} 
+              cookingForm={cookingForm} 
+              group={'misc'} 
+              categoryOptionArr={categoryOptionArr}  
+              setCategoryOptionArr={setCategoryOptionArr} 
+            />
           </li>
           <li>
             <dl>
@@ -307,13 +308,12 @@ const CookingForm = (props) => {
                   return (
                     item.selfInput
                     ? <CookingFormCustomOption
+                        baseOption={baseOption.sauce} 
                         group={'sauce'} 
                         categoryOptionArr={categoryOptionArr}
                         setCategoryOptionArr={setCategoryOptionArr} 
                         cookingForm={cookingForm}
                         setCookingForm={setCookingForm}
-                        targetCategory={targetCategory}
-                        setTargetCategory={setTargetCategory}
                         index={index}
                         key={index} 
                         handleValue={handleValue} 
@@ -326,8 +326,6 @@ const CookingForm = (props) => {
                         setCategoryOptionArr={setCategoryOptionArr} 
                         cookingForm={cookingForm}
                         setCookingForm={setCookingForm}
-                        targetCategory={targetCategory}
-                        setTargetCategory={setTargetCategory}
                         index={index}
                         key={index} 
                         handleValue={handleValue} 
@@ -338,7 +336,15 @@ const CookingForm = (props) => {
                 : null
               }
             </dl>
-            <CookingMoreOption setTargetCategory={setTargetCategory} setCookingForm={setCookingForm} cookingForm={cookingForm} group={'sauce'} categoryOptionArr={categoryOptionArr}  setCategoryOptionArr={setCategoryOptionArr} />
+            <CookingMoreOption 
+              baseOption={baseOption.sauce} 
+              setHandleValue={setHandleValue}
+              setCookingForm={setCookingForm} 
+              cookingForm={cookingForm} 
+              group={'sauce'} 
+              categoryOptionArr={categoryOptionArr}  
+              setCategoryOptionArr={setCategoryOptionArr} 
+            />
           </li>
         </ul>
         <div className="CookingForm__buttonWrap">
@@ -352,14 +358,32 @@ const CookingForm = (props) => {
 };
 
 
-const CookingMoreOption = ({setTargetCategory,cookingForm,setCookingForm,setCategoryOptionArr, categoryOptionArr, group}) => {
+const CookingMoreOption = ({setHandleValue,cookingForm,setCookingForm,setCategoryOptionArr, categoryOptionArr, group, baseOption}) => {
   const handleMore = useCallback((e)=>{
     e.preventDefault()
-    setTargetCategory(group);
+
+    // 직접입력, 선택입력 옵션설정
+    // 기본값 선택입력 추가
     const optionArr = {...categoryOptionArr};
     optionArr[group].push({selfInput : false})
     setCategoryOptionArr(optionArr);
-  }, [categoryOptionArr, cookingForm])
+
+    // handlevalue 컨트롤
+    // 기본값 선택입력 추가
+    
+    const copyArr = Array.from(cookingForm.contents[group].contents)
+    copyArr.push({
+      name: Object.keys(baseOption[0])[0],
+      amount: 0,
+      unit: baseOption[0][Object.keys(baseOption[0])],
+    })
+    console.log(copyArr, `${group}기본 생성값 추가!`)
+
+    setHandleValue({
+      targetCategory: group,
+      contents: copyArr
+    })
+  }, [categoryOptionArr, group, cookingForm, baseOption])
 
   return(
     <div className="CookingForm__more">
