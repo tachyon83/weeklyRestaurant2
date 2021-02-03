@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import CookingFormSelectOption from './CookingFormSelectOption';
 import CookingFormCustomOption from './CookingFormCustomOption';
@@ -90,7 +90,53 @@ const CookingForm = (props) => {
     axios.post(`${host.server}/recipe`, cookingForm, {
       withCredentials: true
     }).then((result) => {
-      console.log(result)
+      alert('요리 추가 성공.')
+      setHandleValue({
+        targetCateogry: null,
+        contents: {
+          name: null,
+          amount: null,
+          unit: null,
+        }
+      })
+      setCookingForm({
+        id: null,
+        name: '',
+        style: null,
+        img: '',
+        contents: {
+          meat: {
+            id: null,
+            name: null,
+            contents: [],
+          },
+          fish: {
+            id: null,
+            name: null,
+            contents: [],
+          },
+          misc: {
+            id: null,
+            name: null,
+            contents: [],
+          },
+          sauce: {
+            id: null,
+            name: null,
+            contents: [],
+          }
+        }
+      })
+      setCategoryOptionArr({
+        meat: [],
+        fish: [],
+        misc: [],
+        sauce: [],
+      })
+
+      // 카테고리 style 옵션 초기화
+      selectStyle.current.selectedIndex = 0;
+
     }).catch( error => { console.log('failed', error) });
 
   }, [cookingForm])
@@ -101,6 +147,17 @@ const CookingForm = (props) => {
       [e.target.name]: e.target.value,
     })
   })
+
+  const selectStyle = useRef(null);
+
+  const onCookingEdit = useCallback((e)=>{
+    e.preventDefault();
+    
+  }, [])
+
+  const onCookingRemove = useCallback((e)=>{
+    e.preventDefault();
+  }, [])
 
   useEffect(() => {
     console.log(cookingForm, 'cookingForm change!!')
@@ -127,7 +184,7 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리사진 URL</label>
               </dt>
               <dd>
-                <input type="text" name="img" onChange={onChangeInput} value={cookingForm.img}  />
+                <input type="text" name="img" onChange={onChangeInput} value={cookingForm.img} />
               </dd>
             </dl>
             <dl>
@@ -135,8 +192,8 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리 카테고리</label>
               </dt>
               <dd>
-                <select name="style" id="" onChange={onChangeInput}>
-                  <option value="" selected disabled hidden>카테고리 선택</option>
+                <select name="style" id="" onChange={onChangeInput} ref={selectStyle}>
+                  <option value="none" selected disabled hidden>카테고리 선택</option>
                   <option value="KOR">한식</option>
                   <option value="CHN">중식</option>
                   <option value="WES">양식</option>
@@ -349,8 +406,8 @@ const CookingForm = (props) => {
         </ul>
         <div className="CookingForm__buttonWrap">
           <button type="submit" className="CookingForm__button CookingForm__button--submit" onClick={onCookingCreate}>요리추가</button>
-          <button type="submit" className="CookingForm__button CookingForm__button--edit">요리수정</button>
-          <button type="submit" className="CookingForm__button CookingForm__button--remove">요리삭제</button>
+          <button type="submit" className="CookingForm__button CookingForm__button--edit" onClick={onCookingEdit}>요리수정</button>
+          <button type="submit" className="CookingForm__button CookingForm__button--remove" onClick={onCookingRemove}>요리삭제</button>
         </div>
       </form>
     </div>

@@ -12,7 +12,7 @@ const CookingFormCustomOption = ({setTargetCategory,setHandleValue,cookingForm,b
       setCategoryOptionArr(copyArr)
 
       // handlevalue 컨트롤
-      const cookingArr = {...cookingForm.contents[group].contents}
+      const cookingArr = [...cookingForm.contents[group].contents]
       cookingArr[index] = {
           name: Object.keys(baseOption[0])[0],
           amount: 0,
@@ -21,13 +21,13 @@ const CookingFormCustomOption = ({setTargetCategory,setHandleValue,cookingForm,b
 
       setHandleValue({
         targetCategory: group,
-        contents: copyArr
+        contents: cookingArr
       })
     }, [categoryOptionArr, group, index, baseOption, cookingForm])
 
     const handleInput = useCallback((e)=>{
       e.preventDefault();
-      const copyArr = {...cookingForm.contents[group].contents};
+      const copyArr = [...cookingForm.contents[group].contents];
       copyArr[index][e.target.name] = e.target.value;
 
       setHandleValue({

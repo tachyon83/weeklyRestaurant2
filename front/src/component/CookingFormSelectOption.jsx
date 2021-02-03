@@ -12,7 +12,7 @@ const CookingFormSelectOption = ({targetCategory,setTargetCategory,handleValue, 
     setCategoryOptionArr(copyArr);
 
     // handlevalue 컨트롤
-    const cookingArr = {...cookingForm.contents[group].contents}
+    const cookingArr = [...cookingForm.contents[group].contents]
     cookingArr[index] = {
       name: null,
       amount: 0,
@@ -36,7 +36,7 @@ const CookingFormSelectOption = ({targetCategory,setTargetCategory,handleValue, 
   const handleSelect = useCallback((e)=>{
     e.preventDefault();
 
-    const copyArr = {...cookingForm.contents[group].contents}
+    const copyArr = [...cookingForm.contents[group].contents]
 
     copyArr[index].name = e.currentTarget.value;
     copyArr[index].unit = baseOption[e.currentTarget.selectedIndex][e.currentTarget.value];
@@ -58,7 +58,7 @@ const CookingFormSelectOption = ({targetCategory,setTargetCategory,handleValue, 
   const handleInput = useCallback((e)=>{
     e.preventDefault();
 
-    const copyArr = {...cookingForm.contents[group].contents}
+    const copyArr =[...cookingForm.contents[group].contents]
     copyArr[index].amount = e.target.value;
 
     setHandleValue({
