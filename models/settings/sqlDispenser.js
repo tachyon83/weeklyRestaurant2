@@ -694,6 +694,10 @@ let sql_getRecipeByIds =
     `select id,name,style,img,ingredientId from ${dbSetting.table_recipe} 
     where id=? and memberId=?;`
 
+let sql_getRecipeById2 =
+    `select id,name,style,img,ingredientId from ${dbSetting.table_recipe} 
+    where id=?;`
+
 let sql_getRecipeByName =
     `select id,name,style,img from 
     ${dbSetting.table_recipe} where name=? and memberid=?;`
@@ -780,6 +784,7 @@ module.exports = {
     sql_getColumnNames,
     sql_getIngredientsById,
     sql_getRecipeById,
+    sql_getRecipeById2,
     sql_getIngIdByRecipeId,
     sql_getRecipeByIds,
     sql_getRecipeByName,

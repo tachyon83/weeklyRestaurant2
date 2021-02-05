@@ -25,7 +25,7 @@ app.set('port', process.env.PORT || 3002);
 
 app.use(timeStampMiddleware)
 app.use('/member', require('./routes/member'))
-app.use('/recipe', auth, require('./routes/recipe'))
+app.use('/recipe', require('./routes/recipe'))
 app.use('/plan', require('./routes/plan'))
 app.use('/inventory', auth, require('./routes/inventory'))
 
@@ -43,6 +43,7 @@ app.use(function (err, req, res, next) {
     // res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     res.status(err.status || 500);
+    console.log()
     console.log('reached the end...')
     console.log()
     // res.render('error');

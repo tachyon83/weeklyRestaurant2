@@ -77,6 +77,7 @@ class Dao {
         if (!id) return Promise.resolve(null)
         return this.sqlHandler(sqls.sql_getRecipeById, id, 1)
     }
+    getRecipeById2 = id => this.sqlHandler(sqls.sql_getRecipeById2, id, 1)
 
     getIngIdByRecipeId = id => this.sqlHandler(sqls.sql_getIngIdByRecipeId, id, 1)
 
