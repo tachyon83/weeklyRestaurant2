@@ -28,6 +28,11 @@ const subIngredientGetter = async (id, tableName, unitTableName) => {
     }
     console.log('[Util]: SubIngredientGetter complete.')
     console.log()
+    if (!Object.keys(result).length) {
+        result.id = null
+        result.name = null
+        result.contents = []
+    }
     return result
 }
 
