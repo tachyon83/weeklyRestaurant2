@@ -6,22 +6,23 @@ import CookingFormCustomOption from './CookingFormCustomOption';
 
 const host = require("../host");
 
-const CookingForm = ({history}) => {
+const CookingForm = ({ history }) => {
   // params로 수정할 요리의 id를 받아온다.
   let { cookingId } = useParams();
-  console.log('cookingId' , cookingId)
+  console.log('cookingId', cookingId)
 
   useEffect(() => {
     axios.get(`${host.server}/recipe/new`, {
       withCredentials: true
     }).then((result) => {
       setBaseOption(result.data.data)
-    }).catch((error)=>{console.log('failed', error)})
+      console.log('data in cookingForm.jsx>/recipe/new', result.data.data)
+    }).catch((error) => { console.log('failed', error) })
   }, [])
 
   // 수정시 레시피 get
   useEffect(() => {
-    if(cookingId){
+    if (cookingId) {
       axios.get(`${host.server}/recipe/${cookingId}`, {
         withCredentials: true
       }).then((result) => {
@@ -29,21 +30,21 @@ const CookingForm = ({history}) => {
         setCookingForm(result.data.data)
 
         const varStyle = result.data.data.style;
-        if(varStyle === 'KOR'){
+        if (varStyle === 'KOR') {
           selectStyle.current.selectedIndex = 1
-        }else if(varStyle === 'CHN'){
+        } else if (varStyle === 'CHN') {
           selectStyle.current.selectedIndex = 2
-        }else if(varStyle === 'WES'){
+        } else if (varStyle === 'WES') {
           selectStyle.current.selectedIndex = 3
         }
 
         const category = ['meat', 'fish', 'misc', 'sauce'];
         let meatArr = [], fishArr = [], miscArr = [], sauceArr = [];
         const arr = [meatArr, fishArr, miscArr, sauceArr];
-        category.map((item, index)=>{
-          if(result.data.data.contents[item].contents){
-            for(let i = 0; i < result.data.data.contents[item].contents.length; i++){
-              arr[index].push({selfInput: false})
+        category.map((item, index) => {
+          if (result.data.data.contents[item].contents) {
+            for (let i = 0; i < result.data.data.contents[item].contents.length; i++) {
+              arr[index].push({ selfInput: false })
             }
           }
         })
@@ -55,7 +56,7 @@ const CookingForm = ({history}) => {
           sauce: sauceArr,
         })
 
-      }).catch((error)=>{console.log('failed', error)})
+      }).catch((error) => { console.log('failed', error) })
     }
   }, [])
 
@@ -104,8 +105,8 @@ const CookingForm = ({history}) => {
   });
 
   useEffect(() => {
-    console.log(handleValue.contents, 'handleValue change', handleValue.targetCategory, ': target' )
-    if(handleValue.targetCategory){
+    console.log(handleValue.contents, 'handleValue change', handleValue.targetCategory, ': target')
+    if (handleValue.targetCategory) {
       setCookingForm({
         ...cookingForm,
         contents: {
@@ -182,11 +183,11 @@ const CookingForm = ({history}) => {
       // 카테고리 style 옵션 초기화
       selectStyle.current.selectedIndex = 0;
 
-    }).catch( error => { console.log('failed', error) });
+    }).catch(error => { console.log('failed', error) });
 
   }, [cookingForm])
 
-  const onChangeInput = useCallback((e)=>{
+  const onChangeInput = useCallback((e) => {
     setCookingForm({
       ...cookingForm,
       [e.target.name]: e.target.value,
@@ -195,7 +196,7 @@ const CookingForm = ({history}) => {
 
   const selectStyle = useRef(null);
 
-  const onCookingEdit = useCallback((e)=>{
+  const onCookingEdit = useCallback((e) => {
     e.preventDefault();
     console.log('전달 레시피', cookingForm)
 
@@ -204,7 +205,7 @@ const CookingForm = ({history}) => {
     }).then((result) => {
       console.log('요리 수정완료', result)
       history.push(`/cookingList/${cookingId}`);
-    }).catch( error => { console.log('failed', error) });
+    }).catch(error => { console.log('failed', error) });
   }, [cookingForm])
 
   useEffect(() => {
@@ -260,47 +261,47 @@ const CookingForm = ({history}) => {
               </dt>
               {
                 baseOption
-                ? 
-                categoryOptionArr.meat.map((item, index)=> {
-                  return (
-                    item.selfInput
-                    ? <CookingFormCustomOption
-                        baseOption={baseOption.meat} 
-                        group={'meat'} 
-                        categoryOptionArr={categoryOptionArr}
-                        setCategoryOptionArr={setCategoryOptionArr} 
-                        cookingForm={cookingForm}
-                        setCookingForm={setCookingForm}
-                        index={index}
-                        key={index} 
-                        handleValue={handleValue} 
-                        setHandleValue={setHandleValue}
-                      />
-                    : <CookingFormSelectOption 
-                        baseOption={baseOption.meat} 
-                        group={'meat'} 
-                        categoryOptionArr={categoryOptionArr} 
-                        setCategoryOptionArr={setCategoryOptionArr} 
-                        cookingForm={cookingForm}
-                        setCookingForm={setCookingForm}
-                        index={index}
-                        key={index} 
-                        handleValue={handleValue} 
-                        setHandleValue={setHandleValue}
-                      />
-                  )
-                })
-                : null
+                  ?
+                  categoryOptionArr.meat.map((item, index) => {
+                    return (
+                      item.selfInput
+                        ? <CookingFormCustomOption
+                          baseOption={baseOption.meat}
+                          group={'meat'}
+                          categoryOptionArr={categoryOptionArr}
+                          setCategoryOptionArr={setCategoryOptionArr}
+                          cookingForm={cookingForm}
+                          setCookingForm={setCookingForm}
+                          index={index}
+                          key={index}
+                          handleValue={handleValue}
+                          setHandleValue={setHandleValue}
+                        />
+                        : <CookingFormSelectOption
+                          baseOption={baseOption.meat}
+                          group={'meat'}
+                          categoryOptionArr={categoryOptionArr}
+                          setCategoryOptionArr={setCategoryOptionArr}
+                          cookingForm={cookingForm}
+                          setCookingForm={setCookingForm}
+                          index={index}
+                          key={index}
+                          handleValue={handleValue}
+                          setHandleValue={setHandleValue}
+                        />
+                    )
+                  })
+                  : null
               }
             </dl>
-            <CookingMoreOption 
-              baseOption={baseOption.meat} 
+            <CookingMoreOption
+              baseOption={baseOption.meat}
               setHandleValue={setHandleValue}
-              setCookingForm={setCookingForm} 
-              cookingForm={cookingForm} 
-              group={'meat'} 
-              categoryOptionArr={categoryOptionArr}  
-              setCategoryOptionArr={setCategoryOptionArr} 
+              setCookingForm={setCookingForm}
+              cookingForm={cookingForm}
+              group={'meat'}
+              categoryOptionArr={categoryOptionArr}
+              setCategoryOptionArr={setCategoryOptionArr}
             />
           </li>
           <li>
@@ -310,47 +311,47 @@ const CookingForm = ({history}) => {
               </dt>
               {
                 baseOption
-                ? 
-                categoryOptionArr.fish.map((item, index)=> {
-                  return (
-                    item.selfInput
-                    ? <CookingFormCustomOption
-                        baseOption={baseOption.fish} 
-                        group={'fish'} 
-                        categoryOptionArr={categoryOptionArr}
-                        setCategoryOptionArr={setCategoryOptionArr} 
-                        cookingForm={cookingForm}
-                        setCookingForm={setCookingForm}
-                        index={index}
-                        key={index} 
-                        handleValue={handleValue} 
-                        setHandleValue={setHandleValue}
-                      />
-                    : <CookingFormSelectOption 
-                        baseOption={baseOption.fish} 
-                        group={'fish'} 
-                        categoryOptionArr={categoryOptionArr} 
-                        setCategoryOptionArr={setCategoryOptionArr} 
-                        cookingForm={cookingForm}
-                        setCookingForm={setCookingForm}
-                        index={index}
-                        key={index} 
-                        handleValue={handleValue} 
-                        setHandleValue={setHandleValue}
-                      />
-                  )
-                })
-                : null
+                  ?
+                  categoryOptionArr.fish.map((item, index) => {
+                    return (
+                      item.selfInput
+                        ? <CookingFormCustomOption
+                          baseOption={baseOption.fish}
+                          group={'fish'}
+                          categoryOptionArr={categoryOptionArr}
+                          setCategoryOptionArr={setCategoryOptionArr}
+                          cookingForm={cookingForm}
+                          setCookingForm={setCookingForm}
+                          index={index}
+                          key={index}
+                          handleValue={handleValue}
+                          setHandleValue={setHandleValue}
+                        />
+                        : <CookingFormSelectOption
+                          baseOption={baseOption.fish}
+                          group={'fish'}
+                          categoryOptionArr={categoryOptionArr}
+                          setCategoryOptionArr={setCategoryOptionArr}
+                          cookingForm={cookingForm}
+                          setCookingForm={setCookingForm}
+                          index={index}
+                          key={index}
+                          handleValue={handleValue}
+                          setHandleValue={setHandleValue}
+                        />
+                    )
+                  })
+                  : null
               }
             </dl>
-            <CookingMoreOption 
-              baseOption={baseOption.fish} 
+            <CookingMoreOption
+              baseOption={baseOption.fish}
               setHandleValue={setHandleValue}
-              setCookingForm={setCookingForm} 
-              cookingForm={cookingForm} 
-              group={'fish'} 
-              categoryOptionArr={categoryOptionArr}  
-              setCategoryOptionArr={setCategoryOptionArr} 
+              setCookingForm={setCookingForm}
+              cookingForm={cookingForm}
+              group={'fish'}
+              categoryOptionArr={categoryOptionArr}
+              setCategoryOptionArr={setCategoryOptionArr}
             />
           </li>
           <li>
@@ -360,47 +361,47 @@ const CookingForm = ({history}) => {
               </dt>
               {
                 baseOption
-                ? 
-                categoryOptionArr.misc.map((item, index)=> {
-                  return (
-                    item.selfInput
-                    ? <CookingFormCustomOption
-                        baseOption={baseOption.misc} 
-                        group={'misc'} 
-                        categoryOptionArr={categoryOptionArr}
-                        setCategoryOptionArr={setCategoryOptionArr} 
-                        cookingForm={cookingForm}
-                        setCookingForm={setCookingForm}
-                        index={index}
-                        key={index} 
-                        handleValue={handleValue} 
-                        setHandleValue={setHandleValue}
-                      />
-                    : <CookingFormSelectOption 
-                        baseOption={baseOption.misc} 
-                        group={'misc'} 
-                        categoryOptionArr={categoryOptionArr} 
-                        setCategoryOptionArr={setCategoryOptionArr} 
-                        cookingForm={cookingForm}
-                        setCookingForm={setCookingForm}
-                        index={index}
-                        key={index} 
-                        handleValue={handleValue} 
-                        setHandleValue={setHandleValue}
-                      />
-                  )
-                })
-                : null
+                  ?
+                  categoryOptionArr.misc.map((item, index) => {
+                    return (
+                      item.selfInput
+                        ? <CookingFormCustomOption
+                          baseOption={baseOption.misc}
+                          group={'misc'}
+                          categoryOptionArr={categoryOptionArr}
+                          setCategoryOptionArr={setCategoryOptionArr}
+                          cookingForm={cookingForm}
+                          setCookingForm={setCookingForm}
+                          index={index}
+                          key={index}
+                          handleValue={handleValue}
+                          setHandleValue={setHandleValue}
+                        />
+                        : <CookingFormSelectOption
+                          baseOption={baseOption.misc}
+                          group={'misc'}
+                          categoryOptionArr={categoryOptionArr}
+                          setCategoryOptionArr={setCategoryOptionArr}
+                          cookingForm={cookingForm}
+                          setCookingForm={setCookingForm}
+                          index={index}
+                          key={index}
+                          handleValue={handleValue}
+                          setHandleValue={setHandleValue}
+                        />
+                    )
+                  })
+                  : null
               }
             </dl>
-            <CookingMoreOption 
-              baseOption={baseOption.misc} 
+            <CookingMoreOption
+              baseOption={baseOption.misc}
               setHandleValue={setHandleValue}
-              setCookingForm={setCookingForm} 
-              cookingForm={cookingForm} 
-              group={'misc'} 
-              categoryOptionArr={categoryOptionArr}  
-              setCategoryOptionArr={setCategoryOptionArr} 
+              setCookingForm={setCookingForm}
+              cookingForm={cookingForm}
+              group={'misc'}
+              categoryOptionArr={categoryOptionArr}
+              setCategoryOptionArr={setCategoryOptionArr}
             />
           </li>
           <li>
@@ -410,55 +411,55 @@ const CookingForm = ({history}) => {
               </dt>
               {
                 baseOption
-                ? 
-                categoryOptionArr.sauce.map((item, index)=> {
-                  return (
-                    item.selfInput
-                    ? <CookingFormCustomOption
-                        baseOption={baseOption.sauce} 
-                        group={'sauce'} 
-                        categoryOptionArr={categoryOptionArr}
-                        setCategoryOptionArr={setCategoryOptionArr} 
-                        cookingForm={cookingForm}
-                        setCookingForm={setCookingForm}
-                        index={index}
-                        key={index} 
-                        handleValue={handleValue} 
-                        setHandleValue={setHandleValue}
-                      />
-                    : <CookingFormSelectOption 
-                        baseOption={baseOption.sauce} 
-                        group={'sauce'} 
-                        categoryOptionArr={categoryOptionArr} 
-                        setCategoryOptionArr={setCategoryOptionArr} 
-                        cookingForm={cookingForm}
-                        setCookingForm={setCookingForm}
-                        index={index}
-                        key={index} 
-                        handleValue={handleValue} 
-                        setHandleValue={setHandleValue}
-                      />
-                  )
-                })
-                : null
+                  ?
+                  categoryOptionArr.sauce.map((item, index) => {
+                    return (
+                      item.selfInput
+                        ? <CookingFormCustomOption
+                          baseOption={baseOption.sauce}
+                          group={'sauce'}
+                          categoryOptionArr={categoryOptionArr}
+                          setCategoryOptionArr={setCategoryOptionArr}
+                          cookingForm={cookingForm}
+                          setCookingForm={setCookingForm}
+                          index={index}
+                          key={index}
+                          handleValue={handleValue}
+                          setHandleValue={setHandleValue}
+                        />
+                        : <CookingFormSelectOption
+                          baseOption={baseOption.sauce}
+                          group={'sauce'}
+                          categoryOptionArr={categoryOptionArr}
+                          setCategoryOptionArr={setCategoryOptionArr}
+                          cookingForm={cookingForm}
+                          setCookingForm={setCookingForm}
+                          index={index}
+                          key={index}
+                          handleValue={handleValue}
+                          setHandleValue={setHandleValue}
+                        />
+                    )
+                  })
+                  : null
               }
             </dl>
-            <CookingMoreOption 
-              baseOption={baseOption.sauce} 
+            <CookingMoreOption
+              baseOption={baseOption.sauce}
               setHandleValue={setHandleValue}
-              setCookingForm={setCookingForm} 
-              cookingForm={cookingForm} 
-              group={'sauce'} 
-              categoryOptionArr={categoryOptionArr}  
-              setCategoryOptionArr={setCategoryOptionArr} 
+              setCookingForm={setCookingForm}
+              cookingForm={cookingForm}
+              group={'sauce'}
+              categoryOptionArr={categoryOptionArr}
+              setCategoryOptionArr={setCategoryOptionArr}
             />
           </li>
         </ul>
         <div className="CookingForm__buttonWrap">
           {
             cookingId
-            ? <button type="submit" className="CookingForm__button CookingForm__button--edit" onClick={onCookingEdit}>요리수정</button>
-            : <button type="submit" className="CookingForm__button CookingForm__button--submit" onClick={onCookingCreate}>요리추가</button>
+              ? <button type="submit" className="CookingForm__button CookingForm__button--edit" onClick={onCookingEdit}>요리수정</button>
+              : <button type="submit" className="CookingForm__button CookingForm__button--submit" onClick={onCookingCreate}>요리추가</button>
           }
         </div>
       </form>
@@ -467,28 +468,28 @@ const CookingForm = ({history}) => {
 };
 
 
-const CookingMoreOption = ({setHandleValue,cookingForm,setCookingForm,setCategoryOptionArr, categoryOptionArr, group, baseOption}) => {
-  const handleMore = useCallback((e)=>{
+const CookingMoreOption = ({ setHandleValue, cookingForm, setCookingForm, setCategoryOptionArr, categoryOptionArr, group, baseOption }) => {
+  const handleMore = useCallback((e) => {
     e.preventDefault()
 
     // 직접입력, 선택입력 옵션설정
     // 기본값 선택입력 추가
-    const optionArr = {...categoryOptionArr};
-    optionArr[group].push({selfInput : false})
+    const optionArr = { ...categoryOptionArr };
+    optionArr[group].push({ selfInput: false })
     setCategoryOptionArr(optionArr);
 
     // handlevalue 컨트롤
     // 기본값 선택입력 추가
-    
+
     let copyArr;
-    if(cookingForm.contents[group].contents){
+    if (cookingForm.contents[group].contents) {
       copyArr = Array.from(cookingForm.contents[group].contents)
       copyArr.push({
         name: Object.keys(baseOption[0])[0],
         amount: 0,
         unit: baseOption[0][Object.keys(baseOption[0])],
       })
-    }else{
+    } else {
       copyArr = [{
         name: Object.keys(baseOption[0])[0],
         amount: 0,
@@ -503,7 +504,7 @@ const CookingMoreOption = ({setHandleValue,cookingForm,setCookingForm,setCategor
     })
   }, [categoryOptionArr, group, cookingForm, baseOption])
 
-  return(
+  return (
     <div className="CookingForm__more">
       <button className="CookingForm__optionButton CookingForm__optionButton--add" onClick={handleMore}>+ 추가</button>
     </div>

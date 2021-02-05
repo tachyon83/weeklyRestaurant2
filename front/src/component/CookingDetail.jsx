@@ -4,12 +4,12 @@ import axios from 'axios';
 import InventoryItem from './InventoryItem'
 const host = require("../host");
 
-const CookingDetail = ({history}) => {
+const CookingDetail = ({ history }) => {
     let { cookingId } = useParams();
 
     const [cookingDetail, setCookingDetail] = useState()
 
-    useEffect(()=> {
+    useEffect(() => {
         handleDetail()
     }, [])
 
@@ -18,19 +18,23 @@ const CookingDetail = ({history}) => {
             withCredentials: true
         }).then((result) => {
             setCookingDetail(result.data.data);
-        }).catch( error => { console.log('failed', error) });
+        }).catch(error => { console.log('failed', error) });
     }, []);
 
-    const onDeleteRecipe = useCallback((e)=>{
+    const onDeleteRecipe = useCallback((e) => {
         e.preventDefault();
         axios.delete(`${host.server}/recipe`, {
-            id: `${cookingId}`
-        },{
+            data: { id: `${cookingId}` },
             withCredentials: true
-        }).then((result) => {
+            // id: `${cookingId}`
+        }
+            // {
+            //     withCredentials: true
+            // }
+        ).then((result) => {
             console.log('삭제완료', cookingId, result)
             history.push('/cookingList');
-        }).catch( error => { console.log('failed', error) });
+        }).catch(error => { console.log('failed', error) });
     }, [cookingId])
 
     return (
@@ -60,10 +64,11 @@ const CookingDetail = ({history}) => {
                                 <dt className="CookingDetail__category">육류</dt>
                                 {
                                     cookingDetail.contents.meat.contents ? (
-                                        cookingDetail.contents.meat.contents.map((item, i)=>{
-                                        return(
-                                            <InventoryItem ingredient={item} key={i} />
-                                        )})
+                                        cookingDetail.contents.meat.contents.map((item, i) => {
+                                            return (
+                                                <InventoryItem ingredient={item} key={i} />
+                                            )
+                                        })
                                     ) : null
                                 }
                             </dl>
@@ -71,10 +76,11 @@ const CookingDetail = ({history}) => {
                                 <dt className="CookingDetail__category">어류</dt>
                                 {
                                     cookingDetail.contents.fish.contents ? (
-                                        cookingDetail.contents.fish.contents.map((item, i)=>{
-                                        return(
-                                            <InventoryItem ingredient={item} key={i} />
-                                        )})
+                                        cookingDetail.contents.fish.contents.map((item, i) => {
+                                            return (
+                                                <InventoryItem ingredient={item} key={i} />
+                                            )
+                                        })
                                     ) : null
                                 }
                             </dl>
@@ -82,10 +88,11 @@ const CookingDetail = ({history}) => {
                                 <dt className="CookingDetail__category">부재료</dt>
                                 {
                                     cookingDetail.contents.misc.contents ? (
-                                        cookingDetail.contents.misc.contents.map((item, i)=>{
-                                        return(
-                                            <InventoryItem ingredient={item} key={i} />
-                                        )})
+                                        cookingDetail.contents.misc.contents.map((item, i) => {
+                                            return (
+                                                <InventoryItem ingredient={item} key={i} />
+                                            )
+                                        })
                                     ) : null
                                 }
                             </dl>
@@ -93,10 +100,11 @@ const CookingDetail = ({history}) => {
                                 <dt className="CookingDetail__category">양념(소스)</dt>
                                 {
                                     cookingDetail.contents.sauce.contents ? (
-                                        cookingDetail.contents.sauce.contents.map((item, i)=>{
-                                        return(
-                                            <InventoryItem ingredient={item} key={i} />
-                                        )})
+                                        cookingDetail.contents.sauce.contents.map((item, i) => {
+                                            return (
+                                                <InventoryItem ingredient={item} key={i} />
+                                            )
+                                        })
                                     ) : null
                                 }
                             </dl>

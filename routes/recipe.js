@@ -1,5 +1,6 @@
 // acts both as a router and as a controller
 
+const auth = require('../utils/auth')
 const resCode = require('../configs/responseCode')
 const resHandler = require('../utils/responseHandler')
 const errHandler = require('../utils/errorHandler')
@@ -11,7 +12,7 @@ const c = require('../utils/constants')
 const ingredientUtil = require('../models/utils/ingredientUtil')
 
 
-router.get('/new', async (req, res) => {
+router.get('/new', auth, async (req, res) => {
     let result = {}
     await Promise.all(c.ingredientUnitTableNames.map(async (unitTableName, i) => {
         result[c.ingredientTableNames[i]] = await ingredientUtil.eachSubIngredientListFinder(unitTableName)
@@ -25,13 +26,13 @@ router.get('/list', (req, res) => {
         .catch(err => res.json(errHandler(err)))
 })
 
-router.delete('/', (req, res) => {
+router.delete('/', auth, (req, res) => {
     dao.deleteRecipe(req.body.id)
         .then(() => res.json(resHandler(true, resCode.success, null)))
         .catch(err => res.json(errHandler(err)))
 })
 
-router.put('/', async (req, res) => {
+router.put('/', auth, async (req, res) => {
     // 수정 시에는 소유권을 확인하지 않는다.
     const ingIdsArr = await ingredientUtil.ingredientTablesIdFinder(req.body.contents)
     const ingId = await ingredientUtil.ingredientTableIdFinder(ingIdsArr)
@@ -41,7 +42,7 @@ router.put('/', async (req, res) => {
 
 })
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
     const ingIdsArr = await ingredientUtil.ingredientTablesIdFinder(req.body.contents)
     const ingId = await ingredientUtil.ingredientTableIdFinder(ingIdsArr)
@@ -53,23 +54,28 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', (req, res) => {
 
-    dao.getMemberByUserId(req.session.passport.user)
-        .then(member => {
-            if (member) return dao.getRecipeByIds(parseInt(req.params.id), member.id)
-            else res.json(resHandler(false, resCode.notAuth, null))
-        })
-        // 소유권 확인 완료
-        .then(result => {
-            if (!result) res.json(resHandler(false, resCode.notAuth, null))
-            else {
-                console.log('[Router]: Recipe Ownership checked OK.')
-                console.log()
-                return Promise.resolve(result)
-            }
-        })
+    dao.getRecipeById2(parseInt(req.params.id))
         .then(ingredientUtil.ingredientsFinder)
         .then(result => res.json(resHandler(true, resCode.success, result)))
         .catch(err => res.json(errHandler(err)))
+
+    // dao.getMemberByUserId(req.session.passport.user)
+    //     .then(member => {
+    //         if (member) return dao.getRecipeByIds(parseInt(req.params.id), member.id)
+    //         else res.json(resHandler(false, resCode.notAuth, null))
+    //     })
+    //     // 소유권 확인 완료
+    //     .then(result => {
+    //         if (!result) res.json(resHandler(false, resCode.notAuth, null))
+    //         else {
+    //             console.log('[Router]: Recipe Ownership checked OK.')
+    //             console.log()
+    //             return Promise.resolve(result)
+    //         }
+    //     })
+    //     .then(ingredientUtil.ingredientsFinder)
+    //     .then(result => res.json(resHandler(true, resCode.success, result)))
+    //     .catch(err => res.json(errHandler(err)))
 })
 
 module.exports = router
