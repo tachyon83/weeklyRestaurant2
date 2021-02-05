@@ -35,6 +35,7 @@ const App = () => {
             <Route path="/cookingList">
               <CookingList />
             </Route>
+            <Route path="/cookingForm/:cookingId" component={CookingForm} />
             <Route path="/cookingForm">
               <CookingForm />
             </Route>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from 'axios';
 import InventoryItem from './InventoryItem'
 const host = require("../host");
@@ -35,7 +35,7 @@ const CookingDetail = () => {
                                     <p>{cookingDetail.img}</p>
                                 </div>
                                 <div className="CookingDetail__buttonWrap">
-                                    <button className="CookingDetail__button CookingDetail__button--edit">수정하기</button>
+                                    <Link to={`/cookingForm/${cookingId}`} className="CookingDetail__button CookingDetail__button--edit">수정하기</Link>
                                     <button className="CookingDetail__button CookingDetail__button--delete">삭제</button>
                                 </div>
                             </div>

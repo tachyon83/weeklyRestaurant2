@@ -33,6 +33,31 @@ const CookingFormSelectOption = ({targetCategory,setTargetCategory,handleValue, 
     index: 0,
   });
 
+
+  // 수정시 첫 unit 단위 셋팅
+  useEffect(() => {
+    if(cookingForm.contents[group].contents && baseOption){
+
+      let selecdIndex;
+
+      baseOption.map((item, mapIndex)=>{
+        if(
+          cookingForm.contents[group].contents[index] &&
+          cookingForm.contents[group].contents[index].name === Object.keys(item)[0] 
+        ) { 
+          selecdIndex = mapIndex;
+        } else {
+          selecdIndex = 0;
+        }
+      })
+
+      setSelectedKey({
+        key: Object.keys(baseOption[selecdIndex]),
+        index: selecdIndex,
+      })
+    }
+  }, [])
+
   const handleSelect = useCallback((e)=>{
     e.preventDefault();
 
@@ -72,9 +97,12 @@ const CookingFormSelectOption = ({targetCategory,setTargetCategory,handleValue, 
         <div className="CookingForm__section01">
           <select name="name" id="" onChange={handleSelect}>
             {
-              baseOption.map((item, index)=>{
+              cookingForm.contents[group].contents && baseOption.map((item, mapIndex)=>{
                 return (
-                  <option value={Object.keys(item)[0]} key={index}>{Object.keys(item)[0]}</option>
+                  cookingForm.contents[group].contents[index] &&
+                  cookingForm.contents[group].contents[index].name === Object.keys(item)[0] 
+                  ? <option value={Object.keys(item)[0]} key={mapIndex} selected>{Object.keys(item)[0]}</option>
+                  : <option value={Object.keys(item)[0]} key={mapIndex}>{Object.keys(item)[0]}</option>
                 )
               })
             }
