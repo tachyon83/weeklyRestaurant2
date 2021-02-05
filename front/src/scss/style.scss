@@ -596,6 +596,10 @@ footer{
         border-top: 0;
     }
 
+    &__wrap{
+        display: flex;
+    }
+
     a{
         display: flex;
         cursor: pointer;

@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 
 const InventoryItem = (props) => {
   const {name, amount, unit} = props.ingredient;
-  const {setInventoryPopupInfo, category, title, index} = props;
+  const {setInventoryPopupInfo, inventoryPopupInfo, category, title, index} = props;
 
   const onModifyAction = useCallback(() =>{
     setInventoryPopupInfo({
@@ -19,11 +19,25 @@ const InventoryItem = (props) => {
 
   return (
     <div className="Ingredient">
-        <a onClick={onModifyAction}>
-          <div className="Ingredient__title">{name}</div>
-          <div className="Ingredient__count">{amount}</div>
-          <div className="Ingredient__unit">{unit}</div>
-        </a>
+      
+      {
+        inventoryPopupInfo
+        ? (
+          <a onClick={onModifyAction}>
+            <div className="Ingredient__title">{name}</div>
+            <div className="Ingredient__count">{amount}</div>
+            <div className="Ingredient__unit">{unit}</div>
+          </a>
+        ) 
+        : (
+          <div className="Ingredient__wrap">
+            <div className="Ingredient__title">{name}</div>
+            <div className="Ingredient__count">{amount}</div>
+            <div className="Ingredient__unit">{unit}</div>
+          </div>
+        )
+      }
+        
     </div>
   );
 };

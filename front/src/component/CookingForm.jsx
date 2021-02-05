@@ -197,9 +197,15 @@ const CookingForm = ({history}) => {
 
   const onCookingEdit = useCallback((e)=>{
     e.preventDefault();
-    alert('수정완료')
-    history.push('/cookingList');
-  }, [])
+    console.log('전달 레시피', cookingForm)
+
+    axios.put(`${host.server}/recipe`, cookingForm, {
+      withCredentials: true
+    }).then((result) => {
+      console.log('요리 수정완료', result)
+      history.push(`/cookingList/${cookingId}`);
+    }).catch( error => { console.log('failed', error) });
+  }, [cookingForm])
 
   useEffect(() => {
     console.log(cookingForm, 'cookingForm change!!')

@@ -29,9 +29,7 @@ const App = () => {
                 : <Login setIslogin={setIslogin} />
               }
             </Route>
-            <Route path="/cookingList/:cookingId">
-              <CookingDetail />
-            </Route>
+            <Route path="/cookingList/:cookingId" component={CookingDetail} />
             <Route path="/cookingList">
               <CookingList />
             </Route>

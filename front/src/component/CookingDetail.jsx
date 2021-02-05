@@ -4,7 +4,7 @@ import axios from 'axios';
 import InventoryItem from './InventoryItem'
 const host = require("../host");
 
-const CookingDetail = () => {
+const CookingDetail = ({history}) => {
     let { cookingId } = useParams();
 
     const [cookingDetail, setCookingDetail] = useState()
@@ -14,12 +14,24 @@ const CookingDetail = () => {
     }, [])
 
     const handleDetail = useCallback(() => {
-    axios.get(`${host.server}/recipe/${cookingId}`, {
-        withCredentials: true
-      }).then((result) => {
-        setCookingDetail(result.data.data);
-    }).catch( error => { console.log('failed', error) });
+        axios.get(`${host.server}/recipe/${cookingId}`, {
+            withCredentials: true
+        }).then((result) => {
+            setCookingDetail(result.data.data);
+        }).catch( error => { console.log('failed', error) });
     }, []);
+
+    const onDeleteRecipe = useCallback((e)=>{
+        e.preventDefault();
+        axios.delete(`${host.server}/recipe`, {
+            id: `${cookingId}`
+        },{
+            withCredentials: true
+        }).then((result) => {
+            console.log('삭제완료', cookingId, result)
+            history.push('/cookingList');
+        }).catch( error => { console.log('failed', error) });
+    }, [cookingId])
 
     return (
         <>
@@ -36,7 +48,7 @@ const CookingDetail = () => {
                                 </div>
                                 <div className="CookingDetail__buttonWrap">
                                     <Link to={`/cookingForm/${cookingId}`} className="CookingDetail__button CookingDetail__button--edit">수정하기</Link>
-                                    <button className="CookingDetail__button CookingDetail__button--delete">삭제</button>
+                                    <button className="CookingDetail__button CookingDetail__button--delete" onClick={onDeleteRecipe}>삭제</button>
                                 </div>
                             </div>
                             <div className="CookingDetail__thumb">
