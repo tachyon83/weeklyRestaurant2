@@ -1,11 +1,15 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import axios from 'axios';
 import CookingFormSelectOption from './CookingFormSelectOption';
 import CookingFormCustomOption from './CookingFormCustomOption';
 
 const host = require("../host");
 
-const CookingForm = (props) => {
+const CookingForm = ({history}) => {
+  // params로 수정할 요리의 id를 받아온다.
+  let { cookingId } = useParams();
+  console.log('cookingId' , cookingId)
 
   useEffect(() => {
     axios.get(`${host.server}/recipe/new`, {
@@ -13,6 +17,46 @@ const CookingForm = (props) => {
     }).then((result) => {
       setBaseOption(result.data.data)
     }).catch((error)=>{console.log('failed', error)})
+  }, [])
+
+  // 수정시 레시피 get
+  useEffect(() => {
+    if(cookingId){
+      axios.get(`${host.server}/recipe/${cookingId}`, {
+        withCredentials: true
+      }).then((result) => {
+        console.log(result.data.data, '요리수정 레시피 get 요청')
+        setCookingForm(result.data.data)
+
+        const varStyle = result.data.data.style;
+        if(varStyle === 'KOR'){
+          selectStyle.current.selectedIndex = 1
+        }else if(varStyle === 'CHN'){
+          selectStyle.current.selectedIndex = 2
+        }else if(varStyle === 'WES'){
+          selectStyle.current.selectedIndex = 3
+        }
+
+        const category = ['meat', 'fish', 'misc', 'sauce'];
+        let meatArr = [], fishArr = [], miscArr = [], sauceArr = [];
+        const arr = [meatArr, fishArr, miscArr, sauceArr];
+        category.map((item, index)=>{
+          if(result.data.data.contents[item].contents){
+            for(let i = 0; i < result.data.data.contents[item].contents.length; i++){
+              arr[index].push({selfInput: false})
+            }
+          }
+        })
+
+        setCategoryOptionArr({
+          meat: meatArr,
+          fish: fishArr,
+          misc: miscArr,
+          sauce: sauceArr,
+        })
+
+      }).catch((error)=>{console.log('failed', error)})
+    }
   }, [])
 
   const [cookingForm, setCookingForm] = useState({
@@ -49,6 +93,7 @@ const CookingForm = (props) => {
     amount: null,
     unit: null,
   });
+
   const [handleValue, setHandleValue] = useState({
     targetCateogry: null,
     contents: {
@@ -90,7 +135,53 @@ const CookingForm = (props) => {
     axios.post(`${host.server}/recipe`, cookingForm, {
       withCredentials: true
     }).then((result) => {
-      console.log(result)
+      alert('요리 추가 성공.')
+      setHandleValue({
+        targetCateogry: null,
+        contents: {
+          name: null,
+          amount: null,
+          unit: null,
+        }
+      })
+      setCookingForm({
+        id: null,
+        name: '',
+        style: null,
+        img: '',
+        contents: {
+          meat: {
+            id: null,
+            name: null,
+            contents: [],
+          },
+          fish: {
+            id: null,
+            name: null,
+            contents: [],
+          },
+          misc: {
+            id: null,
+            name: null,
+            contents: [],
+          },
+          sauce: {
+            id: null,
+            name: null,
+            contents: [],
+          }
+        }
+      })
+      setCategoryOptionArr({
+        meat: [],
+        fish: [],
+        misc: [],
+        sauce: [],
+      })
+
+      // 카테고리 style 옵션 초기화
+      selectStyle.current.selectedIndex = 0;
+
     }).catch( error => { console.log('failed', error) });
 
   }, [cookingForm])
@@ -102,13 +193,29 @@ const CookingForm = (props) => {
     })
   })
 
+  const selectStyle = useRef(null);
+
+  const onCookingEdit = useCallback((e)=>{
+    e.preventDefault();
+    console.log('전달 레시피', cookingForm)
+
+    axios.put(`${host.server}/recipe`, cookingForm, {
+      withCredentials: true
+    }).then((result) => {
+      console.log('요리 수정완료', result)
+      history.push(`/cookingList/${cookingId}`);
+    }).catch( error => { console.log('failed', error) });
+  }, [cookingForm])
+
   useEffect(() => {
     console.log(cookingForm, 'cookingForm change!!')
   }, [cookingForm])
 
   return (
     <div className="LineBox">
-      <h2>요리 추가</h2>
+      {
+        cookingId ? <h2>요리 수정</h2> : <h2>요리 추가</h2>
+      }
       <form className="CookingForm">
         <ul className="CookingForm__top">
           <li>
@@ -127,7 +234,7 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리사진 URL</label>
               </dt>
               <dd>
-                <input type="text" name="img" onChange={onChangeInput} value={cookingForm.img}  />
+                <input type="text" name="img" onChange={onChangeInput} value={cookingForm.img} />
               </dd>
             </dl>
             <dl>
@@ -135,8 +242,8 @@ const CookingForm = (props) => {
                 <label htmlFor="">요리 카테고리</label>
               </dt>
               <dd>
-                <select name="style" id="" onChange={onChangeInput}>
-                  <option value="" selected disabled hidden>카테고리 선택</option>
+                <select name="style" id="" onChange={onChangeInput} ref={selectStyle}>
+                  <option value="none" selected disabled hidden>카테고리 선택</option>
                   <option value="KOR">한식</option>
                   <option value="CHN">중식</option>
                   <option value="WES">양식</option>
@@ -348,9 +455,11 @@ const CookingForm = (props) => {
           </li>
         </ul>
         <div className="CookingForm__buttonWrap">
-          <button type="submit" className="CookingForm__button CookingForm__button--submit" onClick={onCookingCreate}>요리추가</button>
-          <button type="submit" className="CookingForm__button CookingForm__button--edit">요리수정</button>
-          <button type="submit" className="CookingForm__button CookingForm__button--remove">요리삭제</button>
+          {
+            cookingId
+            ? <button type="submit" className="CookingForm__button CookingForm__button--edit" onClick={onCookingEdit}>요리수정</button>
+            : <button type="submit" className="CookingForm__button CookingForm__button--submit" onClick={onCookingCreate}>요리추가</button>
+          }
         </div>
       </form>
     </div>
@@ -371,12 +480,21 @@ const CookingMoreOption = ({setHandleValue,cookingForm,setCookingForm,setCategor
     // handlevalue 컨트롤
     // 기본값 선택입력 추가
     
-    const copyArr = Array.from(cookingForm.contents[group].contents)
-    copyArr.push({
-      name: Object.keys(baseOption[0])[0],
-      amount: 0,
-      unit: baseOption[0][Object.keys(baseOption[0])],
-    })
+    let copyArr;
+    if(cookingForm.contents[group].contents){
+      copyArr = Array.from(cookingForm.contents[group].contents)
+      copyArr.push({
+        name: Object.keys(baseOption[0])[0],
+        amount: 0,
+        unit: baseOption[0][Object.keys(baseOption[0])],
+      })
+    }else{
+      copyArr = [{
+        name: Object.keys(baseOption[0])[0],
+        amount: 0,
+        unit: baseOption[0][Object.keys(baseOption[0])],
+      }]
+    }
     console.log(copyArr, `${group}기본 생성값 추가!`)
 
     setHandleValue({

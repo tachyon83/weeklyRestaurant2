@@ -666,6 +666,12 @@ footer .layoutWrap {
   border-top: 0;
 }
 
+.Ingredient__wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .Ingredient a {
   display: -webkit-box;
   display: -ms-flexbox;

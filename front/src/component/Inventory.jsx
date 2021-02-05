@@ -59,7 +59,7 @@ const Inventory = () => {
                 {
                   ingredient.meat.map((item, i) => {
                     return (
-                      <InventoryItem ingredient={item} key={i} setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="meat" title="육류" />
+                      <InventoryItem ingredient={item} key={i} inventoryPopupInfo setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="meat" title="육류" />
                     )
                   })
                 }
@@ -76,7 +76,7 @@ const Inventory = () => {
                 {
                   ingredient.fish.map((item, i) => {
                     return (
-                      <InventoryItem ingredient={item} key={i} setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="fish" title="어류" />
+                      <InventoryItem ingredient={item} key={i} inventoryPopupInfo setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="fish" title="어류" />
                     )
                   })
                 }
@@ -93,7 +93,7 @@ const Inventory = () => {
                 {
                   ingredient.misc.map((item, i) => {
                     return (
-                      <InventoryItem ingredient={item} key={i} setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="misc" title="부재료" />
+                      <InventoryItem ingredient={item} key={i} inventoryPopupInfo setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="misc" title="부재료" />
                     )
                   })
                 }
@@ -110,7 +110,7 @@ const Inventory = () => {
                 {
                   ingredient.sauce.map((item, i) => {
                     return (
-                      <InventoryItem ingredient={item} key={i} setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="sauce" title="양념(소스)" />
+                      <InventoryItem ingredient={item} key={i} inventoryPopupInfo setInventoryPopupInfo={setInventoryPopupInfo} index={i} category="sauce" title="양념(소스)" />
                     )
                   })
                 }

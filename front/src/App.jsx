@@ -29,12 +29,11 @@ const App = () => {
                 : <Login setIslogin={setIslogin} />
               }
             </Route>
-            <Route path="/cookingList/:cookingId">
-              <CookingDetail />
-            </Route>
+            <Route path="/cookingList/:cookingId" component={CookingDetail} />
             <Route path="/cookingList">
               <CookingList />
             </Route>
+            <Route path="/cookingForm/:cookingId" component={CookingForm} />
             <Route path="/cookingForm">
               <CookingForm />
             </Route>

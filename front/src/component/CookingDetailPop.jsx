@@ -25,7 +25,7 @@ const CookingDetailPop = ({ setIsDetailPopup, popupCookingId = 1134 }) => {
             console.log(result.data)
             setCookingDetail(result.data.data);
         }).catch(error => { console.log('failed', error) });
-    }, []);
+    }, [popupCookingId]);
 
     return (
         <>
