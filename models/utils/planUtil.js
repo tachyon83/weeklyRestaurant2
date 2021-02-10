@@ -3,7 +3,7 @@ const dao = require('../Dao')
 
 
 const getWeek = async (year, week) => {
-    // Even where there is no week data in database, 
+    // Even when there is no week data in database, 
     // there should be a return in correct form.
 
     let ret = []
@@ -21,14 +21,12 @@ const getWeek = async (year, week) => {
     return ret
 }
 
-const weekHandler = async body => {
-    return await Promise.all(body.plan.map(async (day, dayIdx) => {
-        await Promise.all(day.map(async (meal, mealIdx) => await dao.handleWeek([body.year, body.week, dayIdx, mealIdx, meal, meal])))
-    }))
+const mealHandler = async body => {
+    return await dao.insertOrUpdateMeal(body)
 }
 
 module.exports = {
-    weekHandler,
+    mealHandler,
     getWeek,
 
 }

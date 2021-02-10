@@ -33,7 +33,7 @@ class Dao {
                 conn.query(sql, (err, rows, fields) => {
                     conn.release();
                     if (err) {
-                        console.log('err in query', err)
+                        // console.log('err in query', err)
                         return reject(err)
                     }
                     // console.log('[DAO]: SQL=', sql)
@@ -152,8 +152,6 @@ class Dao {
 
     getWeek = q => this.sqlHandler(sqls.sql_getWeek, q)
 
-    handleWeek = q => this.sqlHandler(sqls.sql_handleWeek, q)
-
     getInventoryByMemberId = id => this.sqlHandler(sqls.sql_getInventoryByMemberId, id, 1)
 
     getFromTableById = (tableName, id) => {
@@ -170,16 +168,21 @@ class Dao {
         return this.sqlHandler(sqls.sql_insertInventoryColumn, info)
     }
 
-    updateInventory = (tableName, condition, id) => {
+    updateInventory = (tableName, name, amount, id) => {
         let info = [
-            tableName, condition, id
+            tableName, name, amount, id
         ]
         return this.sqlHandler(sqls.sql_updateInventory, info)
     }
 
     getServings = () => this.sqlHandler(sqls.sql_getServings, null, 1)
 
-
+    insertOrUpdateMeal = body => {
+        let info = [
+            body.year, body.week, body.day, body.meal, body.recipeId, body.recipeId
+        ]
+        this.sqlHandler(sqls.sql_insertOrUpdateMeal, info)
+    }
 }
 
 module.exports = new Dao()

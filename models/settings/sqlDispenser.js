@@ -747,7 +747,7 @@ let sql_getWeek =
     on w.recipeId=r.id 
     where w.year=? and w.week=? order by w.day,w.meal;`
 
-let sql_handleWeek =
+let sql_insertOrUpdateMeal =
     `insert into ${dbSetting.table_week}(year,week,day,meal,recipeId) 
     values(?,?,?,?,?) on duplicate key update recipeId=?;`
 
@@ -764,7 +764,7 @@ let sql_insertInventoryColumn =
     `alter table ?? add column ?? int not null default 0;`
 
 let sql_updateInventory =
-    `update ?? set ?? where id=?;`
+    `update ?? set ??=? where id=?;`
 
 let sql_getServings =
     `select servings from ${dbSetting.table_member} 
@@ -798,7 +798,7 @@ module.exports = {
     sql_deleteRecipe,
     sql_getStyleList,
     sql_getWeek,
-    sql_handleWeek,
+    sql_insertOrUpdateMeal,
     sql_getInventoryByMemberId,
     sql_getFromTableById,
     sql_insertInventoryColumn,

@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 })
 
 router.put('/', (req, res) => {
-    inventoryUtil.add(req.body)
+    inventoryUtil.insertOrUpdate(req.body)
         .then(_ => res.json(resHandler(true, resCode.success, null)))
         .catch(err => res.json(errHandler(err)))
 

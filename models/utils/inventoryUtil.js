@@ -66,35 +66,16 @@ const consume = async (year, week, day, meal) => {
     }
 }
 
-const add = async body => {
-    for (let i = 0; i < c.inventoryNames.length; ++i) {
-        const currSubMaterials = body[c.ingredientTableNames[i]]
-        if (!currSubMaterials) continue
-
-        const currSubMaterialSet = await materialUtil.currentMaterialSetMaker(i)
-        await Promise.all(currSubMaterials.map(async obj => {
-            await materialUtil.newMaterialCheckThenAdder(obj, currSubMaterialSet, i)
-        }))
-
-        let sql = 'update '
-        sql += c.inventoryNames[i] + ' '
-        sql += 'set '
-
-        const sz = currSubMaterials.length
-        currSubMaterials.map((obj, i) => {
-            sql += obj.name + '=' + obj.amount
-            if (i < sz - 1) sql += ','
-        })
-        sql += ' where id=1;'
-        await dao.sqlHandler(sql, null)
-            .catch(err => err)
-    }
+const insertOrUpdate = async body => {
+    const currSubMaterialSet = await materialUtil.currentMaterialSetMaker(body.ingredientType)
+    await materialUtil.newMaterialCheckThenAdder(body, currSubMaterialSet, body.ingredientType)
+    return await dao.updateInventory(c.inventoryNames[body.ingredientType], body.name, body.amount, 1)
 }
 
 module.exports = {
     getEachInventoryArr,
     getInventories,
     consume,
-    add,
+    insertOrUpdate,
 
 }
