@@ -47,15 +47,21 @@ const ingredientsFinder = async result => {
 
     // meat, fish, misc, sauce are independent
     // the following parallel processing in map works fine.
-    return Promise.all(c.ingredientTableNames.map(
-        async (name, i) =>
-            result.contents[name] = await subIngredientGetter(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
-    ))
-        .then(() => {
-            console.log('[Util]: ingredientsFinder complete.')
-            console.log()
-            return Promise.resolve(result)
-        })
+    // return Promise.all(c.ingredientTableNames.map(
+    //     async (name, i) =>
+    //         result.contents[name] = await subIngredientGetter(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
+    // ))
+    //     .then(() => {
+    //         console.log('[Util]: ingredientsFinder complete.')
+    //         console.log()
+    //         return Promise.resolve(result)
+    //     })
+    await Promise.all(c.ingredientTableNames.map(async (name, i) => {
+        result.contents[name] = await subIngredientGetter(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
+    }))
+    console.log('[Util]: ingredientsFinder complete.')
+    console.log()
+    return Promise.resolve(result)
 }
 
 
