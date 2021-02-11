@@ -15,10 +15,10 @@ const subIngredientGetter = async (id, tableName, unitTableName) => {
         result.id = materialInfo.id
         result.name = materialInfo.name
         result.contents = (colNames.filter(cname => {
-            const colName = cname.COLUMN_NAME
+            const colName = process.env.NODE_ENV !== 'production' ? cname.COLUMN_NAME : cname.column_name
             if (materialInfo[colName] > 0) return true
         }).map(cname => {
-            const colName = cname.COLUMN_NAME
+            const colName = process.env.NODE_ENV !== 'production' ? cname.COLUMN_NAME : cname.column_name
             return {
                 name: colName,
                 amount: materialInfo[colName],
@@ -59,6 +59,8 @@ const ingredientsFinder = async result => {
     await Promise.all(c.ingredientTableNames.map(async (name, i) => {
         result.contents[name] = await subIngredientGetter(ingIds[c.ingredientTableIds[i]], name, c.ingredientUnitTableNames[i])
     }))
+    console.log(result)
+    console.log(result.contents.misc.contents)
     console.log('[Util]: ingredientsFinder complete.')
     console.log()
     return Promise.resolve(result)
