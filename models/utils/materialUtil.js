@@ -20,6 +20,7 @@ module.exports = {
 
     // returns if added or not
     newMaterialCheckThenAdder: async (obj, set, i) => {
+        console.log('set', set)
         console.log('each obj', obj)
         if (!set.has(obj.name)) {
             console.log('[Util]: New Material ' + obj.name + ' Detected.')
