@@ -10,9 +10,13 @@ module.exports = {
     currentMaterialSetMaker: async i => {
         const currentMaterialArr = await dao.getColumnNames(c.ingredientUnitTableNames[i])
         // .catch(err => Promise.reject(err))
+        console.log('currMaterialArr', currentMaterialArr)
 
         let currentMaterialSet = new Set()
-        for (let elem of currentMaterialArr) currentMaterialSet.add(elem.COLUMN_NAME)
+        for (let elem of currentMaterialArr) {
+            console.log('elem', elem)
+            currentMaterialSet.add(elem.COLUMN_NAME)
+        }
         // console.log(currentMaterialSet)
         // console.log()
         return currentMaterialSet
