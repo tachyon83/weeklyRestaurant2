@@ -17,7 +17,7 @@ router.get('/:year/:week', async (req, res) => {
 
 router.put('/', auth, async (req, res) => {
     planUtil.mealHandler(req.body)
-        .then(() => res.json(resHandler(true, resCode.success, null)))
+        .then(result => res.json(resHandler(true, resCode.success, null)))
         .catch(err => res.json(errHandler(err)))
 })
 

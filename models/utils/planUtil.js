@@ -21,9 +21,7 @@ const getWeek = async (year, week) => {
     return ret
 }
 
-const mealHandler = async body => {
-    return await dao.insertOrUpdateMeal(body)
-}
+const mealHandler = async body => await dao.insertOrUpdateMeal(body)
 
 module.exports = {
     mealHandler,

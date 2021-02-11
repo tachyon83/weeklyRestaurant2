@@ -181,7 +181,7 @@ class Dao {
         let info = [
             body.year, body.week, body.day, body.meal, body.recipeId, body.recipeId
         ]
-        this.sqlHandler(sqls.sql_insertOrUpdateMeal, info)
+        return this.sqlHandler(sqls.sql_insertOrUpdateMeal, info)
     }
 }
 

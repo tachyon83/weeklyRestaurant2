@@ -1,7 +1,7 @@
 const errHandler = require('../utils/errorHandler')
 
 module.exports = (req, res, next) => {
-    console.log('session ID', req.session.id)
+    // console.log('session ID', req.session.id)
     // if (process.env.NODE_ENV !== 'production') return next()
     if (req.isAuthenticated()) {
         console.log('[AUTH CHECK]: Authenticated.')
