@@ -36,7 +36,7 @@ class Dao {
                         // console.log('err in query', err)
                         return reject(err)
                     }
-                    // console.log('[DAO]: SQL=', sql)
+                    console.log('[DAO]: SQL=', sql)
                     console.log('[DAO]: Query processed. resolving rows...')
                     // console.log('db process result', rows)
                     console.log()
