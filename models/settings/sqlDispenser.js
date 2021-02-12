@@ -741,6 +741,10 @@ let sql_getStyleList =
     `select id,name,img from ${dbSetting.table_recipe} 
     where style=? order by id asc;`
 
+let sql_getMeal =
+    `select id,recipeId from ${dbSetting.table_week} 
+    where year=? and week=? and day=? and meal=?;`
+
 let sql_getWeek =
     `select w.day, w.meal, r.id, r.name, r.style,r.img 
     from ${dbSetting.table_week} w left join ${dbSetting.table_recipe} r 
@@ -797,6 +801,7 @@ module.exports = {
     sql_updateRecipe,
     sql_deleteRecipe,
     sql_getStyleList,
+    sql_getMeal,
     sql_getWeek,
     sql_insertOrUpdateMeal,
     sql_getInventoryByMemberId,

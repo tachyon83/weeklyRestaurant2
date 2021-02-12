@@ -150,6 +150,8 @@ class Dao {
 
     getDay = id => this.sqlHandler(sqls.sql_getDay, id, 1)
 
+    getMeal = info => this.sqlHandler(sqls.sql_getMeal, info, 1)
+
     getWeek = q => this.sqlHandler(sqls.sql_getWeek, q)
 
     getInventoryByMemberId = id => this.sqlHandler(sqls.sql_getInventoryByMemberId, id, 1)

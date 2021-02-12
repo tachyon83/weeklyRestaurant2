@@ -30,14 +30,14 @@ const getInventories = async memberId => {
 }
 
 const consume = async (year, week, day, meal) => {
+    // parameters ex:(2021, 7, 6, 1)
     // there should be many members but can handle only one in this time...
     let servings = await dao.getServings()
     servings = servings.servings
-    const weekInfo = await dao.getWeek([year, week])
-    if (!weekInfo || !weekInfo[day]) return
+    const mealInfo = await dao.getMeal([year, week, day, meal])
+    if (!mealInfo) return
 
-    const dayInfo = await dao.getDay(weekInfo[day])
-    const ingId = await dao.getIngIdByRecipeId(dayInfo[meal])
+    const ingId = await dao.getIngIdByRecipeId(mealInfo.recipeId)
     const ingIds = await dao.getIngredientsById(ingId.ingredientId)
 
     for (let i = 0; i < c.ingredientTableIds.length; ++i) {
@@ -64,6 +64,7 @@ const consume = async (year, week, day, meal) => {
         sql += ' where id=1;'
         await dao.sqlHandler(sql, null).catch(err => err)
     }
+    return
 }
 
 const insertOrUpdate = async body => {
