@@ -1,5 +1,5 @@
 module.exports = {
-    breakfast: '0 2 8 * * *',
+    breakfast: '0 5 8 * * *',
     lunch: '0 0 12 * * *',
     dinner: '0 0 18 * * *',
     // breakfast: 8,
