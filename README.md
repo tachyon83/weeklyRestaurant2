@@ -8,7 +8,7 @@
 Carpe724 님과 함께 진행하였습니다.   
    
 본 프로젝트의 기획 및 설계에 사용한 문서 링크입니다   
-https://www.notion.so/4133ba99cbfa4a38805e51c603f95649    
+https://www.notion.so/5afdee33025c496e94dc3532452de4c5    
     
 백엔드는 제가 맡았고,  
 프론트엔드는 Carpe724 님이 맡았습니다.   
