@@ -5,7 +5,7 @@ const config = {
   password: process.env.PG_PASSWORD || "1234",
   database: process.env.PG_DATABASE || "fooddb",
   port: process.env.PG_PORT || "5432",
-  max: process.env.PG_MAX_CLIENTS || 5,
+  max: process.env.PG_MAX_CONN || 5,
   idleTimeoutMillis: 30000,
 };
 
