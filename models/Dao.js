@@ -1,5 +1,6 @@
 const dbPool = require("./dbPoolCreator");
 const sqls = require("./settings/sqlDispenser");
+const { Client } = require("pg");
 
 class Dao {
   constructor() {
