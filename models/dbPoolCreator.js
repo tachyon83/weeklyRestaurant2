@@ -1,6 +1,6 @@
 const pg = require("pg");
 const config = {
-  host: process.env.DATABASE_URL || "",
+  host: process.env.PG_DATABASE_URL || "",
   user: process.env.PG_USER || "user",
   password: process.env.PG_PASSWORD || "1234",
   database: process.env.PG_DATABASE || "fooddb",
