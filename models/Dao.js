@@ -3,19 +3,25 @@ const sqls = require("./settings/sqlDispenser");
 
 class Dao {
   constructor() {
-    dbPool.connect((err, conn) => {
-      if (err) throw err;
-      conn.query(
-        "SELECT table_schema,table_name FROM information_schema.tables;",
-        (err, res) => {
-          if (err) throw err;
-          for (let row of res.rows) {
-            console.log(JSON.stringify(row));
-          }
-          client.end();
-        }
-      );
+    const client = new Client({
+      connectionString: process.env.PG_DATABASE_URL || "",
+      // ssl: {
+      //   rejectUnauthorized: false,
+      // },
     });
+
+    client.connect();
+
+    client.query(
+      "SELECT table_schema,table_name FROM information_schema.tables;",
+      (err, res) => {
+        if (err) throw err;
+        for (let row of res.rows) {
+          console.log(JSON.stringify(row));
+        }
+        client.end();
+      }
+    );
   }
   // everytime dao is accessed,
   // dbPool is obtained in sqlHandler, not here.
