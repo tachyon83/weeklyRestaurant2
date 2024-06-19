@@ -1,22 +1,8 @@
-const dbPool = require("./dbPoolCreator");
+const mysql = require("mysql");
+const db = require("./dbPoolCreator");
 const sqls = require("./settings/sqlDispenser");
 
 class Dao {
-  constructor() {
-    dbPool.connect((err, conn) => {
-      if (err) throw err;
-      conn.query(
-        "SELECT table_schema,table_name FROM information_schema.tables;",
-        (err, res) => {
-          if (err) throw err;
-          for (let row of res.rows) {
-            console.log(JSON.stringify(row));
-          }
-          client.end();
-        }
-      );
-    });
-  }
   // everytime dao is accessed,
   // dbPool is obtained in sqlHandler, not here.
   // constructor() {
@@ -33,9 +19,11 @@ class Dao {
       console.log();
       return Promise.resolve(false);
     }
+    const dbPool = await db.getPool();
 
     return new Promise(async (resolve, reject) => {
-      dbPool.connect((err, conn) => {
+      if (q) sql = mysql.format(sql, q);
+      dbPool.getConnection((err, conn) => {
         if (err) {
           console.log("err in getconn", err);
           console.log();
