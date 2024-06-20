@@ -41,9 +41,13 @@ class Dao {
             return reject(err);
           }
           console.log("[DAO]: SQL=", sql);
+          console.log("[DAO]: input");
           console.log("[DAO]: Query processed. resolving rows...");
           // console.log('db process result', rows)
           console.log();
+          console.log("[DAO]: rows");
+          console.log(rows);
+          console.log("[DAO]: opt=", opt);
           if (opt) resolve(rows[0]);
           else resolve(rows);
         });
