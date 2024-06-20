@@ -6,9 +6,9 @@ class Dao {
   constructor() {
     const client = new Client({
       connectionString: process.env.PG_DATABASE_URL || "",
-      // ssl: {
-      //   rejectUnauthorized: false,
-      // },
+      ssl: {
+        rejectUnauthorized: false,
+      },
     });
 
     client.connect();
