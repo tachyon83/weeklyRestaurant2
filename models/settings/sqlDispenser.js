@@ -331,7 +331,7 @@ let sql_insert_ingredient2 =
 let sql_insert_ingredient3 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(31,null,21,31);`
+    values(3,null,2,3);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(4,null,3,4);`;
 
@@ -352,42 +352,42 @@ let sql_insert_ingredient5 =
 let sql_insert_ingredient6 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(41,null,61,61);`
+    values(4,null,6,6);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(5,null,7,7);`;
 
 let sql_insert_ingredient7 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(51,null,71,71);`
+    values(5,null,7,7);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(6,null,8,8);`;
 
 let sql_insert_ingredient8 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(null,11,81,81);`
+    values(null,1,8,8);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,2,9,9);`;
 
 let sql_insert_ingredient9 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(61,null,91,91);`
+    values(6,null,9,9);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(7,null,10,10);`;
 
 let sql_insert_ingredient10 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(null,21,101,101);`
+    values(null,2,10,10);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,3,11,11);`;
 
 let sql_insert_ingredient11 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(71,null,111,111);`
+    values(7,null,11,11);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(8,null,12,12);`;
 
@@ -505,13 +505,13 @@ let sql_createTable_inventory = `create table if not exists ${dbSetting.table_in
     );`;
 
 let sql_insert_meat_inventory = `insert into ${dbSetting.table_meat_inventory} 
-    values();`;
+    values(4, 2, 3, 4,1);`;
 let sql_insert_fish_inventory = `insert into ${dbSetting.table_fish_inventory} 
-    values();`;
+    values(4, 2, 3, 4,1);`;
 let sql_insert_misc_inventory = `insert into ${dbSetting.table_misc_inventory} 
-    values();`;
+    values(5,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25);`;
 let sql_insert_sauce_inventory = `insert into ${dbSetting.table_sauce_inventory} 
-    values();`;
+    values(4,2,3,4,5,6,7,8,9,10,11,12);`;
 
 let sqls2 =
   sql_createTable_member +
@@ -580,7 +580,9 @@ let sqls2 =
   sql_createTable_fish_inventory +
   sql_createTable_misc_inventory +
   sql_createTable_sauce_inventory +
-  sql_createTable_inventory +
+  sql_createTable_inventory;
+
+let sqls2more =
   sql_insert_meat_inventory +
   sql_insert_fish_inventory +
   sql_insert_misc_inventory +
@@ -681,6 +683,7 @@ module.exports = {
   initialSetup: sqls1,
   newDB: sql_createDB,
   createDummy: sqls2,
+  createDummy2: sqls2more,
 
   sql_insertMember,
   sql_getMemberByUsername,
