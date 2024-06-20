@@ -590,7 +590,7 @@ let sqls2more =
 
 let sql_insertMember = `insert into ${dbSetting.table_member}
     (username,password,servings) 
-    values(?,?,?);`;
+    values($1,$2,$3);`;
 
 let sql_getMemberByUsername = `select id,username,password 
     from ${dbSetting.table_member} 
@@ -603,26 +603,26 @@ let sql_getMemberByUserId = `select id,username,password
 let sql_getFromTable = `select * from ??;`;
 
 let sql_getColumnNames = `select column_name from information_schema.columns 
-    where table_name=?;`;
+    where table_name=$1;`;
 
 let sql_getIngredientsById = `select meatId,fishId,miscId,sauceId 
     from ${dbSetting.table_ingredient} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getRecipeById = `select id,name,style,img from ${dbSetting.table_recipe} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getIngIdByRecipeId = `select ingredientId from ${dbSetting.table_recipe} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getRecipeByIds = `select id,name,style,img,ingredientId from ${dbSetting.table_recipe} 
-    where id=? and memberId=?;`;
+    where id=$1 and memberId=$2;`;
 
 let sql_getRecipeById2 = `select id,name,style,img,ingredientId from ${dbSetting.table_recipe} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getRecipeByName = `select id,name,style,img from 
-    ${dbSetting.table_recipe} where name=? and memberid=?;`;
+    ${dbSetting.table_recipe} where name=$1 and memberid=$2;`;
 
 let sql_insertMaterialUnitColumn = `alter table ?? add column ?? varchar(5);`;
 
@@ -634,7 +634,7 @@ let sql_findIdByMaterials = `select id from ??
     where ?;`;
 
 let sql_insertSubIngredientIds = `insert into ${dbSetting.table_ingredient}
-    (meatId,fishId,miscId,sauceId) values(?,?,?,?);`;
+    (meatId,fishId,miscId,sauceId) values($1,$2,$3,$4);`;
 
 let sql_selectLastInsertId = `select last_insert_id() as id;`;
 
@@ -643,19 +643,19 @@ let sql_getIngredientIdUponInsertion =
 
 let sql_insertRecipe = `insert into ${dbSetting.table_recipe}
     (name,style,img,memberId,ingredientId) 
-    values(?,?,?,?,?);`;
+    values($1,$2,$3,$4,$5);`;
 
 let sql_updateRecipe = `update ${dbSetting.table_recipe} 
-    set name=?,style=?,img=?,ingredientId=? where id=?;`;
+    set name=$1,style=$2,img=$3,ingredientId=$4 where id=$5;`;
 
 let sql_deleteRecipe = `delete from ${dbSetting.table_recipe} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getStyleList = `select id,name,img from ${dbSetting.table_recipe} 
-    where style=? order by id asc;`;
+    where style=$1 order by id asc;`;
 
 let sql_getMeal = `select id,recipeId from ${dbSetting.table_week} 
-    where year=? and week=? and day=? and meal=?;`;
+    where year=$1 and week=$2 and day=$3 and meal=$4;`;
 
 let sql_getWeek = `select w.day, w.meal, r.id, r.name, r.style,r.img 
     from ${dbSetting.table_week} w left join ${dbSetting.table_recipe} r 
@@ -663,11 +663,11 @@ let sql_getWeek = `select w.day, w.meal, r.id, r.name, r.style,r.img
     where w.year=$1 and w.week=$2 order by w.day,w.meal;`;
 
 let sql_insertOrUpdateMeal = `insert into ${dbSetting.table_week}(year,week,day,meal,recipeId) 
-    values(?,?,?,?,?) on duplicate key update recipeId=?;`;
+    values($1,$2,$3,$4,$5) on duplicate key update recipeId=$6;`;
 
 let sql_getInventoryByMemberId = `select meat,fish,misc,sauce from 
     ${dbSetting.table_inventory} 
-    where memberId=?;`;
+    where memberId=$1;`;
 
 let sql_getFromTableById = `select * from ?? 
     where id=?;`;
