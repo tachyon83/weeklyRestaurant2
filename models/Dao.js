@@ -46,10 +46,10 @@ class Dao {
           // console.log('db process result', rows)
           console.log();
           console.log("[DAO]: rows");
-          console.log(res.rows);
+          console.log(res.rows[0]);
           console.log("[DAO]: opt=", opt);
-          if (opt) resolve(res.rows[0]);
-          else resolve(res.rows);
+          if (opt) resolve(res.rows[0][0]);
+          else resolve(res.rows[0]);
         });
       });
 
