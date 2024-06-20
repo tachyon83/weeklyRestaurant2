@@ -592,11 +592,11 @@ let sql_insertMember = `insert into ${dbSetting.table_member}
 
 let sql_getMemberByUsername = `select id,username,password 
     from ${dbSetting.table_member} 
-    where username=?;`;
+    where username=$1;`;
 
 let sql_getMemberByUserId = `select id,username,password 
     from ${dbSetting.table_member} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getFromTable = `select * from ??;`;
 
@@ -658,7 +658,7 @@ let sql_getMeal = `select id,recipeId from ${dbSetting.table_week}
 let sql_getWeek = `select w.day, w.meal, r.id, r.name, r.style,r.img 
     from ${dbSetting.table_week} w left join ${dbSetting.table_recipe} r 
     on w.recipeId=r.id 
-    where w.year=? and w.week=? order by w.day,w.meal;`;
+    where w.year=$1 and w.week=$2 order by w.day,w.meal;`;
 
 let sql_insertOrUpdateMeal = `insert into ${dbSetting.table_week}(year,week,day,meal,recipeId) 
     values(?,?,?,?,?) on duplicate key update recipeId=?;`;
