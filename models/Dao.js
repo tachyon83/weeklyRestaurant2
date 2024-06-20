@@ -31,6 +31,7 @@ class Dao {
         const input = {
           text: sql,
           values: Array.isArray(q) ? q : [q],
+          rowMode: "array",
         };
 
         conn.query(input, (err, rows, fields) => {
