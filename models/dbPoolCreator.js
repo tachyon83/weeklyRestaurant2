@@ -7,6 +7,9 @@ const config = {
   port: process.env.PG_PORT || "5432",
   max: process.env.PG_MAX_CONN || 5,
   idleTimeoutMillis: 30000,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
 
 module.exports = new pg.Pool(config);
