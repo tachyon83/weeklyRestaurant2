@@ -27,7 +27,13 @@ class Dao {
           if (conn) conn.release();
           return reject(err);
         }
-        conn.query(sql, (err, rows, fields) => {
+
+        const input = {
+          text: sql,
+          values: Array.isArray(q) ? q : [q],
+        };
+
+        conn.query(input, (err, rows, fields) => {
           conn.release();
           if (err) {
             // console.log('err in query', err)
