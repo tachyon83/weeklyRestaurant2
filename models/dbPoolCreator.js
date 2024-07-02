@@ -1,15 +1,30 @@
-const pg = require("pg");
-const config = {
-  host: process.env.PG_DATABASE_URL || "",
-  user: process.env.PG_USER || "user",
-  password: process.env.PG_PASSWORD || "1234",
-  database: process.env.PG_DATABASE || "fooddb",
-  port: process.env.PG_PORT || "5432",
-  max: process.env.PG_MAX_CONN || 5,
-  idleTimeoutMillis: 30000,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+// singleton
+
+const mysql = require("mysql");
+const dbSetting = require("./settings/dbConnectionSettings");
+
+let settingObj = {
+  host: dbSetting.host,
+  port: dbSetting.port,
+  user: dbSetting.user,
+  password: dbSetting.password,
+  multipleStatements: true,
+  database: dbSetting.database,
+  connectionLimit: dbSetting.connectionLimit,
 };
 
-module.exports = new pg.Pool(config);
+module.exports = (function () {
+  let dbPool;
+  const initiate = async () => {
+    return await mysql.createPool(settingObj);
+  };
+  return {
+    getPool: async function () {
+      if (!dbPool) {
+        console.log("this instance creator must be called only once");
+        dbPool = await initiate();
+      }
+      return dbPool;
+    },
+  };
+})();
