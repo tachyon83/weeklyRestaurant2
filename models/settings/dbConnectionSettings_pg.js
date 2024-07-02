@@ -1,13 +1,20 @@
+require("dotenv").config();
+
 module.exports = {
-  // please enter your mysql local username and its password below
-  yourLocalMySQLUsername: "root2",
+  // please enter your pg local username and its password below
+  yourLocalMySQLUsername: "postgres",
   yourLocalMySQLPassword: "1234",
 
-  host: process.env.CLEARDB_HOST || "localhost",
-  port: 3306,
-  user: process.env.CLEARDB_USER || "foodmanager",
-  password: process.env.CLEARDB_PASSWORD || "1234",
-  database: process.env.CLEARDB_DATABASE || "fooddb",
+  host: "localhost" || process.env.PG_DATABASE_URL,
+  user: process.env.LOCAL_USER || process.env.PG_USER,
+  password: process.env.LOCAL_PASSWORD || process.env.PG_PASSWORD,
+  database: "fooddb" || process.env.PG_DATABASE,
+  port: "5432" || process.env.PG_PORT,
+  max: process.env.PG_MAX_CONN || 5,
+  // ssl: {
+  //   rejectUnauthorized: false,
+  // },
+  ssl: true,
 
   table_member: "member",
   table_recipe: "recipe",
@@ -26,6 +33,4 @@ module.exports = {
   table_misc_inventory: "misc_inventory",
   table_sauce_inventory: "sauce_inventory",
   table_inventory: "inventory",
-
-  connectionLimit: 100,
 };
