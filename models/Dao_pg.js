@@ -1,5 +1,4 @@
-const mysql = require("mysql");
-const db = require("./dbPoolCreator");
+const dbPool = require("./dbPoolCreator");
 const sqls = require("./settings/sqlDispenser");
 
 class Dao {
@@ -19,29 +18,38 @@ class Dao {
       console.log();
       return Promise.resolve(false);
     }
-    const dbPool = await db.getPool();
 
     return new Promise(async (resolve, reject) => {
-      if (q) sql = mysql.format(sql, q);
-      dbPool.getConnection((err, conn) => {
+      dbPool.connect((err, conn) => {
         if (err) {
           console.log("err in getconn", err);
           console.log();
           if (conn) conn.release();
           return reject(err);
         }
-        conn.query(sql, (err, rows, fields) => {
+
+        const input = {
+          text: sql,
+          values: Array.isArray(q) ? q : [q],
+          rowMode: "array",
+        };
+
+        conn.query(input, (err, res, fields) => {
           conn.release();
           if (err) {
             // console.log('err in query', err)
             return reject(err);
           }
           console.log("[DAO]: SQL=", sql);
+          console.log("[DAO]: input", input);
           console.log("[DAO]: Query processed. resolving rows...");
           // console.log('db process result', rows)
           console.log();
-          if (opt) resolve(rows[0]);
-          else resolve(rows);
+          console.log("[DAO]: rows");
+          console.log(res.rows);
+          console.log("[DAO]: opt=", opt);
+          if (opt) resolve(res.rows[0]);
+          else resolve(res.rows);
         });
       });
 
