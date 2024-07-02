@@ -17,21 +17,19 @@ let sql_createDB = `create database if not exists ${dbSetting.database};`;
 // isAdmin int not null,
 let sql_createTable_member = `create table if not exists 
     ${dbSetting.table_member}(
-        id int not null auto_increment, 
+        id SERIAL PRIMARY KEY, 
         username varchar(50) not null unique,
         password varchar(200) not null,
-        servings int not null,
-        primary key(id)
+        servings int not null
     );`;
 
 let sql_createTable_ingredient = `create table if not exists 
     ${dbSetting.table_ingredient}(
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         meatId int,
         fishId int,
         miscId int,
         sauceId int,
-        primary key(id),
         foreign key(meatId) 
         references ${dbSetting.table_meat}(id) 
         on update cascade 
@@ -52,18 +50,15 @@ let sql_createTable_ingredient = `create table if not exists
 
 let sql_createTable_recipe = `create table if not exists 
     ${dbSetting.table_recipe}(
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         name varchar(20) not null unique,
         style varchar(5) not null,
         img varchar(400),
         memberId int not null,
         ingredientId int not null,
-        primary key(id),
-        unique key(name,memberId),
+        unique (name,memberId),
         foreign key(ingredientId) 
         references ${dbSetting.table_ingredient}(id),
-        
-
         foreign key(memberId) 
         references ${dbSetting.table_member}(id) 
         on update cascade 
@@ -72,29 +67,27 @@ let sql_createTable_recipe = `create table if not exists
 
 let sql_createTable_meat = `create table if not exists 
     ${dbSetting.table_meat}(
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         name varchar(20),
         닭고기 decimal(5,2),
         소고기 decimal(5,2),
         돼지고기 decimal(5,2),
-        순대 decimal(5,2),
-        primary key(id)
+        순대 decimal(5,2)
     );`;
 
 let sql_createTable_fish = `create table if not exists 
     ${dbSetting.table_fish}(
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         name varchar(20),
         멸치 decimal(5,2),
         새우 decimal(5,2),
         조개 decimal(5,2),
-        오징어 decimal(5,2),
-        primary key(id)
+        오징어 decimal(5,2)
     );`;
 
 let sql_createTable_misc = `create table if not exists 
     ${dbSetting.table_misc}(
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         name varchar(20),
         감자 decimal(5,2),
         양파 decimal(5,2),
@@ -119,13 +112,12 @@ let sql_createTable_misc = `create table if not exists
         파프리카 decimal(5,2),
         청경채 decimal(5,2),
         빵가루 decimal(5,2),
-        우유 decimal(5,2),
-        primary key(id)
+        우유 decimal(5,2)
     );`;
 
 let sql_createTable_sauce = `create table if not exists 
     ${dbSetting.table_sauce}(
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         name varchar(20),
         간장 decimal(5,2),
         고추장 decimal(5,2),
@@ -138,8 +130,7 @@ let sql_createTable_sauce = `create table if not exists
         청주 decimal(5,2),
         참기름 decimal(5,2),
         새우젓 decimal(5,2),
-        춘장 decimal(5,2),
-        primary key(id)
+        춘장 decimal(5,2)
     );`;
 
 let sql_createTable_meat_unit = `create table if not exists 
@@ -340,7 +331,7 @@ let sql_insert_ingredient2 =
 let sql_insert_ingredient3 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(31,null,21,31);`
+    values(3,null,2,3);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(4,null,3,4);`;
 
@@ -361,42 +352,42 @@ let sql_insert_ingredient5 =
 let sql_insert_ingredient6 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(41,null,61,61);`
+    values(4,null,6,6);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(5,null,7,7);`;
 
 let sql_insert_ingredient7 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(51,null,71,71);`
+    values(5,null,7,7);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(6,null,8,8);`;
 
 let sql_insert_ingredient8 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(null,11,81,81);`
+    values(null,1,8,8);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,2,9,9);`;
 
 let sql_insert_ingredient9 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(61,null,91,91);`
+    values(6,null,9,9);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(7,null,10,10);`;
 
 let sql_insert_ingredient10 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(null,21,101,101);`
+    values(null,2,10,10);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(null,3,11,11);`;
 
 let sql_insert_ingredient11 =
   process.env.NODE_ENV === "production"
     ? `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
-    values(71,null,111,111);`
+    values(7,null,11,11);`
     : `insert into ${dbSetting.table_ingredient}(meatId,fishId,miscId,sauceId) 
     values(8,null,12,12);`;
 
@@ -408,41 +399,38 @@ let sql_insert_ingredient11 =
 
 let sql_createTable_week = `create table if not exists ${dbSetting.table_week}
     (
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         year int not null,
         week int not null,
         day int not null,
         meal int not null,
         recipeId int,
-        primary key(id),
-        unique key(year,week,day,meal),
+        unique (year,week,day,meal),
         foreign key(recipeId) 
         references ${dbSetting.table_recipe}(id) 
     );`;
 
 let sql_createTable_meat_inventory = `create table if not exists ${dbSetting.table_meat_inventory}
     (
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         닭고기 int not null default 0,
         소고기 int not null default 0,
         돼지고기 int not null default 0,
-        순대 int not null default 0,
-        primary key(id)
+        순대 int not null default 0
     );`;
 
 let sql_createTable_fish_inventory = `create table if not exists ${dbSetting.table_fish_inventory}
     (
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         멸치 int not null default 0,
         새우 int not null default 0,
         조개 int not null default 0,
-        오징어 int not null default 0,
-        primary key(id)
+        오징어 int not null default 0
     );`;
 
 let sql_createTable_misc_inventory = `create table if not exists ${dbSetting.table_misc_inventory}
     (
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         감자 int not null default 0,
         양파 int not null default 0,
         당근 int not null default 0,
@@ -466,13 +454,12 @@ let sql_createTable_misc_inventory = `create table if not exists ${dbSetting.tab
         파프리카 int not null default 0,
         청경채 int not null default 0,
         빵가루 int not null default 0,
-        우유 int not null default 0,
-        primary key(id)
+        우유 int not null default 0
     );`;
 
 let sql_createTable_sauce_inventory = `create table if not exists ${dbSetting.table_sauce_inventory}
     (
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         간장 int not null default 0,
         고추장 int not null default 0,
         고춧가루 int not null default 0,
@@ -484,19 +471,17 @@ let sql_createTable_sauce_inventory = `create table if not exists ${dbSetting.ta
         청주 int not null default 0,
         참기름 int not null default 0,
         새우젓 int not null default 0,
-        춘장 int not null default 0,
-        primary key(id)
+        춘장 int not null default 0
     );`;
 
 let sql_createTable_inventory = `create table if not exists ${dbSetting.table_inventory}
     (
-        id int not null auto_increment,
+        id SERIAL PRIMARY KEY,
         memberId int not null unique,
         meat int not null,
         fish int not null,
         misc int not null,
         sauce int not null,
-        primary key(id),
         foreign key(memberId) 
         references ${dbSetting.table_member}(id) 
         on update cascade 
@@ -520,13 +505,13 @@ let sql_createTable_inventory = `create table if not exists ${dbSetting.table_in
     );`;
 
 let sql_insert_meat_inventory = `insert into ${dbSetting.table_meat_inventory} 
-    values();`;
+    values(4, 2, 3, 4,1);`;
 let sql_insert_fish_inventory = `insert into ${dbSetting.table_fish_inventory} 
-    values();`;
+    values(4, 2, 3, 4,1);`;
 let sql_insert_misc_inventory = `insert into ${dbSetting.table_misc_inventory} 
-    values();`;
+    values(5,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25);`;
 let sql_insert_sauce_inventory = `insert into ${dbSetting.table_sauce_inventory} 
-    values();`;
+    values(4,2,3,4,5,6,7,8,9,10,11,12);`;
 
 let sqls2 =
   sql_createTable_member +
@@ -595,7 +580,9 @@ let sqls2 =
   sql_createTable_fish_inventory +
   sql_createTable_misc_inventory +
   sql_createTable_sauce_inventory +
-  sql_createTable_inventory +
+  sql_createTable_inventory;
+
+let sqls2more =
   sql_insert_meat_inventory +
   sql_insert_fish_inventory +
   sql_insert_misc_inventory +
@@ -603,39 +590,39 @@ let sqls2 =
 
 let sql_insertMember = `insert into ${dbSetting.table_member}
     (username,password,servings) 
-    values(?,?,?);`;
+    values($1,$2,$3);`;
 
 let sql_getMemberByUsername = `select id,username,password 
     from ${dbSetting.table_member} 
-    where username=?;`;
+    where username=$1;`;
 
 let sql_getMemberByUserId = `select id,username,password 
     from ${dbSetting.table_member} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getFromTable = `select * from ??;`;
 
 let sql_getColumnNames = `select column_name from information_schema.columns 
-    where table_name=?;`;
+    where table_name=$1;`;
 
 let sql_getIngredientsById = `select meatId,fishId,miscId,sauceId 
     from ${dbSetting.table_ingredient} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getRecipeById = `select id,name,style,img from ${dbSetting.table_recipe} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getIngIdByRecipeId = `select ingredientId from ${dbSetting.table_recipe} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getRecipeByIds = `select id,name,style,img,ingredientId from ${dbSetting.table_recipe} 
-    where id=? and memberId=?;`;
+    where id=$1 and memberId=$2;`;
 
 let sql_getRecipeById2 = `select id,name,style,img,ingredientId from ${dbSetting.table_recipe} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getRecipeByName = `select id,name,style,img from 
-    ${dbSetting.table_recipe} where name=? and memberid=?;`;
+    ${dbSetting.table_recipe} where name=$1 and memberid=$2;`;
 
 let sql_insertMaterialUnitColumn = `alter table ?? add column ?? varchar(5);`;
 
@@ -647,7 +634,7 @@ let sql_findIdByMaterials = `select id from ??
     where ?;`;
 
 let sql_insertSubIngredientIds = `insert into ${dbSetting.table_ingredient}
-    (meatId,fishId,miscId,sauceId) values(?,?,?,?);`;
+    (meatId,fishId,miscId,sauceId) values($1,$2,$3,$4);`;
 
 let sql_selectLastInsertId = `select last_insert_id() as id;`;
 
@@ -656,31 +643,31 @@ let sql_getIngredientIdUponInsertion =
 
 let sql_insertRecipe = `insert into ${dbSetting.table_recipe}
     (name,style,img,memberId,ingredientId) 
-    values(?,?,?,?,?);`;
+    values($1,$2,$3,$4,$5);`;
 
 let sql_updateRecipe = `update ${dbSetting.table_recipe} 
-    set name=?,style=?,img=?,ingredientId=? where id=?;`;
+    set name=$1,style=$2,img=$3,ingredientId=$4 where id=$5;`;
 
 let sql_deleteRecipe = `delete from ${dbSetting.table_recipe} 
-    where id=?;`;
+    where id=$1;`;
 
 let sql_getStyleList = `select id,name,img from ${dbSetting.table_recipe} 
-    where style=? order by id asc;`;
+    where style=$1 order by id asc;`;
 
 let sql_getMeal = `select id,recipeId from ${dbSetting.table_week} 
-    where year=? and week=? and day=? and meal=?;`;
+    where year=$1 and week=$2 and day=$3 and meal=$4;`;
 
 let sql_getWeek = `select w.day, w.meal, r.id, r.name, r.style,r.img 
     from ${dbSetting.table_week} w left join ${dbSetting.table_recipe} r 
     on w.recipeId=r.id 
-    where w.year=? and w.week=? order by w.day,w.meal;`;
+    where w.year=$1 and w.week=$2 order by w.day,w.meal;`;
 
 let sql_insertOrUpdateMeal = `insert into ${dbSetting.table_week}(year,week,day,meal,recipeId) 
-    values(?,?,?,?,?) on duplicate key update recipeId=?;`;
+    values($1,$2,$3,$4,$5) on duplicate key update recipeId=$6;`;
 
 let sql_getInventoryByMemberId = `select meat,fish,misc,sauce from 
     ${dbSetting.table_inventory} 
-    where memberId=?;`;
+    where memberId=$1;`;
 
 let sql_getFromTableById = `select * from ?? 
     where id=?;`;
@@ -696,6 +683,7 @@ module.exports = {
   initialSetup: sqls1,
   newDB: sql_createDB,
   createDummy: sqls2,
+  createDummy2: sqls2more,
 
   sql_insertMember,
   sql_getMemberByUsername,
@@ -725,4 +713,76 @@ module.exports = {
   sql_insertInventoryColumn,
   sql_updateInventory,
   sql_getServings,
+
+  sql_createTable_member,
+  sql_createTable_meat,
+  sql_createTable_fish,
+  sql_createTable_misc,
+  sql_createTable_sauce,
+  sql_createTable_meat_unit,
+  sql_createTable_fish_unit,
+  sql_createTable_misc_unit,
+  sql_createTable_sauce_unit,
+  sql_insert_meat_unit,
+  sql_insert_fish_unit,
+  sql_insert_misc_unit,
+  sql_insert_sauce_unit,
+  sql_createTable_ingredient,
+  sql_createTable_recipe,
+  sql_insert_meat1,
+  sql_insert_meat2,
+  sql_insert_meat3,
+  sql_insert_meat4,
+  sql_insert_meat5,
+  sql_insert_meat6,
+  sql_insert_meat7,
+  sql_insert_meat8,
+  sql_insert_fish1,
+  sql_insert_fish2,
+  sql_insert_fish3,
+  sql_insert_misc1,
+  sql_insert_misc2,
+  sql_insert_misc3,
+  sql_insert_misc4,
+  sql_insert_misc5,
+  sql_insert_misc6,
+  sql_insert_misc7,
+  sql_insert_misc8,
+  sql_insert_misc9,
+  sql_insert_misc10,
+  sql_insert_misc11,
+  sql_insert_misc12,
+  sql_insert_sauce1,
+  sql_insert_sauce2,
+  sql_insert_sauce3,
+  sql_insert_sauce4,
+  sql_insert_sauce5,
+  sql_insert_sauce6,
+  sql_insert_sauce7,
+  sql_insert_sauce8,
+  sql_insert_sauce9,
+  sql_insert_sauce10,
+  sql_insert_sauce11,
+  sql_insert_sauce12,
+  sql_insert_ingredient1,
+  sql_insert_ingredient2,
+  sql_insert_ingredient3,
+  sql_insert_ingredient4,
+  sql_insert_ingredient5,
+  sql_insert_ingredient6,
+  sql_insert_ingredient7,
+  sql_insert_ingredient8,
+  sql_insert_ingredient9,
+  sql_insert_ingredient10,
+  sql_insert_ingredient11,
+  sql_createTable_week,
+  sql_createTable_meat_inventory,
+  sql_createTable_fish_inventory,
+  sql_createTable_misc_inventory,
+  sql_createTable_sauce_inventory,
+  sql_createTable_inventory,
+  sql_insert_meat_inventory,
+  sql_insert_fish_inventory,
+  sql_insert_misc_inventory,
+  sql_insert_sauce_inventory,
 };
